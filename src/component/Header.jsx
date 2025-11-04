@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
-import ToggleTheme from "./UI/ThemeToggle"; // ✅ use your toggle component
+import ToggleTheme from "./ui/ThemeToggle"; // ✅ use your toggle component
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
