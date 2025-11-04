@@ -6,7 +6,7 @@ export const useGenderContext = () => useContext(GenderContext);
 
 export const GenderContextProvider = ({ children }) => {
   const [Gender, setGender] = useState(
-    JSON.parse(localStorage.getItem("Gender")) || "Boys"
+    JSON.parse(localStorage.getItem("Gender")) || "Boys",
   );
 
   // ✅ Sync with localStorage whenever Gender changes

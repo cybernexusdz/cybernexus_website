@@ -5,7 +5,7 @@ const themes = ["boyLight", "boyDark", "girlLight", "girlDark"];
 
 export default function ThemeToggle() {
   const [theme, setTheme] = useState(
-    localStorage.getItem("theme") || "boyLight"
+    localStorage.getItem("theme") || "boyLight",
   );
 
   useEffect(() => {
