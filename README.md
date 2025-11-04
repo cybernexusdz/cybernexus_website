@@ -75,7 +75,7 @@ src/
 1. **Fork the repository** on GitHub
 2. **Clone your fork** to your local machine:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/Club_Home.git
+   git clone https://github.com/YOUR_USERNAME/cybernexus_website.git
    cd cybernexus-website
    ```
 3. **Install dependencies:**
