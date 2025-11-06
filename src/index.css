@@ -4,6 +4,6 @@
 
 @layer base {
   html {
-    font-family: theme('fontFamily.sans');
+    font-family: theme("fontFamily.sans");
   }
 }
