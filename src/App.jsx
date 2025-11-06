@@ -1,15 +1,15 @@
 import Footer from "./component/Footer";
 import Header from "./component/Header";
 import HeroSection from "./component/hero-section/HeroSection";
+import BlogSection from "./component/blog-section/BlogSection";
 
 function App() {
   return (
     <div className="min-h-screen bg-gradient-to-r from-navyDark to-purpleDeep">
       <Header />
-      {
-        //Hna Les Components Guys
-        <HeroSection />
-      }
+      {/* Hna Les Components Guys */}
+      <HeroSection />
+      <BlogSection languageCode="en" />
       <Footer />
     </div>
   );

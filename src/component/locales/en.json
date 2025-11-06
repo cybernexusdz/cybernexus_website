@@ -1,0 +1,41 @@
+{
+  "blog": {
+    "title": "Blog & News",
+    "subtitle": "Stay updated with the latest news and articles from CYBERNEXUS",
+    "clubNews": "Club News",
+    "readMore": "Read More",
+    "articles": [
+      {
+        "id": 1,
+        "title": "Welcome to CYBERNEXUS",
+        "category": "Announcement",
+        "author": "Admin",
+        "date": "18 January",
+        "excerpt": "We're excited to announce the launch of our new website and community platform.",
+        "imageKey": "image1",
+        "tagColor": "bg-purple-500"
+      },
+      {
+        "id": 2,
+        "title": "Upcoming Events",
+        "category": "Events",
+        "author": "Event Team",
+        "date": "20 January",
+        "excerpt": "Join us for our upcoming workshops and networking events this month.",
+        "imageKey": "image2",
+        "tagColor": "bg-blue-500"
+      },
+      {
+        "id": 3,
+        "title": "New Projects",
+        "category": "Projects",
+        "author": "Project Team",
+        "date": "22 January",
+        "excerpt": "Check out our latest projects and collaborations with industry partners.",
+        "imageKey": "image1",
+        "tagColor": "bg-green-500"
+      }
+    ]
+  }
+}
+
