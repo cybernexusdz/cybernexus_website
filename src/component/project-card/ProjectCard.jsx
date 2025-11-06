@@ -54,8 +54,9 @@ const ProjectCard = ({ project, loading = false }) => {
             <img
               src={displayImage}
               alt={name}
-              className={`w-full h-full object-cover transition-all duration-300 group-hover:scale-110 ${imageLoaded ? "opacity-100" : "opacity-0"
-                }`}
+              className={`w-full h-full object-cover transition-all duration-300 group-hover:scale-110 ${
+                imageLoaded ? "opacity-100" : "opacity-0"
+              }`}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageError(true)}
             />
@@ -88,7 +89,9 @@ const ProjectCard = ({ project, loading = false }) => {
         <h2 className="card-title text-base sm:text-lg text-base-content flex-wrap gap-2">
           <span className="break-words">{name}</span>
           {id && (
-            <div className="badge badge-secondary badge-xs sm:badge-sm">#{id}</div>
+            <div className="badge badge-secondary badge-xs sm:badge-sm">
+              #{id}
+            </div>
           )}
         </h2>
 

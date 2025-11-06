@@ -51,13 +51,13 @@ src/
 
 ### **Naming Conventions**
 
-| Type | Convention | Example |
-|------|-----------|---------|
-| Variables & Functions | `camelCase` | `fetchUser`, `isActive` |
-| React Components | `PascalCase` | `MyButton.jsx`, `EventCard.jsx` |
-| Custom Hooks | `useThing` | `useAuth`, `useFetch` |
-| Constants | `UPPER_SNAKE_CASE` | `API_BASE_URL`, `MAX_LIMIT` |
-| Folders | `kebab-case` | `user-profile`, `event-list` |
+| Type                  | Convention         | Example                         |
+| --------------------- | ------------------ | ------------------------------- |
+| Variables & Functions | `camelCase`        | `fetchUser`, `isActive`         |
+| React Components      | `PascalCase`       | `MyButton.jsx`, `EventCard.jsx` |
+| Custom Hooks          | `useThing`         | `useAuth`, `useFetch`           |
+| Constants             | `UPPER_SNAKE_CASE` | `API_BASE_URL`, `MAX_LIMIT`     |
+| Folders               | `kebab-case`       | `user-profile`, `event-list`    |
 
 ### **Formatting Rules**
 
@@ -98,6 +98,7 @@ git checkout -b docs/update-readme
 ```
 
 **Branch naming:**
+
 - `feature/` for new features
 - `fix/` for bug fixes
 - `docs/` for documentation updates
@@ -124,6 +125,7 @@ This ensures consistent code style across the project.
 ### **Step 5: Commit Your Changes**
 
 1. **Stage your changes:**
+
    ```bash
    git add .
    ```
@@ -134,6 +136,7 @@ This ensures consistent code style across the project.
    ```
 
 **Commit message format:**
+
 - `feat:` for new features
 - `fix:` for bug fixes
 - `docs:` for documentation
@@ -141,6 +144,7 @@ This ensures consistent code style across the project.
 - `refactor:` for code restructuring
 
 **Examples:**
+
 - `feat: add team members page`
 - `fix: resolve navbar mobile menu bug`
 - `docs: update contribution guidelines`
@@ -199,10 +203,12 @@ git push origin main
 ## ⚠️ Common Issues & Solutions
 
 ### **"npm install" fails**
+
 - Make sure you have Node.js installed (v16 or higher)
 - Delete `node_modules` and `package-lock.json`, then run `npm install` again
 
 ### **Prettier not working**
+
 - Make sure you ran `npm install` first
 - Check if `.prettierrc` exists in the project root
 
@@ -221,4 +227,4 @@ This project is licensed under the **MIT License**.
 
 ---
 
-**Made with ⚡️ by the CYBERNEXUS crew** — *Keep it curious, keep it kind* ✨
+**Made with ⚡️ by the CYBERNEXUS crew** — _Keep it curious, keep it kind_ ✨

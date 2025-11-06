@@ -1,7 +1,28 @@
 import { useState, useEffect } from "react";
-import { Sun, Moon, Heart, Star } from "lucide-react"; // optional icons, included with DaisyUI setup
+import { Sun, Moon, Heart, Star } from "lucide-react";
 
-const themes = ["boyLight", "boyDark", "girlLight", "girlDark"];
+const themes = [
+  {
+    name: "boyLight",
+    label: "Boy • Light",
+    icon: <Sun className="w-5 h-5 text-blue-500" />,
+  },
+  {
+    name: "boyDark",
+    label: "Boy • Dark",
+    icon: <Moon className="w-5 h-5 text-cyan-400" />,
+  },
+  {
+    name: "girlLight",
+    label: "Girl • Light",
+    icon: <Heart className="w-5 h-5 text-pink-500" />,
+  },
+  {
+    name: "girlDark",
+    label: "Girl • Dark",
+    icon: <Star className="w-5 h-5 text-fuchsia-400" />,
+  },
+];
 
 export default function ThemeToggle() {
   const [theme, setTheme] = useState(
@@ -13,50 +34,39 @@ export default function ThemeToggle() {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const handleToggle = () => {
-    const next = themes[(themes.indexOf(theme) + 1) % themes.length];
-    setTheme(next);
-  };
-
-  const renderIcon = () => {
-    switch (theme) {
-      case "boyLight":
-        return <Sun className="w-5 h-5 text-blue-500" />;
-      case "boyDark":
-        return <Moon className="w-5 h-5 text-cyan-400" />;
-      case "girlLight":
-        return <Heart className="w-5 h-5 text-pink-500" />;
-      case "girlDark":
-        return <Star className="w-5 h-5 text-fuchsia-400" />;
-      default:
-        return null;
-    }
-  };
-
-  const renderLabel = () => {
-    switch (theme) {
-      case "boyLight":
-        return "Boy • Light";
-      case "boyDark":
-        return "Boy • Dark";
-      case "girlLight":
-        return "Girl • Light";
-      case "girlDark":
-        return "Girl • Dark";
-      default:
-        return "";
-    }
-  };
+  const current = themes.find((t) => t.name === theme);
 
   return (
-    <div className="flex items-center gap-3">
-      <button
-        onClick={handleToggle}
-        className="btn btn-primary flex items-center gap-2 transition-all duration-300"
+    <div className="dropdown dropdown-end">
+      {/* Button that shows current theme */}
+      <div
+        tabIndex={0}
+        role="button"
+        className="btn btn-primary flex items-center gap-2"
       >
-        {renderIcon()}
-        {renderLabel()}
-      </button>
+        {current.icon}
+        <span>{current.label}</span>
+      </div>
+
+      {/* Dropdown menu with all themes */}
+      <ul
+        tabIndex={0}
+        className="dropdown-content z-[9999] menu p-2 shadow bg-base-100 rounded-box w-52"
+      >
+        {themes.map((t) => (
+          <li key={t.name}>
+            <button
+              onClick={() => setTheme(t.name)}
+              className={`flex items-center gap-2 ${
+                theme === t.name ? "active bg-primary text-base-100" : ""
+              }`}
+            >
+              {t.icon}
+              <span>{t.label}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
