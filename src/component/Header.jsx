@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import ToggleTheme from "./ui/ThemeToggle"; // ✅ your toggle component
+import Logo from "./ui/Logo";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -38,9 +39,9 @@ const Header = () => {
     >
       <div className="container mx-auto flex items-center justify-between p-4">
         {/* Logo */}
-        <div className="text-2xl font-bold cursor-pointer text-textPrimary">
-          Cyber Nexus
-        </div>
+        <div className="w-auto h-12">
+          <Logo className="w-full h-full fill-current text-textPrimary"/>
+        </div> 
 
         {/* Right-side controls */}
         <div className="flex items-center gap-3">
