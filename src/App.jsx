@@ -2,6 +2,7 @@ import Footer from "./component/Footer";
 import Header from "./component/Header";
 import HeroSection from "./component/hero-section/HeroSection";
 import BlogSection from "./component/blog-section/BlogSection";
+import SponsorsCarousel from "./component/sponsors-caroussel/SponsorsCaroussel";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       {/* Hna Les Components Guys */}
       <HeroSection />
       <BlogSection languageCode="en" />
+      <SponsorsCarousel />
       <Footer />
     </div>
   );

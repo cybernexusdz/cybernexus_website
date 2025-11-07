@@ -122,7 +122,7 @@ export default function ProjectsSection({
     });
   };
 
-  // fog effects 
+  // fog effects
   useEffect(() => {
     const el = carouselRef.current;
     if (!el) return;
@@ -140,15 +140,17 @@ export default function ProjectsSection({
       const fadeDistance = 100; // distance over which to fade
 
       // Left fog: 0 when at start, 1 when scrolled past threshold
-      const leftOpacity = scrollLeft <= threshold
-        ? 0
-        : Math.min((scrollLeft - threshold) / fadeDistance, 1);
+      const leftOpacity =
+        scrollLeft <= threshold
+          ? 0
+          : Math.min((scrollLeft - threshold) / fadeDistance, 1);
 
       // Right fog: 0 when at end, 1 when not near end
       const distanceFromEnd = maxScroll - scrollLeft;
-      const rightOpacity = distanceFromEnd <= threshold
-        ? 0
-        : Math.min((distanceFromEnd - threshold) / fadeDistance, 1);
+      const rightOpacity =
+        distanceFromEnd <= threshold
+          ? 0
+          : Math.min((distanceFromEnd - threshold) / fadeDistance, 1);
 
       setFogOpacity({
         left: leftOpacity,
@@ -160,7 +162,6 @@ export default function ProjectsSection({
     handleScroll(); // run once on mount
     return () => el.removeEventListener("scroll", handleScroll);
   }, []);
-
 
   return (
     <section className="py-8 px-4 sm:px-6 lg:px-12 bg-base-100">
@@ -230,21 +231,21 @@ export default function ProjectsSection({
           >
             {loading
               ? Array.from({ length: 3 }).map((_, i) => (
-                <div
-                  key={`loading-${i}`}
-                  className="w-[260px] sm:w-[300px] flex-shrink-0 snap-center"
-                >
-                  <ProjectCard loading={true} />
-                </div>
-              ))
+                  <div
+                    key={`loading-${i}`}
+                    className="w-[260px] sm:w-[300px] flex-shrink-0 snap-center"
+                  >
+                    <ProjectCard loading={true} />
+                  </div>
+                ))
               : filteredProjects.map((project, idx) => (
-                <div
-                  key={`${project.id ?? idx}-${idx}`}
-                  className="w-[260px] sm:w-[300px] lg:w-[360px] flex-shrink-0 snap-center"
-                >
-                  <ProjectCard project={project} />
-                </div>
-              ))}
+                  <div
+                    key={`${project.id ?? idx}-${idx}`}
+                    className="w-[260px] sm:w-[300px] lg:w-[360px] flex-shrink-0 snap-center"
+                  >
+                    <ProjectCard project={project} />
+                  </div>
+                ))}
           </div>
 
           <div
@@ -255,9 +256,6 @@ export default function ProjectsSection({
             className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-base-100 to-transparent pointer-events-none transition-opacity duration-500"
             style={{ opacity: fogOpacity.right }}
           />
-
-
-
         </div>
       </div>
     </section>

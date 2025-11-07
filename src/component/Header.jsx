@@ -64,14 +64,14 @@ const Header = () => {
             </button>
           </nav>
 
-          <div className="hidden md:flex"> 
+          <div className="hidden md:flex">
             <ToggleTheme />
           </div>
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center gap-1"> 
-          <ToggleTheme /> 
+        <div className="md:hidden flex items-center gap-1">
+          <ToggleTheme />
 
           <button
             className="text-textPrimary hover:text-primary transition"

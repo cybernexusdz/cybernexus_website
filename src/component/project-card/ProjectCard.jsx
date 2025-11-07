@@ -59,8 +59,9 @@ const ProjectCard = ({ project, loading = false }) => {
               decoding="async"
               width={600}
               height={360}
-              className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${imageLoaded ? "opacity-100" : "opacity-0"
-                }`}
+              className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${
+                imageLoaded ? "opacity-100" : "opacity-0"
+              }`}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageError(true)}
             />
@@ -93,7 +94,6 @@ const ProjectCard = ({ project, loading = false }) => {
           </div>
         )}
       </figure>
-
 
       <div className="card-body p-4 sm:p-6 flex flex-col flex-grow">
         <h2 className="card-title text-base sm:text-lg text-base-content flex-wrap gap-2">
@@ -149,7 +149,6 @@ const ProjectCard = ({ project, loading = false }) => {
             )}
           </div>
         )}
-
 
         <div className="flex items-center gap-3 sm:gap-4 mt-2 text-xs text-base-content/60">
           {contributors > 0 && (
