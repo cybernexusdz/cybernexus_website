@@ -2,7 +2,7 @@ import CountdownToNov18 from "./CountdownToNov18";
 
 const HeroSection = () => {
   return (
-    <section className="mt-16 min-h-screen flex flex-col justify-center items-center text-center px-6 bg-base-100 text-base-content transition-all duration-500">
+    <section className="mt-[calc(4rem+5rem)] min-h-screen flex flex-col justify-center items-center text-center px-6 bg-base-100 text-base-content transition-all duration-500">
       {/* Title */}
       <h2 className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
         Empowering Future <br className="hidden sm:block" /> Tech Leaders
