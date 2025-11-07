@@ -64,16 +64,22 @@ const Header = () => {
             </button>
           </nav>
 
-          <ToggleTheme />
+          <div className="hidden md:flex"> 
+            <ToggleTheme />
+          </div>
         </div>
 
         {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-textPrimary hover:text-primary transition"
-          onClick={toggleMenu}
-        >
-          {menuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        <div className="md:hidden flex items-center gap-1"> 
+          <ToggleTheme /> 
+
+          <button
+            className="text-textPrimary hover:text-primary transition"
+            onClick={toggleMenu}
+          >
+            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation Menu */}
