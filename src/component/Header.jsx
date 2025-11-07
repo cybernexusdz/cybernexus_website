@@ -32,7 +32,7 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 shadow-md transition-all duration-500 
-        bg-gradient-to-r from-bgPrimary to-bgSecondary
+         backdrop-blur-md bg-bgPrimary/90 border-b border-accent/20
         ${isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
       `}
     >
