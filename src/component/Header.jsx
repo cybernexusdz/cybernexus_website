@@ -3,7 +3,7 @@ import { Menu, X } from "lucide-react";
 import ToggleTheme from "./ui/ThemeToggle"; // ✅ your toggle component
 import Logo from "./ui/Logo";
 
-const Header = () => {
+const Header = ({ handleScrollComponent }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -32,75 +32,56 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 shadow-md transition-all duration-500 
-         backdrop-blur-md bg-bgPrimary/90 border-b border-accent/20
-        ${isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
-      `}
+      className={`fixed top-0 left-0 w-full z-50 shadow-md transition-all duration-500
+    backdrop-blur-md bg-base-100/80 border-b border-accent/20
+    ${isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
+  `}
     >
       <div className="container mx-auto flex items-center justify-between p-4">
         {/* Logo */}
         <div className="w-auto h-12">
-          <Logo className="w-full h-full fill-current text-textPrimary" />
+          <Logo className="w-full h-full fill-current text-primary" />
         </div>
 
-        {/* Right-side controls */}
-        <div className="flex items-center gap-3">
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-6">
-            <button className="text-textPrimary hover:text-primary transition">
-              Home
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-6">
+          {["Hero", "Blog", "Projects", "Sponsors"].map((item) => (
+            <button
+              onClick={() => handleScrollComponent(item)}
+              key={item}
+              className="text-base-content hover:text-primary transition"
+            >
+              {item}
             </button>
-            <button className="text-textPrimary hover:text-primary transition">
-              Team
-            </button>
-            <button className="text-textPrimary hover:text-primary transition">
-              Events
-            </button>
-            <button className="text-textPrimary hover:text-primary transition">
-              Blogs
-            </button>
-            <button className="text-textPrimary hover:text-primary transition">
-              Projects
-            </button>
-          </nav>
-
-          <div className="hidden md:flex">
-            <ToggleTheme />
-          </div>
+          ))}
+          <ToggleTheme />
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center gap-1">
+        <div className="md:hidden flex items-center gap-2">
           <ToggleTheme />
-
           <button
-            className="text-textPrimary hover:text-primary transition"
-            onClick={toggleMenu}
+            className="text-base-content hover:text-primary transition"
+            onClick={() => setMenuOpen(!menuOpen)}
           >
             {menuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
+      {/* Mobile Navigation */}
       {menuOpen && (
-        <div className="md:hidden bg-bgPrimary border-t border-accent/20 shadow-md transition-colors duration-300">
-          <nav className="flex flex-col items-center space-y-3 py-4">
-            <button className="text-textPrimary hover:text-primary transition">
-              Home
-            </button>
-            <button className="text-textPrimary hover:text-primary transition">
-              Team
-            </button>
-            <button className="text-textPrimary hover:text-primary transition">
-              Events
-            </button>
-            <button className="text-textPrimary hover:text-primary transition">
-              Blogs
-            </button>
-            <button className="text-textPrimary hover:text-primary transition">
-              Projects
-            </button>
+        <div className="md:hidden bg-base-100/80 border-t border-accent/20 shadow-md transition-colors duration-300">
+          <nav className="flex flex-col items-center py-4 space-y-3">
+            {["Hero", "Blog", "Projects", "Sponsors"].map((item) => (
+              <button
+                key={item}
+                onClick={() => handleScrollComponent(item)}
+                className="text-base-content hover:text-primary transition"
+              >
+                {item}
+              </button>
+            ))}
           </nav>
         </div>
       )}
