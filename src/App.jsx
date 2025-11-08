@@ -5,6 +5,7 @@ import BlogSection from "./component/blog-section/BlogSection";
 import SponsorsCarousel from "./component/sponsors-caroussel/SponsorsCaroussel";
 import ProjectsSection from "./component/projects-section/ProjectsSection";
 import Separator from "./component/ui/Separator";
+import ContactSection from "./component/Contact/Contact";
 
 function App() {
   const handleScrollComponent = (id) => {
@@ -37,6 +38,8 @@ function App() {
       <section id="Sponsors">
         <SponsorsCarousel />
       </section>
+      <Separator />
+      <ContactSection />
       <Separator />
       {/* Footer */}
 
