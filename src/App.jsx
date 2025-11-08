@@ -3,7 +3,6 @@ import Header from "./component/Header";
 import HeroSection from "./component/hero-section/HeroSection";
 import BlogSection from "./component/blog-section/BlogSection";
 import SponsorsCarousel from "./component/sponsors-caroussel/SponsorsCaroussel";
-import ProjectCard from "./component/project-card/ProjectCard";
 import ProjectsSection from "./component/projects-section/ProjectsSection";
 
 function App() {
@@ -13,7 +12,7 @@ function App() {
       {/* Hna Les Components Guys */}
       <HeroSection />
       <BlogSection languageCode="en" />
-      <ProjectsSection/>
+      <ProjectsSection />
       <SponsorsCarousel />
       <Footer />
     </div>

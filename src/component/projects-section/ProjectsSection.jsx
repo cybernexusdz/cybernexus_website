@@ -1,6 +1,16 @@
 import { useEffect, useState, useMemo, useRef } from "react";
-import { Search, ChevronLeft, ChevronRight, Filter } from "lucide-react";
-import ProjectCard from "../project-card/ProjectCard";
+import {
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  Filter,
+  Sparkles,
+  Code2,
+  Zap,
+  Users,
+  GitBranch,
+} from "lucide-react";
+import ProjectCard from "../project-card/ProjectCard.jsx";
 
 const sampleProjects = [
   {
@@ -15,13 +25,12 @@ const sampleProjects = [
     contributors: 5,
     createdAt: "Oct 2024",
   },
-
   {
     id: 5,
-    name: "AI Chat Bot",
+    name: "Quantum Dashboard",
     description:
-      "An intelligent chatbot powered by machine learning that can understand context and provide helpful responses.",
-    imageURL: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+      "Real-time analytics dashboard with quantum-inspired visualizations and predictive modeling.",
+    imageURL: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
     technologies: ["React", "Python", "TensorFlow"],
     githubURL: "https://github.com/cybernexusdz/chatbot",
     liveURL: "https://demo.cybernexus.com",
@@ -70,9 +79,12 @@ export default function ProjectsSection({
 }) {
   const [query, setQuery] = useState("");
   const [activeTag, setActiveTag] = useState(ALL_TAG);
-  const [fogOpacity, setFogOpacity] = useState({ left: 0, right: 1 });
-
-  const carouselRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+  const cardsContainerRef = useRef(null);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   const tags = useMemo(() => {
     const set = new Set();
@@ -103,161 +115,333 @@ export default function ProjectsSection({
   }, [projects, activeTag, query]);
 
   const scroll = (dir) => {
-    const el = carouselRef.current;
-    if (!el) return;
-    const first = el.querySelector(".snap-center");
-    if (!first) {
-      const amount = Math.round(el.offsetWidth * 0.8);
-      el.scrollBy({
-        left: dir === "left" ? -amount : amount,
-        behavior: "smooth",
-      });
-      return;
+    if (dir === "left") {
+      setCurrentIndex((prev) => Math.max(0, prev - 1));
+    } else {
+      setCurrentIndex((prev) =>
+        Math.min(filteredProjects.length - 1, prev + 1),
+      );
     }
-    const gap = parseFloat(getComputedStyle(el).gap) || 16;
-    const amount = Math.round(first.getBoundingClientRect().width + gap);
-    el.scrollBy({
-      left: dir === "left" ? -amount : amount,
-      behavior: "smooth",
-    });
   };
 
-  // fog effects
-  useEffect(() => {
-    const el = carouselRef.current;
-    if (!el) return;
+  // Handle touch events for swipe gesture
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
 
-    const handleScroll = () => {
-      const { scrollLeft, scrollWidth, clientWidth } = el;
-      const maxScroll = scrollWidth - clientWidth;
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
 
-      if (maxScroll <= 0) {
-        setFogOpacity({ left: 0, right: 0 });
-        return;
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+
+    const distance = touchStartX.current - touchEndX.current;
+    const threshold = 50; // minimum distance for a swipe
+
+    if (Math.abs(distance) > threshold) {
+      if (distance > 0) {
+        // Swiped left - go to next
+        scroll("right");
+      } else {
+        // Swiped right - go to previous
+        scroll("left");
       }
+    }
 
-      const threshold = 10; // pixels from edge to trigger fade
-      const fadeDistance = 100; // distance over which to fade
+    // Reset
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  };
 
-      // Left fog: 0 when at start, 1 when scrolled past threshold
-      const leftOpacity =
-        scrollLeft <= threshold
-          ? 0
-          : Math.min((scrollLeft - threshold) / fadeDistance, 1);
+  // Reset current index when filters change
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [activeTag, query]);
 
-      // Right fog: 0 when at end, 1 when not near end
-      const distanceFromEnd = maxScroll - scrollLeft;
-      const rightOpacity =
-        distanceFromEnd <= threshold
-          ? 0
-          : Math.min((distanceFromEnd - threshold) / fadeDistance, 1);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 },
+    );
 
-      setFogOpacity({
-        left: leftOpacity,
-        right: rightOpacity,
-      });
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
     };
-
-    el.addEventListener("scroll", handleScroll);
-    handleScroll(); // run once on mount
-    return () => el.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Calculate card styles based on position relative to current index
+  const getCardStyle = (index) => {
+    const diff = index - currentIndex;
+    const absDiff = Math.abs(diff);
+
+    // Hide cards that are too far away
+    if (absDiff > 2) {
+      return {
+        opacity: 0,
+        transform: "translateX(0) scale(0.75)",
+        zIndex: 0,
+        pointerEvents: "none",
+      };
+    }
+
+    // Focused card
+    if (diff === 0) {
+      return {
+        opacity: 1,
+        transform: "translateX(0) scale(1)",
+        zIndex: 30,
+        pointerEvents: "auto",
+      };
+    }
+
+    // Cards to the right - increased separation (less overlap)
+    if (diff > 0) {
+      return {
+        opacity: absDiff === 1 ? 0.85 : 0.45,
+        transform: `translateX(${absDiff * 45}%) scale(${1 - absDiff * 0.12})`,
+        zIndex: 30 - absDiff,
+        pointerEvents: absDiff === 1 ? "auto" : "none",
+      };
+    }
+
+    // Cards to the left - increased separation (less overlap)
+    return {
+      opacity: absDiff === 1 ? 0.85 : 0.45,
+      transform: `translateX(-${absDiff * 45}%) scale(${1 - absDiff * 0.12})`,
+      zIndex: 30 - absDiff,
+      pointerEvents: absDiff === 1 ? "auto" : "none",
+    };
+  };
+
   return (
-    <section className="py-8 px-4 sm:px-6 lg:px-12 bg-base-100">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <section
+      ref={sectionRef}
+      className="min-h-screen py-12 px-4 sm:px-6 lg:px-10 bg-gradient-to-b from-base-100 via-base-200/30 to-base-100 relative overflow-hidden flex items-center"
+    >
+      {/* Animated background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
+        <div
+          className="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary/5 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "1s" }}
+        ></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto w-full space-y-8 relative z-10">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-          <div>
-            <h2 className="text-2xl font-semibold text-base-content">
-              Featured Projects
-            </h2>
-            <p className="text-sm opacity-70">A glimpse of what we've built.</p>
+        <div
+          className={`text-center space-y-3 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 rounded-full text-primary text-sm font-semibold border border-primary/20 shadow-md">
+            <Sparkles className="w-4 h-4 animate-pulse" />
+            <span>Built by Nexians</span>
+            <Zap className="w-4 h-4" />
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="relative hidden sm:block">
-              <input
-                type="text"
-                placeholder="Search..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                className="input input-bordered input-sm pr-9 w-48"
-              />
-              <Search className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 opacity-60" />
-            </div>
+          <h2 className="text-4xl sm:text-5xl font-bold text-base-content">
+            What We're{" "}
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient">
+              Building
+            </span>
+          </h2>
 
-            <div className="flex items-center gap-1">
-              <Filter className="w-4 h-4 opacity-70" />
-              <select
-                className="select select-bordered select-sm"
-                value={activeTag}
-                onChange={(e) => setActiveTag(e.target.value)}
-              >
-                {tags.map((tag) => (
-                  <option key={tag} value={tag}>
-                    {tag === ALL_TAG ? "All" : tag}
-                  </option>
-                ))}
-              </select>
+          <p className="text-base sm:text-lg text-base-content/70 max-w-2xl mx-auto leading-relaxed">
+            Explore cutting-edge projects by our{" "}
+            <span className="text-primary font-semibold">Nexians</span>{" "}
+            community
+          </p>
+        </div>
+
+        {/* Stats */}
+        <div
+          className={`flex items-center justify-center gap-6 sm:gap-10 transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+        >
+          <div className="text-center group">
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <GitBranch className="w-5 h-5 text-primary group-hover:rotate-12 transition-transform" />
+              <div className="text-3xl font-black bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                {projects.length}+
+              </div>
+            </div>
+            <div className="text-sm font-medium text-base-content/60">
+              Projects
+            </div>
+          </div>
+
+          <div className="text-center group">
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <Users className="w-5 h-5 text-secondary group-hover:scale-110 transition-transform" />
+              <div className="text-3xl font-black bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">
+                {projects.reduce((sum, p) => sum + (p.contributors || 0), 0)}+
+              </div>
+            </div>
+            <div className="text-sm font-medium text-base-content/60">
+              Contributors
             </div>
           </div>
         </div>
 
-        {/* Navigation buttons (desktop only) */}
-        <div className="hidden md:flex justify-end gap-2">
+        {/* Dot Indicators */}
+        {!loading && filteredProjects.length > 0 && (
+          <div className="flex justify-center gap-2">
+            {filteredProjects.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentIndex(idx)}
+                className={`transition-all duration-300 rounded-full ${idx === currentIndex ? "w-8 h-2 bg-primary shadow-lg shadow-primary/50" : "w-2 h-2 bg-base-content/20 hover:bg-base-content/40"}`}
+                aria-label={`Go to project ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Carousel area with nav buttons beside it */}
+        <div
+          ref={cardsContainerRef}
+          className="relative flex justify-center items-center py-4 touch-pan-y"
+          style={{ minHeight: "450px" }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Left nav */}
           <button
             onClick={() => scroll("left")}
-            className="btn btn-circle btn-ghost btn-sm z-10"
-            aria-label="Scroll left"
+            disabled={currentIndex === 0}
+            title="Previous project"
+            aria-label="Previous project"
+            className="absolute left-3 sm:left-8 top-1/2 -translate-y-1/2 z-40 btn btn-circle btn-primary hover:scale-105 transition-transform shadow-lg hover:shadow-primary/30 disabled:opacity-30 disabled:cursor-not-allowed"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-5 h-5" />
           </button>
-          <button
-            onClick={() => scroll("right")}
-            className="btn btn-circle btn-ghost btn-sm z-10"
-            aria-label="Scroll right"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
 
-        {/* Projects carousel preview */}
-        <div className="relative">
-          <div
-            ref={carouselRef}
-            className="flex gap-4 overflow-x-auto snap-x snap-mandatory pt-5 pb-10 scrollbar-thin scrollbar-thumb-base-300 scroll-px-4"
-            style={{ scrollSnapType: "x mandatory" }}
-          >
-            {loading
-              ? Array.from({ length: 3 }).map((_, i) => (
+          {loading ? (
+            <div className="w-full max-w-[450px] sm:max-w-[520px] lg:max-w-[580px]">
+              <ProjectCard loading={true} />
+            </div>
+          ) : filteredProjects.length > 0 ? (
+            <div className="relative w-full max-w-[450px] sm:max-w-[520px] lg:max-w-[560px] h-[460px]">
+              {filteredProjects.map((project, idx) => {
+                const style = getCardStyle(idx);
+                return (
                   <div
-                    key={`loading-${i}`}
-                    className="w-[260px] sm:w-[300px] flex-shrink-0 snap-center"
-                  >
-                    <ProjectCard loading={true} />
-                  </div>
-                ))
-              : filteredProjects.map((project, idx) => (
-                  <div
-                    key={`${project.id ?? idx}-${idx}`}
-                    className="w-[260px] sm:w-[300px] lg:w-[360px] flex-shrink-0 snap-center"
+                    key={`${project.id}-${idx}`}
+                    className="absolute inset-0 w-full transition-all duration-500 ease-out cursor-pointer select-none"
+                    style={{
+                      opacity: style.opacity,
+                      transform: style.transform,
+                      zIndex: style.zIndex,
+                      pointerEvents: style.pointerEvents,
+                    }}
+                    onClick={() => {
+                      if (Math.abs(idx - currentIndex) === 1) {
+                        setCurrentIndex(idx);
+                      }
+                    }}
                   >
                     <ProjectCard project={project} />
                   </div>
-                ))}
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <Code2 className="w-16 h-16 mx-auto mb-3 text-base-content/10" />
+              <p className="text-lg font-medium text-base-content/60 mb-2">
+                No projects found
+              </p>
+              <p className="text-sm text-base-content/40">
+                Try adjusting your search or filters
+              </p>
+            </div>
+          )}
+
+          {/* Right nav */}
+          <button
+            onClick={() => scroll("right")}
+            disabled={currentIndex === filteredProjects.length - 1}
+            title="Next project"
+            aria-label="Next project"
+            className="absolute right-3 sm:right-8 top-1/2 -translate-y-1/2 z-40 btn btn-circle btn-primary hover:scale-105 transition-transform shadow-lg hover:shadow-primary/30 disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Search and Filter Bar */}
+        <div
+          className={`flex flex-col sm:flex-row items-center justify-center gap-3 transition-all duration-1000 delay-100 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+        >
+          <div className="relative w-full sm:w-72">
+            <input
+              type="text"
+              placeholder="Search projects..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="input input-bordered w-full pr-10 pl-10 focus:input-primary transition-all bg-base-200/50 backdrop-blur-sm border-base-content/10 focus:border-primary/50 focus:shadow-lg focus:shadow-primary/10"
+            />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary/50" />
+            {query && (
+              <button
+                onClick={() => setQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/30 hover:text-error transition-colors"
+              >
+                ✕
+              </button>
+            )}
           </div>
 
-          <div
-            className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-base-100 to-transparent pointer-events-none transition-opacity duration-500"
-            style={{ opacity: fogOpacity.left }}
-          />
-          <div
-            className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-base-100 to-transparent pointer-events-none transition-opacity duration-500"
-            style={{ opacity: fogOpacity.right }}
-          />
+          <div className="relative">
+            <select
+              className="select select-bordered bg-base-200/50 backdrop-blur-sm border-base-content/10 pl-9 pr-8 font-medium focus:border-primary/50 focus:outline-none focus:shadow-lg focus:shadow-primary/10 cursor-pointer hover:border-primary/30 transition-all"
+              value={activeTag}
+              onChange={(e) => setActiveTag(e.target.value)}
+            >
+              {tags.map((tag) => (
+                <option key={tag} value={tag}>
+                  {tag === ALL_TAG
+                    ? "All Tech"
+                    : tag.charAt(0).toUpperCase() + tag.slice(1)}
+                </option>
+              ))}
+            </select>
+            <Filter className="w-4 h-4 text-primary absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes gradient {
+          0%,
+          100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+
+        .animate-gradient {
+          background-size: 200% 200%;
+          animation: gradient 3s ease infinite;
+        }
+
+        /* Only remove transform on active state for the navigation buttons */
+        .btn.btn-circle:active {
+          transform: translateY(-50%) !important;
+        }
+      `}</style>
     </section>
   );
 }
