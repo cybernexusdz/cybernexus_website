@@ -119,12 +119,12 @@ export default function ProjectsSection({
       setCurrentIndex((prev) => Math.max(0, prev - 1));
     } else {
       setCurrentIndex((prev) =>
-        Math.min(filteredProjects.length - 1, prev + 1),
+        Math.min(Math.max(filteredProjects.length - 1, 0), prev + 1),
       );
     }
   };
 
-  // Handle touch events for swipe gesture
+  // Touch handlers
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
   };
@@ -137,24 +137,20 @@ export default function ProjectsSection({
     if (!touchStartX.current || !touchEndX.current) return;
 
     const distance = touchStartX.current - touchEndX.current;
-    const threshold = 50; // minimum distance for a swipe
+    const threshold = 50;
 
     if (Math.abs(distance) > threshold) {
       if (distance > 0) {
-        // Swiped left - go to next
         scroll("right");
       } else {
-        // Swiped right - go to previous
         scroll("left");
       }
     }
 
-    // Reset
     touchStartX.current = 0;
     touchEndX.current = 0;
   };
 
-  // Reset current index when filters change
   useEffect(() => {
     setCurrentIndex(0);
   }, [activeTag, query]);
@@ -180,12 +176,10 @@ export default function ProjectsSection({
     };
   }, []);
 
-  // Calculate card styles based on position relative to current index
   const getCardStyle = (index) => {
     const diff = index - currentIndex;
     const absDiff = Math.abs(diff);
 
-    // Hide cards that are too far away
     if (absDiff > 2) {
       return {
         opacity: 0,
@@ -195,7 +189,6 @@ export default function ProjectsSection({
       };
     }
 
-    // Focused card
     if (diff === 0) {
       return {
         opacity: 1,
@@ -205,7 +198,6 @@ export default function ProjectsSection({
       };
     }
 
-    // Cards to the right - increased separation (less overlap)
     if (diff > 0) {
       return {
         opacity: absDiff === 1 ? 0.85 : 0.45,
@@ -215,7 +207,6 @@ export default function ProjectsSection({
       };
     }
 
-    // Cards to the left - increased separation (less overlap)
     return {
       opacity: absDiff === 1 ? 0.85 : 0.45,
       transform: `translateX(-${absDiff * 45}%) scale(${1 - absDiff * 0.12})`,
@@ -223,6 +214,9 @@ export default function ProjectsSection({
       pointerEvents: absDiff === 1 ? "auto" : "none",
     };
   };
+
+  // helper to determine when to disable navs (both should be disabled if no results)
+  const noResults = filteredProjects.length === 0;
 
   return (
     <section
@@ -306,7 +300,7 @@ export default function ProjectsSection({
           </div>
         )}
 
-        {/* Carousel area with nav buttons beside it */}
+        {/* Carousel area with nav buttons */}
         <div
           ref={cardsContainerRef}
           className="relative flex justify-center items-center py-4 touch-pan-y"
@@ -315,23 +309,23 @@ export default function ProjectsSection({
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Left nav */}
+          {/* Left nav - hidden on mobile, visible on sm and above */}
           <button
             onClick={() => scroll("left")}
-            disabled={currentIndex === 0}
+            disabled={noResults || currentIndex === 0}
             title="Previous project"
             aria-label="Previous project"
-            className="absolute left-3 sm:left-8 top-1/2 -translate-y-1/2 z-40 btn btn-circle btn-primary hover:scale-105 transition-transform shadow-lg hover:shadow-primary/30 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="hidden sm:flex absolute left-3 md:left-8 top-1/2 -translate-y-1/2 z-40 btn btn-circle btn-primary hover:scale-105 transition-transform shadow-lg hover:shadow-primary/30 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
 
           {loading ? (
-            <div className="w-full max-w-[450px] sm:max-w-[520px] lg:max-w-[580px]">
+            <div className="w-full max-w-[280px] sm:max-w-[450px] md:max-w-[520px] lg:max-w-[580px]">
               <ProjectCard loading={true} />
             </div>
           ) : filteredProjects.length > 0 ? (
-            <div className="relative w-full max-w-[450px] sm:max-w-[520px] lg:max-w-[560px] h-[460px]">
+            <div className="relative w-full max-w-[280px] sm:max-w-[450px] md:max-w-[520px] lg:max-w-[560px] h-[460px]">
               {filteredProjects.map((project, idx) => {
                 const style = getCardStyle(idx);
                 return (
@@ -367,13 +361,13 @@ export default function ProjectsSection({
             </div>
           )}
 
-          {/* Right nav */}
+          {/* Right nav - hidden on mobile, visible on sm and above */}
           <button
             onClick={() => scroll("right")}
-            disabled={currentIndex === filteredProjects.length - 1}
+            disabled={noResults || currentIndex === filteredProjects.length - 1}
             title="Next project"
             aria-label="Next project"
-            className="absolute right-3 sm:right-8 top-1/2 -translate-y-1/2 z-40 btn btn-circle btn-primary hover:scale-105 transition-transform shadow-lg hover:shadow-primary/30 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="hidden sm:flex absolute right-3 md:right-8 top-1/2 -translate-y-1/2 z-40 btn btn-circle btn-primary hover:scale-105 transition-transform shadow-lg hover:shadow-primary/30 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -437,7 +431,7 @@ export default function ProjectsSection({
           animation: gradient 3s ease infinite;
         }
 
-        /* Only remove transform on active state for the navigation buttons */
+        /* Prevent the nav buttons from shifting when clicked */
         .btn.btn-circle:active {
           transform: translateY(-50%) !important;
         }

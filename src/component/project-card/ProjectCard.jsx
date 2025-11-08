@@ -59,9 +59,8 @@ const ProjectCard = ({ project, loading = false }) => {
               decoding="async"
               width={600}
               height={360}
-              className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${
-                imageLoaded ? "opacity-100" : "opacity-0"
-              }`}
+              className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${imageLoaded ? "opacity-100" : "opacity-0"
+                }`}
               onLoad={() => setImageLoaded(true)}
               onError={() => setImageError(true)}
             />
@@ -111,7 +110,7 @@ const ProjectCard = ({ project, loading = false }) => {
 
         {technologies && technologies.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-3 sm:mt-2">
-            {technologies.slice(0, 4).map((tech, index) => {
+            {technologies.slice(0, 2).map((tech, index) => {
               const techIcons = {
                 react: "⚛️",
                 python: "🐍",
@@ -142,9 +141,9 @@ const ProjectCard = ({ project, loading = false }) => {
               );
             })}
 
-            {technologies.length > 4 && (
+            {technologies.length > 2 && (
               <span className="px-3 py-1.5 text-xs font-semibold rounded-full bg-base-200 text-base-content/70 border border-base-300">
-                +{technologies.length - 4}
+                +{technologies.length - 2}
               </span>
             )}
           </div>
