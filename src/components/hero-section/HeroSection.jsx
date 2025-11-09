@@ -5,8 +5,7 @@ const HeroSection = () => {
     <section className="min-h-screen mt-10 flex flex-col justify-center items-center text-center px-6 bg-base-100 text-base-content transition-all duration-500">
       {/* Title */}
       <h2 className="text-3xl sm:text-4xl flex flex-col gap-4 md:text-6xl font-bold mb-4 ">
-        <span>Empowering Future</span>{" "}
-        <span>Tech Leaders</span>
+        <span>Empowering Future</span> <span>Tech Leaders</span>
       </h2>
 
       {/* Description */}

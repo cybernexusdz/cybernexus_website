@@ -1,11 +1,11 @@
-import Footer from "./component/Footer";
-import Header from "./component/Header";
-import HeroSection from "./component/hero-section/HeroSection";
-import BlogSection from "./component/blog-section/BlogSection";
-import SponsorsCarousel from "./component/sponsors-caroussel/SponsorsCaroussel";
-import ProjectsSection from "./component/projects-section/ProjectsSection";
-import Separator from "./component/ui/Separator";
-import ContactSection from "./component/Contact/Contact";
+import Footer from "./components/footer/Footer";
+import Navbar from "./components/navbar/Navbar";
+import HeroSection from "./components/hero-section/HeroSection";
+import BlogSection from "./components/blog-section/BlogSection";
+import SponsorsCarousel from "./components/sponsors-caroussel/SponsorsCaroussel";
+import ProjectsSection from "./components/projects-section/ProjectsSection";
+import Separator from "./components/ui/Separator";
+import ContactSection from "./components/contact-section/ContactSection";
 
 function App() {
   const handleScrollComponent = (id) => {
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-navyDark to-purpleDeep">
-      <Header handleScrollComponent={handleScrollComponent} />
+      <Navbar handleScrollComponent={handleScrollComponent} />
       {/* Hero Section */}
       <section id="Hero">
         <HeroSection />
@@ -39,7 +39,9 @@ function App() {
         <SponsorsCarousel />
       </section>
       <Separator />
-      <ContactSection />
+      <section id="Contact">
+        <ContactSection />
+      </section>
       <Separator />
       {/* Footer */}
 
