@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProfileCard from "./ProfileCard";
 
 export default function TeamSection() {
   const [currentIndex, setCurrentIndex] = useState(3);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   const teamMembers = [
     {
@@ -82,6 +84,27 @@ export default function TeamSection() {
     setCurrentIndex((prev) => Math.min(teamMembers.length - 1, prev + 1));
   };
 
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const swipeThreshold = 50;
+    const diff = touchStartX.current - touchEndX.current;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        handleNext();
+      } else {
+        handlePrevious();
+      }
+    }
+  };
+
   const getVisibleCards = () => {
     const cards = [];
     for (let i = currentIndex - 2; i <= currentIndex + 2; i++) {
@@ -127,28 +150,33 @@ export default function TeamSection() {
         </div>
 
         {/* Carousel */}
-        <div className="relative px-16 sm:px-20">
+        <div
+          className="relative px-4 sm:px-8 md:px-16 lg:px-20"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           {/* Navigation Buttons */}
           <button
             onClick={handlePrevious}
             disabled={currentIndex === 0}
-            className="absolute left-3 md:left-8 top-1/2 -translate-y-1/2 z-40 btn btn-circle btn-primary hover:scale-105 transition-transform shadow-lg hover:shadow-primary/30 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="absolute left-0 sm:left-2 md:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-primary text-white hover:scale-105 transition-transform shadow-lg hover:shadow-primary/30 disabled:opacity-30 disabled:cursor-not-allowed"
             aria-label="Previous"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
           </button>
 
           <button
             onClick={handleNext}
             disabled={currentIndex === teamMembers.length - 1}
-            className="absolute right-3 md:right-8 top-1/2 -translate-y-1/2 z-40 btn btn-circle btn-primary hover:scale-105 transition-transform shadow-lg hover:shadow-primary/30 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="absolute right-0 sm:right-2 md:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-40 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-primary text-white hover:scale-105 transition-transform shadow-lg hover:shadow-primary/30 disabled:opacity-30 disabled:cursor-not-allowed"
             aria-label="Next"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={20} className="sm:w-6 sm:h-6" />
           </button>
 
           {/* Cards Container */}
-          <div className="relative h-[600px] flex items-center justify-center">
+          <div className="relative h-[500px] sm:h-[550px] md:h-[600px] flex items-center justify-center">
             <div className="relative w-full flex items-center justify-center">
               {visibleCards.map((member) => {
                 const position = member.position;
@@ -156,7 +184,7 @@ export default function TeamSection() {
 
                 const baseScale = isCenterCard ? 1 : 0.85;
                 const baseOpacity = isCenterCard ? 1 : 0.6;
-                const translateX = position * 340;
+                const translateX = position * (typeof window !== 'undefined' && window.innerWidth < 640 ? 280 : 340);
                 const zIndex = 5 - Math.abs(position);
 
                 return (
