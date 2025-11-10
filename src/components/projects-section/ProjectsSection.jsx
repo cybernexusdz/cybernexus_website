@@ -415,27 +415,23 @@ export default function ProjectsSection({
         </div>
       </div>
 
-      <style jsx>{`
-        @keyframes gradient {
-          0%,
-          100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
+      <style>{`
+      @keyframes gradient {
+              0 %, 100 % { background- position: 0% 50%; }
+            50% {background - position: 100% 50%; }
+      }
 
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient 3s ease infinite;
-        }
+            .animate-gradient {
+              background - size: 200% 200%;
+            animation: gradient 3s ease infinite;
+      }
 
-        /* Prevent the nav buttons from shifting when clicked */
-        .btn.btn-circle:active {
-          transform: translateY(-50%) !important;
-        }
-      `}</style>
-    </section>
+            /* Prevent the nav buttons from shifting when clicked */
+            .btn.btn-circle:active {
+              transform: translateY(-50%) !important;
+      }
+    `}</style>
+
+    </section >
   );
 }
