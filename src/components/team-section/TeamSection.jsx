@@ -184,7 +184,11 @@ export default function TeamSection() {
 
                 const baseScale = isCenterCard ? 1 : 0.85;
                 const baseOpacity = isCenterCard ? 1 : 0.6;
-                const translateX = position * (typeof window !== 'undefined' && window.innerWidth < 640 ? 280 : 340);
+                const translateX =
+                  position *
+                  (typeof window !== "undefined" && window.innerWidth < 640
+                    ? 280
+                    : 340);
                 const zIndex = 5 - Math.abs(position);
 
                 return (

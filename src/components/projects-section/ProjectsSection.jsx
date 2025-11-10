@@ -18,7 +18,8 @@ const sampleProjects = [
     name: "AI Chat Bot",
     description:
       "An intelligent chatbot powered by machine learning that can understand context and provide helpful responses.",
-    imageURL: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=60",
+    imageURL:
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=60",
     technologies: ["React", "Python", "TensorFlow"],
     githubURL: "https://github.com/cybernexusdz/chatbot",
     liveURL: "https://demo.cybernexus.com",
@@ -30,7 +31,8 @@ const sampleProjects = [
     name: "Quantum Dashboard",
     description:
       "Real-time analytics dashboard with quantum-inspired visualizations and predictive modeling.",
-    imageURL: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=60",
+    imageURL:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=60",
     technologies: ["React", "Python", "TensorFlow"],
     githubURL: "https://github.com/cybernexusdz/chatbot",
     liveURL: "https://demo.cybernexus.com",
@@ -41,7 +43,8 @@ const sampleProjects = [
     id: 2,
     name: "Portfolio Website",
     description: "Personal portfolio built with React, Tailwind and Vite.",
-    imageURL: "https://images.unsplash.com/photo-1503264116251-35a269479413?w=600&q=60",
+    imageURL:
+      "https://images.unsplash.com/photo-1503264116251-35a269479413?w=600&q=60",
     technologies: ["React", "TailwindCSS"],
     githubURL: "https://github.com/cybernexusdz/portfolio",
     liveURL: "https://cybernexus.com",
@@ -52,7 +55,8 @@ const sampleProjects = [
     id: 3,
     name: "Student Manager",
     description: "Manage student records using SQLite and JavaFX.",
-    imageURL: "https://images.unsplash.com/photo-1590608897129-79da98d159ad?w=600&q=60",
+    imageURL:
+      "https://images.unsplash.com/photo-1590608897129-79da98d159ad?w=600&q=60",
     technologies: ["Java", "SQLite"],
     githubURL: "https://github.com/cybernexusdz/student-manager",
     contributors: 3,
@@ -62,7 +66,8 @@ const sampleProjects = [
     id: 4,
     name: "Smart Home System",
     description: "IoT-based home automation using Raspberry Pi and MQTT.",
-    imageURL: "https://images.unsplash.com/photo-1581093588401-22d5f4f9c2a7?w=600&q=60",
+    imageURL:
+      "https://images.unsplash.com/photo-1581093588401-22d5f4f9c2a7?w=600&q=60",
     technologies: ["Python", "IoT"],
     githubURL: "#",
     liveURL: "#",
@@ -415,27 +420,22 @@ export default function ProjectsSection({
         </div>
       </div>
 
-      <style jsx>{`
-        @keyframes gradient {
-          0%,
-          100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
+      <style>{`
+      @keyframes gradient {
+              0 %, 100 % { background- position: 0% 50%; }
+            50% {background - position: 100% 50%; }
+      }
 
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient 3s ease infinite;
-        }
+            .animate-gradient {
+              background - size: 200% 200%;
+            animation: gradient 3s ease infinite;
+      }
 
-        /* Prevent the nav buttons from shifting when clicked */
-        .btn.btn-circle:active {
-          transform: translateY(-50%) !important;
-        }
-      `}</style>
+            /* Prevent the nav buttons from shifting when clicked */
+            .btn.btn-circle:active {
+              transform: translateY(-50%) !important;
+      }
+    `}</style>
     </section>
   );
 }
