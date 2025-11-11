@@ -1,0 +1,80 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 2px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  aspect-ratio: 1;
+}
+
+.grid-cell {
+  aspect-ratio: 1;
+  background: rgba(59, 224, 254, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(14px, 2vw, 20px);
+  transition: all 0.2s;
+  min-width: 0;
+  user-select: none;
+  border-radius: 2px;
+}
+
+.grid-cell:hover:not(.disabled):not(.hit):not(.miss) {
+  background: rgba(59, 224, 254, 0.4);
+  border-color: rgba(59, 224, 254, 0.6);
+  transform: scale(1.05);
+}
+
+.grid-cell.ship {
+  /* Ship color will be set inline via style prop */
+  /* Default to black if not set */
+  background: #000000;
+}
+
+.grid-cell.ship-hit {
+  /* Ship hit but not sunk - fire emoji will show */
+  background: #000000;
+}
+
+.grid-cell.hit {
+  background: rgba(255, 69, 0, 0.6);
+  border-color: rgba(255, 69, 0, 0.8);
+}
+
+.grid-cell.miss {
+  background: rgba(192, 192, 192, 0.4);
+  border-color: rgba(192, 192, 192, 0.6);
+}
+
+.grid-cell.sunk {
+  /* Sunk ship color will be set inline via style prop */
+  /* This class is for additional styling if needed */
+}
+
+.grid-cell.disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    max-width: 100%;
+    gap: 1px;
+    padding: 5px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid-container {
+    max-width: 350px;
+  }
+}

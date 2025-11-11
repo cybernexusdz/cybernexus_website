@@ -1,0 +1,195 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.game-container {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.game-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: clamp(1.8em, 4vw, 2.5em);
+}
+
+.status-info {
+  text-align: center;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: clamp(1em, 2vw, 1.2em);
+  font-weight: bold;
+}
+
+.status-info.your-turn {
+  background: #d4edda;
+  color: #155724;
+  border: 2px solid #c3e6cb;
+}
+
+.status-info.bot-turn {
+  background: #fff3cd;
+  color: #856404;
+  border: 2px solid #ffeaa7;
+}
+
+.status-info.game-over {
+  background: #f8d7da;
+  color: #721c24;
+  border: 2px solid #f5c6cb;
+}
+
+.ships-info {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+  font-size: clamp(1em, 2vw, 1.1em);
+}
+
+.ships-info > div {
+  padding: 10px 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 2px solid #dee2e6;
+}
+
+.fleets-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.bot-section,
+.player-section {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
+  font-size: clamp(1.2em, 2.5vw, 1.5em);
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}
+
+.btn-info {
+  background: #17a2b8;
+  color: white;
+}
+
+.btn-info:hover {
+  background: #138496;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+}
+
+.loading {
+  text-align: center;
+  padding: 50px;
+  color: white;
+  font-size: 1.5em;
+}
+
+.game-over-modal {
+  max-width: 500px;
+}
+
+.game-over-modal .modal-body {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+@media (max-width: 768px) {
+  .game-container {
+    padding: 15px;
+  }
+
+  .fleets-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .bot-section,
+  .player-section {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .ships-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .fleets-container {
+    gap: 20px;
+  }
+
+  .bot-section,
+  .player-section {
+    max-width: 400px;
+  }
+}

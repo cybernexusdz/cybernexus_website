@@ -11,6 +11,7 @@ import ar from "../locales/ar.json";
 const BlogSection = ({ languageCode = "en" }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [itemsPerView, setItemsPerView] = useState(3);
   const navigate = useNavigate();
   const carouselRef = useRef(null);
   const autoPlayRef = useRef(null);
@@ -31,9 +32,27 @@ const BlogSection = ({ languageCode = "en" }) => {
     }
   };
 
-  // Calculate if we need carousel (4+ articles) and number of slides
-  const needsCarousel = articles.length > 3;
-  const itemsPerView = 3; // Show 3 articles at once
+  // Responsive items per view based on screen size
+  useEffect(() => {
+    const updateItemsPerView = () => {
+      const newItemsPerView = window.innerWidth < 768 
+        ? 1  // Mobile: show 1 item
+        : window.innerWidth < 1024 
+        ? 2  // Tablet: show 2 items
+        : 3; // Desktop: show 3 items
+      
+      setItemsPerView(newItemsPerView);
+      // Reset carousel index when screen size changes
+      setCurrentIndex(0);
+    };
+
+    updateItemsPerView();
+    window.addEventListener("resize", updateItemsPerView);
+    return () => window.removeEventListener("resize", updateItemsPerView);
+  }, []);
+
+  // Calculate if we need carousel and number of slides
+  const needsCarousel = articles.length > itemsPerView;
   const totalSlides = needsCarousel ? articles.length - itemsPerView + 1 : 1;
 
   const nextSlide = () => {
@@ -59,9 +78,9 @@ const BlogSection = ({ languageCode = "en" }) => {
   // Get articles for current view
   const getCurrentViewArticles = () => {
     if (!needsCarousel) {
-      return articles.slice(0, 3); // Show first 3 if 3 or fewer
+      return articles.slice(0, itemsPerView); // Show first N items based on screen size
     }
-    // Show 3 articles starting from currentIndex
+    // Show N articles starting from currentIndex
     return articles.slice(currentIndex, currentIndex + itemsPerView);
   };
 
@@ -336,8 +355,14 @@ const BlogSection = ({ languageCode = "en" }) => {
                 )}
               </>
             ) : (
-              // Grid mode (3 or fewer articles)
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-2 sm:px-4">
+              // Grid mode (itemsPerView or fewer articles)
+              <div className={`grid gap-4 sm:gap-6 px-2 sm:px-4 ${
+                itemsPerView === 1 
+                  ? "grid-cols-1" 
+                  : itemsPerView === 2 
+                  ? "grid-cols-1 md:grid-cols-2" 
+                  : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+              }`}>
                 {getCurrentViewArticles().map((article) => (
                   <div key={article.id}>
                     <ArticleCard article={article} />

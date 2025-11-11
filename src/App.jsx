@@ -1,52 +1,13 @@
-import Footer from "./components/footer/Footer";
-import Navbar from "./components/navbar/Navbar";
-import HeroSection from "./components/hero-section/HeroSection";
-import BlogSection from "./components/blog-section/BlogSection";
-import SponsorsCarousel from "./components/sponsors-caroussel/SponsorsCaroussel";
-import ProjectsSection from "./components/projects-section/ProjectsSection";
-import Separator from "./components/ui/Separator";
-import ContactSection from "./components/contact-section/ContactSection";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import ShipGame from "./pages/ShipGame";
 
 function App() {
-  const handleScrollComponent = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-r from-navyDark to-purpleDeep">
-      <Navbar handleScrollComponent={handleScrollComponent} />
-      {/* Hero Section */}
-      <section id="Hero">
-        <HeroSection />
-      </section>
-      <Separator />
-      {/* Blog Section */}
-      <section id="Blog">
-        <BlogSection languageCode="en" />
-      </section>
-      <Separator />
-      {/* Projects Section */}
-
-      <section id="Projects">
-        <ProjectsSection />
-      </section>
-      <Separator />
-      {/* Sponsors Carousel */}
-      <section id="Sponsors">
-        <SponsorsCarousel />
-      </section>
-      <Separator />
-      <section id="Contact">
-        <ContactSection />
-      </section>
-      <Separator />
-      {/* Footer */}
-
-      <Footer />
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/shipgame" element={<ShipGame />} />
+    </Routes>
   );
 }
 
