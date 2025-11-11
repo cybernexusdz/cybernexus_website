@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import ShipGame from "./pages/ShipGame";
+import Home from "./pages/Home.jsx";
+import ShipGame from "./pages/ShipGame.jsx";
 
 function App() {
   return (
