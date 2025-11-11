@@ -1,15 +1,21 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
-import ToggleTheme from "../ui/ThemeToggle"; // ✅ your toggle component
+import ToggleTheme from "../ui/ThemeToggle";
 import Logo from "../ui/Logo";
+import { Menu, X, Home, BookOpen, FolderGit2, Heart, Mail } from "lucide-react";
 
-const Navbar = ({ handleScrollComponent }) => {
+const Navbar = ({ handleScrollComponent = (item) => console.log(item) }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [activeSection, setActiveSection] = useState("Hero");
 
-  const navItems = ["Hero", "Blog", "Projects", "Sponsors", "Contact"];
+  const navItems = [
+    { name: "Hero", icon: Home },
+    { name: "Blog", icon: BookOpen },
+    { name: "Projects", icon: FolderGit2 },
+    { name: "Sponsors", icon: Heart },
+    { name: "Contact", icon: Mail },
+  ];
 
   // Spy scrolling - detect which section is in view
   useEffect(() => {
@@ -26,8 +32,8 @@ const Navbar = ({ handleScrollComponent }) => {
 
       // Spy scrolling logic
       const sections = navItems.map((item) => ({
-        id: item,
-        element: document.getElementById(item),
+        id: item.name,
+        element: document.getElementById(item.name),
       }));
 
       // Find which section is currently in view
@@ -35,7 +41,6 @@ const Navbar = ({ handleScrollComponent }) => {
       for (const section of sections) {
         if (section.element) {
           const rect = section.element.getBoundingClientRect();
-          // Section is considered active when it's in the top half of viewport
           if (
             rect.top <= window.innerHeight / 2 &&
             rect.bottom >= window.innerHeight / 2
@@ -43,7 +48,6 @@ const Navbar = ({ handleScrollComponent }) => {
             current = section.id;
             break;
           }
-          // Fallback: if section top is above middle and bottom is below top
           if (rect.top <= 200 && rect.bottom > 0) {
             current = section.id;
           }
@@ -56,119 +60,187 @@ const Navbar = ({ handleScrollComponent }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  const handleNavClick = (item) => {
-    setActiveSection(item);
-    handleScrollComponent(item);
+  const handleNavClick = (itemName) => {
+    setActiveSection(itemName);
+    handleScrollComponent(itemName);
     setMenuOpen(false);
   };
 
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [menuOpen]);
+
+  // Close menu on Escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape" && menuOpen) {
+        setMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [menuOpen]);
+
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 shadow-lg transition-all duration-500
-    backdrop-blur-md bg-base-100/90 border-b border-primary/20
-    ${isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
-  `}
-    >
-      <div className="container mx-auto flex items-center justify-between p-4">
-        {/* Logo */}
-        <div
-          className="w-auto h-12 cursor-pointer"
-          onClick={() => handleNavClick("Hero")}
-        >
-          <Logo className="w-full h-full fill-current text-primary transition-transform hover:scale-110" />
-        </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-2">
-          {navItems.map((item) => (
-            <button
-              onClick={() => handleNavClick(item)}
-              key={item}
-              className={`
-                relative px-4 py-2 rounded-lg font-medium transition-all duration-300
-                ${
-                  activeSection === item
-                    ? "text-primary"
-                    : "text-base-content hover:text-primary"
-                }
-              `}
-            >
-              {item}
-
-              {/* Active indicator - animated underline */}
-              <span
-                className={`
-                  absolute bottom-0 left-1/2 h-0.5 bg-primary rounded-full
-                  transition-all duration-300 ease-out
-                  ${
-                    activeSection === item
-                      ? "w-3/4 -translate-x-1/2 opacity-100"
-                      : "w-0 -translate-x-1/2 opacity-0"
-                  }
-                `}
-              />
-
-              {/* Active indicator - glow effect */}
-              {activeSection === item && (
-                <span className="absolute inset-0 bg-primary/10 rounded-lg -z-10 animate-pulse" />
-              )}
-            </button>
-          ))}
-          <div className="ml-2">
-            <ToggleTheme />
-          </div>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center gap-2">
-          <ToggleTheme />
-          <button
-            className="text-base-content hover:text-primary transition p-2 hover:bg-accent/20 rounded-lg"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out
-          ${menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
+    <>
+      <header
+        className={`fixed top-0 left-0 w-full z-50 shadow-lg transition-all duration-500
+          backdrop-blur-md bg-base-100/90 border-b border-primary/20
+          ${isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}
         `}
       >
-        <div className="bg-base-100/95 border-t border-primary/20 shadow-lg backdrop-blur-md">
-          <nav className="flex flex-col items-stretch py-2 px-4 space-y-1">
-            {navItems.map((item) => (
-              <button
-                key={item}
-                onClick={() => handleNavClick(item)}
-                className={`
-                  relative px-4 py-3 rounded-lg font-medium transition-all duration-300 text-left
-                  ${
-                    activeSection === item
-                      ? "text-primary bg-primary/10"
-                      : "text-base-content hover:text-primary hover:bg-accent/10"
-                  }
-                `}
-              >
-                {/* Active indicator dot */}
-                <span
+        <div className="container mx-auto flex items-center justify-between p-4">
+          {/* Logo */}
+          <div
+            className="w-auto h-12 cursor-pointer transition-transform hover:scale-110"
+            onClick={() => handleNavClick("Hero")}
+          >
+            <Logo className="w-full h-full fill-current text-primary" />
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-2">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <button
+                  onClick={() => handleNavClick(item.name)}
+                  key={item.name}
                   className={`
-                    absolute left-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary
-                    transition-all duration-300
-                    ${activeSection === item ? "opacity-100 scale-100" : "opacity-0 scale-0"}
+                    relative px-4 py-2 rounded-lg font-medium transition-all duration-300
+                    flex items-center gap-2 group
+                    ${
+                      activeSection === item.name
+                        ? "text-primary"
+                        : "text-base-content hover:text-primary"
+                    }
                   `}
-                />
-                <span className={activeSection === item ? "ml-3" : "ml-0"}>
-                  {item}
-                </span>
-              </button>
-            ))}
+                  aria-label={`Navigate to ${item.name}`}
+                >
+                  <Icon
+                    size={18}
+                    className="transition-transform group-hover:scale-110"
+                  />
+                  {item.name}
+
+                  {/* Active indicator - animated underline */}
+                  <span
+                    className={`
+                      absolute bottom-0 left-1/2 h-0.5 bg-primary rounded-full
+                      transition-all duration-300 ease-out
+                      ${
+                        activeSection === item.name
+                          ? "w-3/4 -translate-x-1/2 opacity-100"
+                          : "w-0 -translate-x-1/2 opacity-0"
+                      }
+                    `}
+                  />
+
+                  {/* Active indicator - glow effect */}
+                  {activeSection === item.name && (
+                    <span className="absolute inset-0 bg-primary/10 rounded-lg -z-10 animate-pulse" />
+                  )}
+                </button>
+              );
+            })}
+            <div className="ml-2">
+              <ToggleTheme />
+            </div>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center gap-2">
+            <ToggleTheme />
+            <button
+              className="text-base-content hover:text-primary transition p-2 hover:bg-primary/10 rounded-lg relative z-50"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+            >
+              {menuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Full-Screen Mobile Menu Overlay */}
+      <div
+        className={`md:hidden fixed inset-0 z-40 transition-all duration-500 ease-in-out
+          ${menuOpen ? "pointer-events-auto" : "pointer-events-none"}
+        `}
+      >
+        {/* Backdrop with blur */}
+        <div
+          className={`absolute inset-0 bg-neutral/60 backdrop-blur-md transition-opacity duration-500
+            ${menuOpen ? "opacity-100" : "opacity-0"}
+          `}
+          onClick={() => setMenuOpen(false)}
+        />
+
+        {/* Menu Panel - Slide from right */}
+        <div
+          className={`absolute top-0 right-0 h-full w-4/5 max-w-sm bg-base-100 shadow-2xl
+            transition-transform duration-500 ease-out border-l border-primary/20
+            ${menuOpen ? "translate-x-0" : "translate-x-full"}
+          `}
+        >
+          {/* Menu Content */}
+          <nav className="flex flex-col h-full pt-24 px-6">
+            {/* Navigation Items */}
+            <div className="flex-1 space-y-2">
+              {navItems.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <button
+                    key={item.name}
+                    onClick={() => handleNavClick(item.name)}
+                    className={`
+                      w-full text-left px-6 py-4 rounded-xl font-semibold text-lg
+                      transition-all duration-300 transform flex items-center gap-4
+                      ${
+                        activeSection === item.name
+                          ? "bg-primary text-white shadow-lg scale-105"
+                          : "text-base-content hover:bg-accent"
+                      }
+                      ${menuOpen ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"}
+                    `}
+                    style={{
+                      transitionDelay: menuOpen ? `${index * 50}ms` : "0ms",
+                    }}
+                    aria-label={`Navigate to ${item.name}`}
+                  >
+                    <Icon size={24} />
+                    <span className="flex-1">{item.name}</span>
+                    {activeSection === item.name && (
+                      <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Footer Info */}
+            <div
+              className={`py-6 border-t border-primary/20 transition-all duration-500
+                ${menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}
+              `}
+              style={{ transitionDelay: menuOpen ? "250ms" : "0ms" }}
+            >
+              <p className="text-sm text-base-content/60 text-center">
+                © 2025 Your Portfolio
+              </p>
+            </div>
           </nav>
         </div>
       </div>
-    </header>
+    </>
   );
 };
 
