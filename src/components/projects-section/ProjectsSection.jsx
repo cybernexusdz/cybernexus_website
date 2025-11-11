@@ -10,7 +10,11 @@ import {
   Users,
   GitBranch,
 } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProjectCard from "../project-card/ProjectCard.jsx";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const sampleProjects = [
   {
@@ -87,6 +91,9 @@ export default function ProjectsSection({
   const [currentIndex, setCurrentIndex] = useState(0);
   const sectionRef = useRef(null);
   const cardsContainerRef = useRef(null);
+  const headerRef = useRef(null);
+  const statsRef = useRef(null);
+  const searchFilterRef = useRef(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
@@ -159,8 +166,78 @@ export default function ProjectsSection({
     setCurrentIndex(0);
   }, [activeTag, query]);
 
-  
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Animate header elements on scroll
+      if (headerRef.current) {
+        gsap.from(headerRef.current.children, {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            end: "top 20%",
+            scrub: 1,
+            markers: false,
+          },
+          opacity: 0,
+          y: 50,
+          stagger: 0.2,
+          duration: 1,
+        });
+      }
 
+      // Animate stats section
+      if (statsRef.current) {
+        gsap.from(statsRef.current.children, {
+          scrollTrigger: {
+            trigger: statsRef.current,
+            start: "top 85%",
+            end: "top 35%",
+            scrub: 1,
+            markers: false,
+          },
+          opacity: 0,
+          scale: 0.8,
+          stagger: 0.15,
+          duration: 1,
+        });
+      }
+
+      // Animate carousel container
+      if (cardsContainerRef.current) {
+        gsap.from(cardsContainerRef.current, {
+          scrollTrigger: {
+            trigger: cardsContainerRef.current,
+            start: "top 70%",
+            end: "top 30%",
+            scrub: 1,
+            markers: false,
+          },
+          opacity: 0,
+          y: 40,
+          duration: 1,
+        });
+      }
+
+      // Animate search and filter section
+      if (searchFilterRef.current) {
+        gsap.from(searchFilterRef.current.children, {
+          scrollTrigger: {
+            trigger: searchFilterRef.current,
+            start: "top 90%",
+            end: "top 40%",
+            scrub: 1,
+            markers: false,
+          },
+          opacity: 0,
+          y: 20,
+          stagger: 0.1,
+          duration: 0.8,
+        });
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
   const getCardStyle = (index) => {
     const diff = index - currentIndex;
     const absDiff = Math.abs(diff);
@@ -220,6 +297,7 @@ export default function ProjectsSection({
       <div className="max-w-7xl mx-auto w-full space-y-8 relative z-10">
         {/* Header */}
         <div
+          ref={headerRef}
           className={`text-center space-y-3 transition-all duration-1000 `}
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 rounded-full text-primary text-sm font-semibold border border-primary/20 shadow-md">
@@ -244,6 +322,7 @@ export default function ProjectsSection({
 
         {/* Stats */}
         <div
+          ref={statsRef}
           className={`flex items-center justify-center gap-6 sm:gap-10 transition-all duration-1000 delay-200 `}
         >
           <div className="text-center group">
@@ -360,6 +439,7 @@ export default function ProjectsSection({
 
         {/* Search and Filter Bar */}
         <div
+          ref={searchFilterRef}
           className={`flex flex-col sm:flex-row items-center justify-center gap-3 transition-all duration-1000 delay-100 `}
         >
           <div className="relative w-full sm:w-72">

@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import { Handshake, Coins } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const defaultSponsors = [
   {
@@ -15,24 +19,8 @@ export default function SponsorsSection({
   loading = false,
 }) {
   const sectionRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const theme = localStorage.getItem("theme") || "boyLight";
-    document.documentElement.setAttribute("data-theme", theme);
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
-      },
-      { threshold: 0.1 },
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const headerRef = useRef(null);
+  const sponsorsGridRef = useRef(null);
 
   const list = useMemo(
     () =>
@@ -54,6 +42,65 @@ export default function SponsorsSection({
     }
   };
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Animate header section
+      if (headerRef.current) {
+        gsap.from(headerRef.current.children, {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            end: "top 20%",
+            scrub: 1,
+            markers: false,
+          },
+          opacity: 0,
+          y: 30,
+          stagger: 0.1,
+          duration: 0.8,
+        });
+      }
+
+      // Animate sponsors grid
+      if (sponsorsGridRef.current) {
+        gsap.from(sponsorsGridRef.current, {
+          scrollTrigger: {
+            trigger: sponsorsGridRef.current,
+            start: "top 70%",
+            end: "top 30%",
+            scrub: 1,
+            markers: false,
+          },
+          opacity: 0,
+          y: 50,
+          duration: 1,
+        });
+
+        // Animate individual sponsor cards
+        const sponsorCards =
+          sponsorsGridRef.current.querySelectorAll(".sponsor-card");
+        if (sponsorCards.length > 0) {
+          gsap.from(sponsorCards, {
+            scrollTrigger: {
+              trigger: sponsorsGridRef.current,
+              start: "top 65%",
+              end: "top 25%",
+              scrub: 1,
+              markers: false,
+            },
+            opacity: 0,
+            scale: 0.8,
+            y: 20,
+            stagger: 0.1,
+            duration: 0.9,
+          });
+        }
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
       ref={sectionRef}
@@ -69,9 +116,8 @@ export default function SponsorsSection({
 
       <div className="max-w-7xl mx-auto w-full space-y-8 relative z-10">
         <div
-          className={`text-center space-y-3 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          ref={headerRef}
+          className={`text-center space-y-3 transition-all duration-1000`}
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 rounded-full text-primary text-sm font-semibold border border-primary/20 shadow-md">
             <Handshake className="w-4 h-4 animate-pulse" />
@@ -100,6 +146,7 @@ export default function SponsorsSection({
               </div>
             ) : (
               <div
+                ref={sponsorsGridRef}
                 className={`grid gap-6 ${
                   list.length === 1
                     ? "grid-cols-1"
@@ -109,7 +156,7 @@ export default function SponsorsSection({
                 {list.map((s) => (
                   <div
                     key={s.id}
-                    className="flex flex-col items-center text-center p-6 rounded-2xl bg-gradient-to-r from-base-200/40 via-base-200/30 to-base-200/40 border border-base-content/10 shadow-lg"
+                    className="flex flex-col items-center text-center p-6 rounded-2xl bg-gradient-to-r from-base-200/40 via-base-200/30 to-base-200/40 border border-base-content/10 shadow-lg sponsor-card"
                   >
                     {/* Outer clickable area converted to an accessible div (not <a>) */}
                     <div

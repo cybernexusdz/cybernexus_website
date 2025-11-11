@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Mail, MapPin, Send } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import emailjs from "@emailjs/browser";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -9,6 +13,11 @@ export default function ContactSection() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const formContainerRef = useRef(null);
+  const mapContainerRef = useRef(null);
 
   const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
   const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
@@ -56,15 +65,73 @@ export default function ContactSection() {
     }
   };
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Animate header section
+      if (headerRef.current) {
+        gsap.from(headerRef.current.children, {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            end: "top 20%",
+            scrub: 1,
+            markers: false,
+          },
+          opacity: 0,
+          y: 30,
+          stagger: 0.1,
+          duration: 0.8,
+        });
+      }
+
+      // Animate form container
+      if (formContainerRef.current) {
+        gsap.from(formContainerRef.current, {
+          scrollTrigger: {
+            trigger: formContainerRef.current,
+            start: "top 75%",
+            end: "top 25%",
+            scrub: 1,
+            markers: false,
+          },
+          opacity: 0,
+          x: -50,
+          duration: 1,
+        });
+      }
+
+      // Animate map container
+      if (mapContainerRef.current) {
+        gsap.from(mapContainerRef.current, {
+          scrollTrigger: {
+            trigger: mapContainerRef.current,
+            start: "top 75%",
+            end: "top 25%",
+            scrub: 1,
+            markers: false,
+          },
+          opacity: 0,
+          x: 50,
+          duration: 1,
+        });
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="py-16 px-4 bg-base-100">
+    <section ref={sectionRef} className="py-16 px-4 bg-base-100">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className=" mb-12 px-4">
-          <h2 className="text-4xl font-bold text-base-content mb-4">
-            Get In Touch
+        <div ref={headerRef} className=" mb-12 px-4">
+          <h2 className="text-4xl sm:text-5xl font-bold text-base-content text-center">
+            Get In
+            <span className=" ml-5 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient">
+              Touch
+            </span>
           </h2>
-          <p className=" text-lg text-start text-content/70  ">
+          <p className="text-base sm:text-lg text-base-content/70 max-w-2xl mx-auto leading-relaxed mt-10 text-center">
             Interested in partnering with CYBERNEXUS? We welcome collaborations
             with companies and organizations looking to support tech innovation
             and student development.
@@ -73,7 +140,10 @@ export default function ContactSection() {
 
         <div className="grid lg:grid-cols-2 gap-8 items-start">
           {/* Contact Form */}
-          <div className="bg-accent rounded-2xl p-8 shadow-lg">
+          <div
+            ref={formContainerRef}
+            className="bg-accent rounded-2xl p-8 shadow-lg"
+          >
             <h3 className="text-2xl font-bold text-base-content mb-6">
               Send us a message
             </h3>
@@ -149,7 +219,10 @@ export default function ContactSection() {
           </div>
 
           {/* Map */}
-          <div className="bg-accent rounded-2xl p-8 shadow-lg">
+          <div
+            ref={mapContainerRef}
+            className="bg-accent rounded-2xl p-8 shadow-lg"
+          >
             <h3 className="text-2xl font-bold text-base-content mb-6">
               Our Location
             </h3>

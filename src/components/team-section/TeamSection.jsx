@@ -1,11 +1,18 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProfileCard from "./ProfileCard";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function TeamSection() {
   const [currentIndex, setCurrentIndex] = useState(3);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const carouselRef = useRef(null);
 
   const teamMembers = [
     {
@@ -121,8 +128,70 @@ export default function TeamSection() {
 
   const visibleCards = getVisibleCards();
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Animate header section
+      if (headerRef.current) {
+        gsap.from(headerRef.current.children, {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            end: "top 20%",
+            scrub: 1,
+            markers: false,
+          },
+          opacity: 0,
+          y: 50,
+          stagger: 0.15,
+          duration: 1,
+        });
+      }
+
+      // Animate carousel container with cards
+      if (carouselRef.current) {
+        gsap.from(carouselRef.current, {
+          scrollTrigger: {
+            trigger: carouselRef.current,
+            start: "top 70%",
+            end: "top 30%",
+            scrub: 1,
+            markers: false,
+          },
+          opacity: 0,
+          y: 60,
+          duration: 1,
+        });
+
+        // Add a subtle scale animation to carousel cards
+        const cards = carouselRef.current.querySelectorAll(
+          ".profile-card-wrapper",
+        );
+        if (cards.length > 0) {
+          gsap.from(cards, {
+            scrollTrigger: {
+              trigger: carouselRef.current,
+              start: "top 65%",
+              end: "top 25%",
+              scrub: 1,
+              markers: false,
+            },
+            scale: 0.8,
+            opacity: 0,
+            stagger: 0.1,
+            duration: 1,
+          });
+        }
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="min-h-screen py-12 px-4 sm:px-6 lg:px-10 bg-gradient-to-b from-base-100 via-base-200/30 to-base-100 relative overflow-hidden flex items-center">
+    <section
+      ref={sectionRef}
+      className="min-h-screen py-12 px-4 sm:px-6 lg:px-10 bg-gradient-to-b from-base-100 via-base-200/30 to-base-100 relative overflow-hidden flex items-center"
+    >
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
@@ -134,7 +203,10 @@ export default function TeamSection() {
 
       <div className="max-w-[1800px] mx-auto space-y-12 w-full relative z-10">
         {/* Header */}
-        <div className="text-center space-y-3 transition-all duration-1000">
+        <div
+          ref={headerRef}
+          className="text-center space-y-3 transition-all duration-1000"
+        >
           <h2 className="text-4xl sm:text-5xl font-bold text-base-content">
             Meet Our{" "}
             <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient">
@@ -151,6 +223,7 @@ export default function TeamSection() {
 
         {/* Carousel */}
         <div
+          ref={carouselRef}
           className="relative px-4 sm:px-8 md:px-16 lg:px-20"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -194,7 +267,7 @@ export default function TeamSection() {
                 return (
                   <div
                     key={member.id}
-                    className="absolute transition-all duration-500 ease-out"
+                    className="absolute transition-all duration-500 ease-out profile-card-wrapper"
                     style={{
                       transform: `translateX(${translateX}px) scale(${baseScale})`,
                       opacity: baseOpacity,
