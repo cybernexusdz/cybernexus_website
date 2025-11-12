@@ -12,7 +12,11 @@ import {
   Users,
 } from "lucide-react";
 
-const Navbar = ({ handleScrollComponent = (item) => console.log(item) }) => {
+const Navbar = ({
+  theme,
+  setTheme,
+  handleScrollComponent = (item) => console.log(item),
+}) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -162,13 +166,13 @@ const Navbar = ({ handleScrollComponent = (item) => console.log(item) }) => {
               );
             })}
             <div className="ml-2">
-              <ToggleTheme />
+              <ToggleTheme theme={theme} setTheme={setTheme} />
             </div>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-2">
-            <ToggleTheme />
+            <ToggleTheme theme={theme} setTheme={setTheme} />
             <button
               className="text-base-content hover:text-primary transition p-2 hover:bg-primary/10 rounded-lg relative z-50"
               onClick={() => setMenuOpen(!menuOpen)}

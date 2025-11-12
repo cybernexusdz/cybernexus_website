@@ -1,35 +1,37 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Sun, Moon, Heart, Star } from "lucide-react";
 
 const themes = [
   {
     name: "boyLight",
+    robot: "boy",
     label: "Boy • Light",
     icon: <Sun className="w-5 h-5 text-blue-500" />,
   },
   {
     name: "boyDark",
+    robot: "boy",
     label: "Boy • Dark",
     icon: <Moon className="w-5 h-5 text-cyan-400" />,
   },
   {
     name: "girlLight",
+    robot: "girl",
+
     label: "Girl • Light",
     icon: <Heart className="w-5 h-5 text-pink-500" />,
   },
   {
     name: "girlDark",
+    robot: "girl",
     label: "Girl • Dark",
     icon: <Star className="w-5 h-5 text-fuchsia-400" />,
   },
 ];
 
-export default function ThemeToggle() {
-  const [theme, setTheme] = useState(
-    localStorage.getItem("theme") || "boyLight",
-  );
-
+export default function ThemeToggle({ theme, setTheme }) {
   useEffect(() => {
+    console.log("this");
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
@@ -55,7 +57,10 @@ export default function ThemeToggle() {
         {themes.map((t) => (
           <li key={t.name}>
             <button
-              onClick={() => setTheme(t.name)}
+              onClick={() => {
+                setTheme(t.name);
+                localStorage.setItem("robot", t.robot);
+              }}
               className={`flex items-center gap-2 ${
                 theme === t.name ? "active bg-primary text-base-100" : ""
               }`}
