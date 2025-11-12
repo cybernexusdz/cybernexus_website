@@ -7,8 +7,12 @@ import ProjectsSection from "./components/projects-section/ProjectsSection";
 import Separator from "./components/ui/Separator";
 import ContactSection from "./components/contact-section/ContactSection";
 import TeamSection from "./components/team-section/TeamSection";
+import { useState } from "react";
 
 function App() {
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") || "boyLight",
+  );
   const handleScrollComponent = (id) => {
     const element = document.getElementById(id);
     if (element) {
@@ -18,10 +22,14 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-navyDark to-purpleDeep">
-      <Navbar handleScrollComponent={handleScrollComponent} />
+      <Navbar
+        theme={theme}
+        setTheme={setTheme}
+        handleScrollComponent={handleScrollComponent}
+      />
       {/* Hero Section */}
       <section id="Hero">
-        <HeroSection />
+        <HeroSection theme={theme} />
       </section>
       <Separator />
       <section id="Team Members">
