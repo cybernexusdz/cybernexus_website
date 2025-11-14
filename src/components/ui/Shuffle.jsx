@@ -351,7 +351,6 @@ const Shuffle = ({
   const baseTw =
     "inline-block whitespace-normal break-words will-change-transform uppercase text-xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl leading-tight sm:leading-none font-bold";
 
-
   const classes =
     `${baseTw} ${ready ? "visible" : "invisible"} ${className}`.trim();
 

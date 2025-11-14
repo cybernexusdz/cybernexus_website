@@ -10,9 +10,11 @@ import {
   Rocket,
   Send,
 } from "lucide-react";
+import useGlitchAnimation from "../../hooks/useGlitchAnimation";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { ref: glitchRef } = useGlitchAnimation({ repeatDelay: 3 });
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -53,7 +55,10 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="lg:col-span-1 space-y-8">
             <div className="space-y-5">
-              <h3 className="text-base-content font-bold text-5xl bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-pulse pb-2">
+              <h3
+                ref={glitchRef}
+                className="text-base-content font-bold text-5xl bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-pulse pb-2"
+              >
                 CyberNexus
               </h3>
               <p className="text-base-content/70 leading-relaxed text-base">

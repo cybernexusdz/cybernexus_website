@@ -13,6 +13,7 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProjectCard from "../project-card/ProjectCard.jsx";
+import useGlitchAnimation from "../../hooks/useGlitchAnimation.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -88,6 +89,7 @@ export default function ProjectsSection({
 }) {
   const [query, setQuery] = useState("");
   const [activeTag, setActiveTag] = useState(ALL_TAG);
+  const { ref: glitchRef } = useGlitchAnimation({ repeatDelay: 3 });
   const [currentIndex, setCurrentIndex] = useState(0);
   const sectionRef = useRef(null);
   const cardsContainerRef = useRef(null);
@@ -308,7 +310,10 @@ export default function ProjectsSection({
 
           <h2 className="text-4xl sm:text-5xl font-bold text-base-content">
             What We're{" "}
-            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient">
+            <span
+              ref={glitchRef}
+              className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient"
+            >
               Building
             </span>
           </h2>

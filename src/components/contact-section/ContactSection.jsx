@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Mail, MapPin, Send } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import useGlitchAnimation from "../../hooks/useGlitchAnimation";
 import emailjs from "@emailjs/browser";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,6 +15,7 @@ export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
+  const { ref: glitchRef } = useGlitchAnimation({ repeatDelay: 3 });
   const sectionRef = useRef(null);
   const headerRef = useRef(null);
   const formContainerRef = useRef(null);
@@ -127,7 +129,10 @@ export default function ContactSection() {
         <div ref={headerRef} className=" mb-12 px-4">
           <h2 className="text-4xl sm:text-5xl font-bold text-base-content text-center">
             Get In
-            <span className=" ml-5 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient">
+            <span
+              ref={glitchRef}
+              className=" ml-5 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient"
+            >
               Touch
             </span>
           </h2>
@@ -257,12 +262,3 @@ export default function ContactSection() {
     </section>
   );
 }
-
-<div className=" mb-12 px-4">
-  <h2 className="text-4xl font-bold text-base-content mb-4">Get In Touch</h2>
-  <p className=" text-lg text-start text-content/70  ">
-    Interested in partnering with CYBERNEXUS? We welcome collaborations with
-    companies and organizations looking to support tech innovation and student
-    development.
-  </p>
-</div>;

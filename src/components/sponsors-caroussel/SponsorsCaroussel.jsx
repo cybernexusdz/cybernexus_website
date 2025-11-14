@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { Handshake, Coins } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import useGlitchAnimation from "../../hooks/useGlitchAnimation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,6 +20,7 @@ export default function SponsorsSection({
   loading = false,
 }) {
   const sectionRef = useRef(null);
+  const { ref: glitchRef } = useGlitchAnimation({ repeatDelay: 3 });
   const headerRef = useRef(null);
   const sponsorsGridRef = useRef(null);
 
@@ -127,7 +129,10 @@ export default function SponsorsSection({
 
           <h2 className="text-4xl sm:text-5xl font-bold text-base-content">
             Supporting The{" "}
-            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient">
+            <span
+              ref={glitchRef}
+              className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient"
+            >
               Nexian
             </span>{" "}
             Mission

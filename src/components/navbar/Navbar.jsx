@@ -25,8 +25,8 @@ const Navbar = ({
   const navItems = [
     { name: "Hero", icon: Home },
     { name: "Blog", icon: BookOpen },
-    { name: "Projects", icon: FolderGit2 },
     { name: "Team Members", icon: Users },
+    { name: "Projects", icon: FolderGit2 },
     { name: "Sponsors", icon: Heart },
     { name: "Contact", icon: Mail },
   ];
@@ -238,18 +238,6 @@ const Navbar = ({
                   </button>
                 );
               })}
-            </div>
-
-            {/* Footer Info */}
-            <div
-              className={`py-6 border-t border-primary/20 transition-all duration-500
-                ${menuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}
-              `}
-              style={{ transitionDelay: menuOpen ? "250ms" : "0ms" }}
-            >
-              <p className="text-sm text-base-content/60 text-center">
-                © 2025 Your Portfolio
-              </p>
             </div>
           </nav>
         </div>

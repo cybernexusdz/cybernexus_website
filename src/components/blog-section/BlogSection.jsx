@@ -1,15 +1,14 @@
-import React, { useMemo, useState, useRef, useEffect } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import useGlitchAnimation from "../../hooks/useGlitchAnimation";
 
 import image1 from "./images/cc62374db4003c3af0243e519cfa96f159ecb65a (1).jpg";
 
 import image2 from "./images/6354f8b78b2e2e6e1d0f1d3fa5b5074050fb3647.png";
-
-import logoImage from "./images/6354f8b78b2e2e6e1d0f1d3fa5b5074050fb3647.png";
 
 import en from "../locales/en.json";
 
@@ -74,6 +73,7 @@ const mockArticles = [
 
 const BlogSection = ({ languageCode = "en" }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { ref: glitchRef } = useGlitchAnimation({ repeatDelay: 3 });
 
   const t = useMemo(() => {
     const dict = { en };
@@ -105,8 +105,6 @@ const BlogSection = ({ languageCode = "en" }) => {
   const goToSlide = (index) => {
     setCurrentIndex(index);
   };
-
-  const startIndex = currentIndex * itemsPerPage;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -224,8 +222,11 @@ const BlogSection = ({ languageCode = "en" }) => {
           className="text-center space-y-3 transition-all duration-1000"
         >
           <h2 className="text-4xl sm:text-5xl font-bold text-base-content">
-            Blog &
-            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient">
+            Blog &{" "}
+            <span
+              ref={glitchRef}
+              className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient"
+            >
               News
             </span>
           </h2>
