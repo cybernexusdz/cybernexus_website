@@ -64,7 +64,7 @@ const teamMembers = [
   {
     id: 2,
     name: "Kamel",
-    role: "Student",
+    role: "Content Creator",
     image: "/kamel-image-front.png",
     borderClass: "border-purple-500/50",
     bgGradientClass: "from-purple-500/10 to-fuchsia-500/5",
@@ -77,7 +77,7 @@ const teamMembers = [
       {
         icon: Globe,
         label: "Portfolio",
-        href: "https://portfolio-beige-five-34.vercel.app/",
+        href: "https://portfolio-78b26d2ur-kamelabas-projects.vercel.app/",
       },
     ],
     backContent: (
