@@ -86,7 +86,7 @@ export default function ContactSection() {
         });
       }
 
-      // Animate form container
+      // Animate form container - fixed for mobile
       if (formContainerRef.current) {
         gsap.from(formContainerRef.current, {
           scrollTrigger: {
@@ -97,12 +97,13 @@ export default function ContactSection() {
             markers: false,
           },
           opacity: 0,
-          x: -50,
+          x: window.innerWidth > 1024 ? -50 : 0, // Only animate x on desktop
+          y: window.innerWidth <= 1024 ? 30 : 0, // Animate y on mobile/tablet
           duration: 1,
         });
       }
 
-      // Animate map container
+      // Animate map container - fixed for mobile
       if (mapContainerRef.current) {
         gsap.from(mapContainerRef.current, {
           scrollTrigger: {
@@ -113,7 +114,8 @@ export default function ContactSection() {
             markers: false,
           },
           opacity: 0,
-          x: 50,
+          x: window.innerWidth > 1024 ? 50 : 0, // Only animate x on desktop
+          y: window.innerWidth <= 1024 ? 30 : 0, // Animate y on mobile/tablet
           duration: 1,
         });
       }
@@ -123,47 +125,51 @@ export default function ContactSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-16 px-4 bg-base-100">
-      <div className="max-w-7xl mx-auto">
+    <section
+      ref={sectionRef}
+      className="py-16 px-4 bg-base-100 overflow-hidden"
+      id="Contact"
+    >
+      <div className="max-w-7xl mx-auto w-full">
         {/* Section Header */}
-        <div ref={headerRef} className=" mb-12 px-4">
-          <h2 className="text-4xl sm:text-5xl font-bold text-base-content text-center">
+        <div ref={headerRef} className="mb-8 sm:mb-12 px-2 sm:px-4 w-full">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-base-content text-center">
             Get In
             <span
               ref={glitchRef}
-              className=" ml-5 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient"
+              className="ml-2 sm:ml-3 lg:ml-5 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient"
             >
               Touch
             </span>
           </h2>
-          <p className="text-base sm:text-lg text-base-content/70 max-w-2xl mx-auto leading-relaxed mt-10 text-center">
+          <p className="text-sm sm:text-base lg:text-lg text-base-content/70 max-w-2xl mx-auto leading-relaxed mt-6 sm:mt-8 lg:mt-10 text-center px-2">
             Interested in partnering with CYBERNEXUS? We welcome collaborations
             with companies and organizations looking to support tech innovation
             and student development.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 items-start w-full px-2 sm:px-0">
           {/* Contact Form */}
           <div
             ref={formContainerRef}
-            className="bg-accent rounded-2xl p-8 shadow-lg"
+            className="bg-accent rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg w-full"
           >
-            <h3 className="text-2xl font-bold text-base-content mb-6">
+            <h3 className="text-xl sm:text-2xl font-bold text-base-content mb-4 sm:mb-6">
               Send us a message
             </h3>
 
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Email Input */}
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-base-content font-medium mb-2"
+                  className="block text-base-content font-medium mb-2 text-sm sm:text-base"
                 >
                   Your Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-base-content/50 w-5 h-5" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-base-content/50 w-4 h-4 sm:w-5 sm:h-5" />
                   <input
                     type="email"
                     id="email"
@@ -171,7 +177,7 @@ export default function ContactSection() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="you@example.com"
-                    className="w-full pl-12 pr-4 py-3 bg-base-100 border-2 border-base-content/10 rounded-xl focus:border-primary focus:outline-none transition-colors text-base-content"
+                    className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2 sm:py-3 bg-base-100 border-2 border-base-content/10 rounded-lg sm:rounded-xl focus:border-primary focus:outline-none transition-colors text-base-content text-sm sm:text-base"
                   />
                 </div>
               </div>
@@ -180,7 +186,7 @@ export default function ContactSection() {
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-base-content font-medium mb-2"
+                  className="block text-base-content font-medium mb-2 text-sm sm:text-base"
                 >
                   Your Message
                 </label>
@@ -189,9 +195,9 @@ export default function ContactSection() {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  rows="6"
+                  rows="4"
                   placeholder="Tell us what you're interested in..."
-                  className="w-full px-4 py-3 bg-base-100 border-2 border-base-content/10 rounded-xl focus:border-primary focus:outline-none transition-colors resize-none text-base-content"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-base-100 border-2 border-base-content/10 rounded-lg sm:rounded-xl focus:border-primary focus:outline-none transition-colors resize-none text-base-content text-sm sm:text-base"
                 />
               </div>
 
@@ -199,7 +205,7 @@ export default function ContactSection() {
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting || !formData.email || !formData.message}
-                className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 sm:py-4 rounded-lg sm:rounded-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
               >
                 {isSubmitting ? (
                   <>
@@ -208,7 +214,7 @@ export default function ContactSection() {
                   </>
                 ) : (
                   <>
-                    <Send className="w-5 h-5" />
+                    <Send className="w-4 h-4 sm:w-5 sm:h-5" />
                     Send Message
                   </>
                 )}
@@ -216,7 +222,7 @@ export default function ContactSection() {
 
               {/* Success Message */}
               {submitStatus === "success" && (
-                <div className="bg-success/10 border-2 border-success text-success px-4 py-3 rounded-xl text-center font-medium">
+                <div className="bg-success/10 border-2 border-success text-success px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl text-center font-medium text-sm sm:text-base">
                   ✓ Message sent successfully! We'll get back to you soon.
                 </div>
               )}
@@ -226,15 +232,15 @@ export default function ContactSection() {
           {/* Map */}
           <div
             ref={mapContainerRef}
-            className="bg-accent rounded-2xl p-8 shadow-lg"
+            className="bg-accent rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg w-full"
           >
-            <h3 className="text-2xl font-bold text-base-content mb-6">
+            <h3 className="text-xl sm:text-2xl font-bold text-base-content mb-4 sm:mb-6">
               Our Location
             </h3>
 
             <div className="mb-4 flex items-start gap-3 text-base-content/80">
-              <MapPin className="w-5 h-5 mt-1 text-primary flex-shrink-0" />
-              <div>
+              <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mt-0.5 sm:mt-1 text-primary flex-shrink-0" />
+              <div className="text-sm sm:text-base">
                 <p className="font-medium text-base-content">
                   Ibn Khaldoun University
                 </p>
@@ -244,7 +250,7 @@ export default function ContactSection() {
             </div>
 
             {/* Google Maps Embed */}
-            <div className="w-full h-[400px] rounded-xl overflow-hidden border-2 border-base-content/10">
+            <div className="w-full h-[250px] sm:h-[300px] lg:h-[400px] rounded-lg sm:rounded-xl overflow-hidden border-2 border-base-content/10">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2736.4522640683!2d1.3209439433091803!3d35.350471531917535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1286d1b08df59eab%3A0xd7ba2589aab1d516!2z2YPZhNmK2Kkg2KfZhNix2YrYp9i22YrYp9iqINmIINin2YTYp9i52YTYp9mFINin2YTYotmE2Yo!5e0!3m2!1sen!2sdz!4v1762766791505!5m2!1sen!2sdz"
                 width="100%"
@@ -254,6 +260,7 @@ export default function ContactSection() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 title="Ibn Khaldoun University Tiaret Location"
+                className="w-full h-full"
               />
             </div>
           </div>
