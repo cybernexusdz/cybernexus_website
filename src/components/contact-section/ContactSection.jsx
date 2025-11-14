@@ -113,7 +113,6 @@ export default function ContactSection() {
             markers: false,
           },
           opacity: 0,
-          x: 50,
           duration: 1,
         });
       }
