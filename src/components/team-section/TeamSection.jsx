@@ -107,12 +107,133 @@ const teamMembers = [
       tiltStrength: 13,
     },
   },
+  {
+    id: 11,
+    name: "Farah",
+    role: "Content Creator",
+    image: "/farah-image-front.png",
+    borderClass: "border-purple-500/50",
+    bgGradientClass: "from-purple-500/10 to-fuchsia-500/5",
+    accentClass: "text-purple-400",
+    iconColor: "text-base-content",
+    iconBgColor: "bg-base-100/10",
+    iconBorderColor: "border-base-content/20",
+    socialLinks: [
+      {
+        icon: Linkedin,
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/feed/?trk=guest_homepage-basic_google-one-tap-submit",
+      },
+      {
+        icon: Github,
+        label: "GitHub",
+        href: "https://github.com/FarahTechOdyssey",
+      },
+    ],
+    backContent: (
+      <div className="relative w-full h-full flex items-center justify-center p-6 text-center">
+        <div
+          className="absolute inset-0 rounded-3xl pointer-events-none -z-10 overflow-hidden"
+          aria-hidden="true"
+        >
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(124,58,237,0.06), rgba(49,46,129,0.03))",
+            }}
+          />
+
+          {/* stars layer fills entire back face */}
+          <div className="absolute inset-0 stars-layer" />
+
+          {/* optional soft glow behind icon (centered) */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-36 h-36 rounded-full blur-3xl opacity-20 bg-purple-400/30" />
+          </div>
+        </div>
+
+        {/* FOREGROUND content (kept above decorations) */}
+        <div className="z-10 flex flex-col items-center gap-2">
+          {/* network icon badge */}
+          <div
+            className="mx-auto mb-1 w-24 h-24 rounded-full flex items-center justify-center
+                      bg-base-100/60 border border-base-content/10 shadow-md backdrop-blur-sm"
+          >
+            <Network
+              className="w-12 h-12 text-purple-400 animate-network"
+              aria-hidden="true"
+            />
+          </div>
+
+          <h3 className="text-xl font-bold text-purple-400">Farah</h3>
+          <p className="text-sm text-base-content/80">Content Creator</p>
+          <p className="text-xs text-base-content/70">Master 1 Network</p>
+
+          <div className="mt-1 text-sm">
+            <p>Navigating the digital cosmos ⭐</p>
+          </div>
+        </div>
+
+        {/* CSS: full-card stars + small animations; respects reduced motion */}
+        <style>{`
+      /* subtle floating for the network icon */
+      @keyframes floatSmall {
+        0% { transform: translateY(0) rotate(-2deg); }
+        50% { transform: translateY(-6px) rotate(2deg); }
+        100% { transform: translateY(0) rotate(-2deg); }
+      }
+      .animate-network { animation: floatSmall 4s ease-in-out infinite; }
+
+      /* Stars layer: use multiple radial-gradients for scattered stars */
+      .stars-layer {
+        background:
+          radial-gradient(circle at 8% 18%, rgba(255,255,255,0.95) 0.6px, transparent 1px),
+          radial-gradient(circle at 22% 70%, rgba(255,255,255,0.85) 0.7px, transparent 1px),
+          radial-gradient(circle at 38% 34%, rgba(255,255,255,0.65) 0.6px, transparent 1px),
+          radial-gradient(circle at 62% 14%, rgba(255,255,255,0.7) 0.6px, transparent 1px),
+          radial-gradient(circle at 80% 56%, rgba(255,255,255,0.8) 0.6px, transparent 1px),
+          /* faint additional noise for depth */
+          radial-gradient(circle at 45% 86%, rgba(255,240,200,0.15) 0.8px, transparent 2px);
+        mix-blend-mode: screen;
+        opacity: 0.9;
+        animation: twinkle 6s ease-in-out infinite;
+        transform-origin: center;
+      }
+
+      @keyframes twinkle {
+        0% { opacity: 0.75; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.02); }
+        100% { opacity: 0.75; transform: scale(1); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .animate-network, .stars-layer { animation: none !important; }
+      }
+    `}</style>
+      </div>
+    ),
+
+    theme: {
+      background:
+        "linear-gradient(180deg, rgba(245,230,255,0.10), rgba(250,240,255,0.02))",
+      rimColor: "rgba(168,85,247,0.12)",
+      gloss:
+        "radial-gradient(closest-side, rgba(255,255,255,0.06), transparent)",
+      glossOpacity: 0.9,
+      shadow: "0 22px 60px rgba(120,40,200,0.06)",
+      badge: "CC",
+      badgeClass: "bg-purple-500/15 text-purple-300",
+      animateBack: true,
+      tiltStrength: 14,
+    },
+  },
 
   {
     id: 3,
     name: "Hakim Ait Abderrahim",
-    role: "Student",
-    image: "/hakim-image-front.jpg",
+    role: "Developer",
+    image: "/Hakim.jpg",
     borderClass: "border-blue-500/50",
     bgGradientClass: "from-blue-500/10 to-cyan-500/5",
     accentClass: "text-blue-400",
@@ -139,7 +260,7 @@ const teamMembers = [
         <h3 className="text-xl font-bold text-blue-400">
           Hakim Ait Abderrahim
         </h3>
-        <p className="text-sm text-base-content/80">Student</p>
+        <p className="text-sm text-base-content/80">Developer</p>
         <p className="text-xs text-base-content/70">Master 2 GL</p>
         <p className="text-xs">
           <a href="mailto:Hakimaitabderrahim18@gmail.com">
@@ -167,7 +288,7 @@ const teamMembers = [
     id: 4,
     name: "OULD Hocine Sofiane",
     role: "Student",
-    image: "/ould-hocine-sofiane-image-front.jpg",
+    image: "/Sofiane.jpg",
     borderClass: "border-green-500/50",
     bgGradientClass: "from-green-500/10 to-emerald-500/5",
     accentClass: "text-green-400",
@@ -429,132 +550,11 @@ const teamMembers = [
       tiltStrength: 16,
     },
   },
-  {
-    id: 11,
-    name: "Farah",
-    role: "Content Creator",
-    image: "/farah-image-front.png",
-    borderClass: "border-purple-500/50",
-    bgGradientClass: "from-purple-500/10 to-fuchsia-500/5",
-    accentClass: "text-purple-400",
-    iconColor: "text-base-content",
-    iconBgColor: "bg-base-100/10",
-    iconBorderColor: "border-base-content/20",
-    socialLinks: [
-      {
-        icon: Linkedin,
-        label: "LinkedIn",
-        href: "https://www.linkedin.com/feed/?trk=guest_homepage-basic_google-one-tap-submit",
-      },
-      {
-        icon: Github,
-        label: "GitHub",
-        href: "https://github.com/FarahTechOdyssey",
-      },
-    ],
-    backContent: (
-      <div className="relative w-full h-full flex items-center justify-center p-6 text-center">
-        <div
-          className="absolute inset-0 rounded-3xl pointer-events-none -z-10 overflow-hidden"
-          aria-hidden="true"
-        >
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(124,58,237,0.06), rgba(49,46,129,0.03))",
-            }}
-          />
-
-          {/* stars layer fills entire back face */}
-          <div className="absolute inset-0 stars-layer" />
-
-          {/* optional soft glow behind icon (centered) */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-36 h-36 rounded-full blur-3xl opacity-20 bg-purple-400/30" />
-          </div>
-        </div>
-
-        {/* FOREGROUND content (kept above decorations) */}
-        <div className="z-10 flex flex-col items-center gap-2">
-          {/* network icon badge */}
-          <div
-            className="mx-auto mb-1 w-24 h-24 rounded-full flex items-center justify-center
-                      bg-base-100/60 border border-base-content/10 shadow-md backdrop-blur-sm"
-          >
-            <Network
-              className="w-12 h-12 text-purple-400 animate-network"
-              aria-hidden="true"
-            />
-          </div>
-
-          <h3 className="text-xl font-bold text-purple-400">Farah</h3>
-          <p className="text-sm text-base-content/80">Content Creator</p>
-          <p className="text-xs text-base-content/70">Master 1 Network</p>
-
-          <div className="mt-1 text-sm">
-            <p>Navigating the digital cosmos ⭐</p>
-          </div>
-        </div>
-
-        {/* CSS: full-card stars + small animations; respects reduced motion */}
-        <style>{`
-      /* subtle floating for the network icon */
-      @keyframes floatSmall {
-        0% { transform: translateY(0) rotate(-2deg); }
-        50% { transform: translateY(-6px) rotate(2deg); }
-        100% { transform: translateY(0) rotate(-2deg); }
-      }
-      .animate-network { animation: floatSmall 4s ease-in-out infinite; }
-
-      /* Stars layer: use multiple radial-gradients for scattered stars */
-      .stars-layer {
-        background:
-          radial-gradient(circle at 8% 18%, rgba(255,255,255,0.95) 0.6px, transparent 1px),
-          radial-gradient(circle at 22% 70%, rgba(255,255,255,0.85) 0.7px, transparent 1px),
-          radial-gradient(circle at 38% 34%, rgba(255,255,255,0.65) 0.6px, transparent 1px),
-          radial-gradient(circle at 62% 14%, rgba(255,255,255,0.7) 0.6px, transparent 1px),
-          radial-gradient(circle at 80% 56%, rgba(255,255,255,0.8) 0.6px, transparent 1px),
-          /* faint additional noise for depth */
-          radial-gradient(circle at 45% 86%, rgba(255,240,200,0.15) 0.8px, transparent 2px);
-        mix-blend-mode: screen;
-        opacity: 0.9;
-        animation: twinkle 6s ease-in-out infinite;
-        transform-origin: center;
-      }
-
-      @keyframes twinkle {
-        0% { opacity: 0.75; transform: scale(1); }
-        50% { opacity: 1; transform: scale(1.02); }
-        100% { opacity: 0.75; transform: scale(1); }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .animate-network, .stars-layer { animation: none !important; }
-      }
-    `}</style>
-      </div>
-    ),
-
-    theme: {
-      background:
-        "linear-gradient(180deg, rgba(245,230,255,0.10), rgba(250,240,255,0.02))",
-      rimColor: "rgba(168,85,247,0.12)",
-      gloss:
-        "radial-gradient(closest-side, rgba(255,255,255,0.06), transparent)",
-      glossOpacity: 0.9,
-      shadow: "0 22px 60px rgba(120,40,200,0.06)",
-      badge: "CC",
-      badgeClass: "bg-purple-500/15 text-purple-300",
-      animateBack: true,
-      tiltStrength: 14,
-    },
-  },
 
   {
     id: 6,
     name: "mlsvmdl",
-    role: "Developer",
+    role: " Developer",
     image: "/mlsvmdl-image-front.jpg",
     borderClass: "border-red-700/60",
     bgGradientClass: "from-red-900 to-black",
@@ -607,7 +607,7 @@ const teamMembers = [
     id: 7,
     name: "Missoum Hadi Adda",
     role: "Student",
-    image: "/missoum-hadi-adda-image-front.jpg",
+    image: "/Adda.jpg",
     borderClass: "border-indigo-500/50",
     bgGradientClass: "from-indigo-500/10 to-blue-500/5",
     accentClass: "text-indigo-400",
@@ -654,7 +654,7 @@ const teamMembers = [
     id: 8,
     name: "Bousbia Mouhhamed Bachir",
     role: "Student / Developer",
-    image: "/bousbia-mouhamed-bachir-image-front.jpg",
+    image: "/Bachir.jpg",
     borderClass: "border-cyan-500/50",
     bgGradientClass: "from-cyan-500/10 to-teal-500/5",
     accentClass: "text-cyan-400",
@@ -728,6 +728,93 @@ const teamMembers = [
         <p className="text-xs text-base-content/70">L3</p>
         <p className="text-xs">
           <a href="mailto:bedouidenia25@gmail.com">bedouidenia25@gmail.com</a>
+        </p>
+      </div>
+    ),
+    theme: {
+      background:
+        "linear-gradient(180deg, rgba(255,245,220,0.10), rgba(255,250,235,0.02))",
+      rimColor: "rgba(250,204,21,0.10)",
+      gloss:
+        "radial-gradient(closest-side, rgba(255,255,255,0.06), transparent)",
+      glossOpacity: 0.85,
+      shadow: "0 18px 40px rgba(180,120,20,0.06)",
+      badge: "DES/HR",
+      badgeClass: "bg-amber-500/15 text-amber-300",
+      animateBack: false,
+      tiltStrength: 12,
+    },
+  },{
+    id: 11,
+    name: "Amine Beridja",
+    role: "Student + Developer",
+    image: "/Amine.jpg",
+    borderClass: "border-amber-500/50",
+    bgGradientClass: "from-amber-500/10 to-yellow-500/5",
+    accentClass: "text-amber-400",
+    iconColor: "text-amber-400",
+    iconBgColor: "bg-amber-500/20",
+    iconBorderColor: "border-amber-500/50",
+    socialLinks: [
+      { icon: Mail, label: "Email", href: "Email : aminemohamed0142@gmail.com" }
+  
+    ],
+    backContent: (
+      <div className="text-center space-y-3 p-4">
+        <div className="w-16 h-16 mx-auto bg-amber-500/20 rounded-full flex items-center justify-center">
+          <Star className="w-8 h-8 text-amber-400" />
+        </div>
+        <h3 className="text-xl font-bold text-amber-400">Amine Beridja</h3>
+        <p className="text-sm text-base-content/80">Student + Developer</p>
+        <p className="text-xs text-base-content/70">L3</p>
+        <p className="text-xs">
+          <a href="Email : aminemohamed0142@gmail.com ">Email : aminemohamed0142@gmail.com 
+</a>
+        </p>
+      </div>
+    ),
+    theme: {
+      background:
+        "linear-gradient(180deg, rgba(255,245,220,0.10), rgba(255,250,235,0.02))",
+      rimColor: "rgba(250,204,21,0.10)",
+      gloss:
+        "radial-gradient(closest-side, rgba(255,255,255,0.06), transparent)",
+      glossOpacity: 0.85,
+      shadow: "0 18px 40px rgba(180,120,20,0.06)",
+      badge: "DES/HR",
+      badgeClass: "bg-amber-500/15 text-amber-300",
+      animateBack: false,
+      tiltStrength: 12,
+    },
+  },{
+    id: 12,
+    name: "Tounssi Abdessamed",
+    role: "Student ",
+    image: "/Tounssi.jpg",
+    borderClass: "border-amber-500/50",
+    bgGradientClass: "from-amber-500/10 to-yellow-500/5",
+    accentClass: "text-amber-400",
+    iconColor: "text-amber-400",
+    iconBgColor: "bg-amber-500/20",
+    iconBorderColor: "border-amber-500/50",
+    socialLinks: [
+      { icon: Mail, label: "Email", href: "mcboosabdo@gmail.com" },
+      {
+        icon: Github,
+        label: "GitHub",
+        href: "https://port-folio-hvbi.vercel.app/",
+      },
+    ],
+    backContent: (
+      <div className="text-center space-y-3 p-4">
+        <div className="w-16 h-16 mx-auto bg-amber-500/20 rounded-full flex items-center justify-center">
+          <Star className="w-8 h-8 text-amber-400" />
+        </div>
+        <h3 className="text-xl font-bold text-amber-400">Tounssi Abdessamed</h3>
+        <p className="text-sm text-base-content/80">Student</p>
+        <p className="text-xs text-base-content/70">M1 IA</p>
+        <p className="text-xs">
+          <a href="mailto:bedouidenia25@gmail.com">Email:mcboosabdo@gmail.com</a>
         </p>
       </div>
     ),
