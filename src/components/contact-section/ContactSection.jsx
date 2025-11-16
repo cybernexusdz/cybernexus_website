@@ -14,7 +14,7 @@ import emailjs from "@emailjs/browser";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Memoized sub-components to prevent unnecessary re-renders
+// Memoized sub-components - Optimized for performance
 const FormCard = memo(
   ({
     hoveredCard,
@@ -30,22 +30,22 @@ const FormCard = memo(
     systemStatusType,
   }) => (
     <div
-      className="contact-card cyber-card relative group perspective-1000 h-full"
+      className="contact-card relative group h-full"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <CornerBrackets size="md" />
 
-      <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-      <div className="absolute inset-0 rounded-2xl border-2 border-primary/40 group-hover:border-primary/80 transition-all duration-300 neon-border-subtle" />
+      {/* Simplified glow - only on hover */}
+      <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 opacity-0 group-hover:opacity-70 transition-opacity duration-500" />
 
-      {hoveredCard === 0 && (
-        <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/20 to-transparent animate-scan" />
-        </div>
-      )}
+      {/* Single border */}
+      <div className="absolute inset-0 rounded-2xl border-2 border-primary/40 group-hover:border-primary/70 transition-all duration-300" />
 
-      <div className="relative p-8 rounded-2xl bg-gradient-to-br from-base-200/80 via-base-200/60 to-base-200/80 backdrop-blur-md border-2 border-base-content/10 transition-all duration-500 group-hover:bg-base-200/90 h-full flex flex-col">
+      {/* Removed scanning effect for performance */}
+
+      {/* Removed backdrop-blur and simplified background */}
+      <div className="relative p-8 rounded-2xl bg-base-200/95 border-2 border-base-content/10 shadow-2xl transition-all duration-300 h-full flex flex-col">
         <DataLine position="top" intensity="medium" />
 
         <div className="space-y-2 mb-6">
@@ -75,7 +75,7 @@ const FormCard = memo(
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="you@example.com"
-                className="w-full pl-12 pr-4 py-3 bg-base-100/80 border-2 border-primary/20 rounded-xl focus:border-primary focus:outline-none transition-all text-base-content font-mono backdrop-blur-sm hover:border-primary/40 shadow-inner"
+                className="w-full pl-12 pr-4 py-3 bg-base-100/90 border-2 border-primary/20 rounded-xl focus:border-primary focus:outline-none transition-all text-base-content font-mono hover:border-primary/40 shadow-inner"
               />
             </div>
           </div>
@@ -94,7 +94,7 @@ const FormCard = memo(
               onChange={handleChange}
               rows="6"
               placeholder="Tell us what you're interested in..."
-              className="w-full px-4 py-3 bg-base-100/80 border-2 border-primary/20 rounded-xl focus:border-primary focus:outline-none transition-all resize-none text-base-content font-mono backdrop-blur-sm hover:border-primary/40 shadow-inner"
+              className="w-full px-4 py-3 bg-base-100/90 border-2 border-primary/20 rounded-xl focus:border-primary focus:outline-none transition-all resize-none text-base-content font-mono hover:border-primary/40 shadow-inner"
             />
           </div>
 
@@ -125,7 +125,7 @@ const FormCard = memo(
 
           {submitStatus === "success" && (
             <div className="bg-success/10 border-2 border-success/50 text-success px-4 py-3 rounded-xl text-center font-bold font-mono relative overflow-hidden">
-              <div className="absolute inset-0 scanline-slow opacity-20" />
+              {/* Removed scanline for performance */}
               <span className="relative z-10">
                 ✓ MESSAGE_TRANSMITTED_SUCCESSFULLY
               </span>
@@ -134,7 +134,7 @@ const FormCard = memo(
 
           {submitStatus === "error" && (
             <div className="bg-error/10 border-2 border-error/50 text-error px-4 py-3 rounded-xl text-center font-bold font-mono relative overflow-hidden">
-              <div className="absolute inset-0 scanline-slow opacity-20" />
+              {/* Removed scanline for performance */}
               <span className="relative z-10">✗ TRANSMISSION_FAILED</span>
             </div>
           )}
@@ -159,22 +159,22 @@ FormCard.displayName = "FormCard";
 
 const MapCard = memo(({ hoveredCard, handleMouseEnter, handleMouseLeave }) => (
   <div
-    className="contact-card cyber-card relative group perspective-1000"
+    className="contact-card relative group"
     onMouseEnter={handleMouseEnter}
     onMouseLeave={handleMouseLeave}
   >
     <CornerBrackets size="md" />
 
-    <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
-    <div className="absolute inset-0 rounded-2xl border-2 border-primary/40 group-hover:border-primary/80 transition-all duration-300 neon-border-subtle" />
+    {/* Simplified glow - only on hover */}
+    <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 opacity-0 group-hover:opacity-70 transition-opacity duration-500" />
 
-    {hoveredCard === 1 && (
-      <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/20 to-transparent animate-scan" />
-      </div>
-    )}
+    {/* Single border */}
+    <div className="absolute inset-0 rounded-2xl border-2 border-primary/40 group-hover:border-primary/70 transition-all duration-300" />
 
-    <div className="relative p-8 rounded-2xl bg-gradient-to-br from-base-200/80 via-base-200/60 to-base-200/80 backdrop-blur-md border-2 border-base-content/10 transition-all duration-500 group-hover:bg-base-200/90">
+    {/* Removed scanning effect for performance */}
+
+    {/* Removed backdrop-blur and simplified background */}
+    <div className="relative p-8 rounded-2xl bg-base-200/95 border-2 border-base-content/10 shadow-2xl transition-all duration-300">
       <DataLine position="top" intensity="medium" />
 
       <div className="space-y-2 mb-6">
@@ -201,7 +201,7 @@ const MapCard = memo(({ hoveredCard, handleMouseEnter, handleMouseLeave }) => (
       </div>
 
       <div className="w-full h-[400px] rounded-xl overflow-hidden border-2 border-primary/30 relative shadow-2xl group-hover:border-primary/50 transition-all duration-300">
-        <div className="absolute inset-0 scanline-slow opacity-30 pointer-events-none z-10" />
+        {/* Removed scanline for performance */}
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2736.4522640683!2d1.3209439433091803!3d35.350471531917535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1286d1b08df59eab%3A0xd7ba2589aab1d516!2z2YPZhNmK2Kkg2KfZhNix2YrYp9i22YrYp9iqINmIINin2YTYp9i52YTYp9mFINin2YTYotmE2Yo!5e0!3m2!1sen!2sdz!4v1762766791505!5m2!1sen!2sdz"
           width="100%"
@@ -237,31 +237,34 @@ export default function ContactSection() {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [hoveredCard, setHoveredCard] = useState(null);
 
-  const titleAnimRef = useRef(null);
+  // Single ref for animations
+  const hasAnimatedRef = useRef(false);
   const { ref: glitchRef } = useGlitchAnimation({ repeatDelay: 3 });
 
   // Scroll-triggered animations
   const headerRef = useScrollReveal({ y: 40, duration: 0.8 });
   const cardsRef = useScrollReveal({ y: 50, duration: 0.9, start: "top 80%" });
 
-  // Apply fade animation to title separately
+  // Simplified GSAP animation - single setup
   useEffect(() => {
-    if (!titleAnimRef.current) return;
+    if (hasAnimatedRef.current || !headerRef.current) return;
+    hasAnimatedRef.current = true;
 
     const ctx = gsap.context(() => {
-      gsap.set(titleAnimRef.current, { opacity: 0, y: 40 });
+      gsap.set(headerRef.current, { opacity: 0, y: 40 });
 
-      gsap.to(titleAnimRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: 0.3,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: titleAnimRef.current,
-          start: "top 80%",
-          toggleActions: "play none none none",
+      ScrollTrigger.create({
+        trigger: headerRef.current,
+        start: "top 80%",
+        onEnter: () => {
+          gsap.to(headerRef.current, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+          });
         },
+        once: true,
       });
     });
 
@@ -350,14 +353,11 @@ export default function ContactSection() {
             </TerminalBadge>
           </div>
 
-          <h2
-            ref={titleAnimRef}
-            className="text-5xl sm:text-6xl font-black text-base-content tracking-tight font-mono"
-          >
+          <h2 className="text-5xl sm:text-6xl font-black text-base-content tracking-tight font-mono">
             <span className="text-primary/60">&gt;</span> Get In{" "}
             <span
               ref={glitchRef}
-              className="relative inline-block bg-gradient-to-r from-primary via-secondary to-info bg-clip-text text-transparent animate-gradient"
+              className="relative inline-block bg-gradient-to-r from-primary via-secondary to-info bg-clip-text text-transparent"
             >
               Touch
             </span>

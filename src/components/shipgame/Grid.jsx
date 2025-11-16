@@ -59,7 +59,8 @@ function Grid({ grid, attacks, ships, type, onCellClick, disabled }) {
       } else if (isHit) {
         // Ship is hit but not sunk - show fire background (red/orange gradient)
         style.backgroundColor = "#FF4500"; // Orange-red fire color
-        style.background = "linear-gradient(135deg, #FF4500 0%, #FF6347 50%, #FF8C00 100%)";
+        style.background =
+          "linear-gradient(135deg, #FF4500 0%, #FF6347 50%, #FF8C00 100%)";
       } else {
         // Ship not hit yet - show black
         style.backgroundColor = "#000000";
@@ -84,9 +85,10 @@ function Grid({ grid, attacks, ships, type, onCellClick, disabled }) {
     const position = `${row}-${col}`;
     const attack = attacks[position];
     const ship = getShipAtPosition(position);
-    
-    let baseClasses = "aspect-square flex items-center justify-center text-sm sm:text-base md:text-lg transition-all min-w-0 select-none rounded-sm box-border m-0 border border-base-content/30";
-    
+
+    let baseClasses =
+      "aspect-square flex items-center justify-center text-sm sm:text-base md:text-lg transition-all min-w-0 select-none rounded-sm box-border m-0 border border-base-content/30";
+
     // Base cell styling
     if (type === "player" && ship) {
       // Don't add background class if ship is hit (we use inline style for fire effect)
@@ -100,10 +102,11 @@ function Grid({ grid, attacks, ships, type, onCellClick, disabled }) {
     } else {
       baseClasses += " bg-primary/15";
     }
-    
+
     // Hover state (only for bot grid, not disabled, not hit, not miss)
     if (type === "bot" && !disabled && !attack) {
-      baseClasses += " hover:bg-primary/30 hover:border-primary/50 hover:scale-105 hover:z-10 hover:relative cursor-pointer";
+      baseClasses +=
+        " hover:bg-primary/30 hover:border-primary/50 hover:scale-105 hover:z-10 hover:relative cursor-pointer";
     } else if (disabled && type === "bot") {
       baseClasses += " cursor-not-allowed opacity-70";
     } else if (type === "player") {
@@ -141,4 +144,3 @@ function Grid({ grid, attacks, ships, type, onCellClick, disabled }) {
 }
 
 export default Grid;
-

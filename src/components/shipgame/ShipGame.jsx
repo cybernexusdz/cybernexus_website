@@ -22,9 +22,14 @@ function ShipGame() {
   const botTargetingRef = useRef({ huntMode: false, lastHit: null });
   const botAttacksRef = useRef({});
   const botAttackTimeoutRef = useRef(null);
-  
+
   const handleScrollComponent = (id) => {
-    if (id === "Hero" || id === "Blog" || id === "Projects" || id === "Contact") {
+    if (
+      id === "Hero" ||
+      id === "Blog" ||
+      id === "Projects" ||
+      id === "Contact"
+    ) {
       navigate("/");
       // Small delay to ensure navigation completes before scrolling
       setTimeout(() => {
@@ -50,7 +55,10 @@ function ShipGame() {
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
   const [showGuide, setShowGuide] = useState(false);
-  const [botTargeting, setBotTargeting] = useState({ huntMode: false, lastHit: null });
+  const [botTargeting, setBotTargeting] = useState({
+    huntMode: false,
+    lastHit: null,
+  });
 
   // Initialize game
   useEffect(() => {
@@ -106,7 +114,9 @@ function ShipGame() {
       if (!updatedBotShips[shipIndex].hits.includes(position)) {
         updatedBotShips[shipIndex].hits.push(position);
       }
-      updatedBotShips[shipIndex].sunk = checkShipSunk(updatedBotShips[shipIndex]);
+      updatedBotShips[shipIndex].sunk = checkShipSunk(
+        updatedBotShips[shipIndex],
+      );
       setBotShips(updatedBotShips);
 
       if (allShipsSunk(updatedBotShips)) {
@@ -129,16 +139,19 @@ function ShipGame() {
       clearTimeout(botAttackTimeoutRef.current);
       botAttackTimeoutRef.current = null;
     }
-    
+
     if (gameOver || isPlayerTurn || botAttackingRef.current) return;
-    
+
     botAttackingRef.current = true;
 
     // Use ref to get latest attacks (always up to date)
     const currentBotAttacks = botAttacksRef.current;
-    
+
     setPlayerShips((currentPlayerShips) => {
-      const attack = calculateBotAttack(currentBotAttacks, botTargetingRef.current);
+      const attack = calculateBotAttack(
+        currentBotAttacks,
+        botTargetingRef.current,
+      );
       const position = `${attack.row}-${attack.col}`;
 
       // Check if already attacked
@@ -150,7 +163,7 @@ function ShipGame() {
 
       const { hit, shipIndex } = checkHit(currentPlayerShips, position);
       const newAttacks = { ...currentBotAttacks, [position]: { hit } };
-      
+
       // Update attacks and ref immediately
       botAttacksRef.current = newAttacks;
       setBotAttacks(newAttacks);
@@ -160,8 +173,10 @@ function ShipGame() {
         if (!updatedPlayerShips[shipIndex].hits.includes(position)) {
           updatedPlayerShips[shipIndex].hits.push(position);
         }
-        updatedPlayerShips[shipIndex].sunk = checkShipSunk(updatedPlayerShips[shipIndex]);
-        
+        updatedPlayerShips[shipIndex].sunk = checkShipSunk(
+          updatedPlayerShips[shipIndex],
+        );
+
         setPlayerShips(updatedPlayerShips);
 
         if (allShipsSunk(updatedPlayerShips)) {
@@ -220,7 +235,7 @@ function ShipGame() {
         botAttackingRef.current = false;
         setIsPlayerTurn(true);
       }
-      
+
       return currentPlayerShips;
     });
   };
@@ -235,90 +250,106 @@ function ShipGame() {
       <div className="py-8 px-4">
         <div className="max-w-[1400px] mx-auto">
           <div className="bg-base-100 rounded-[15px] p-6 md:p-8 shadow-lg relative overflow-hidden">
-          {/* Top gradient bar */}
-          <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary via-secondary to-accent opacity-60"></div>
-          
-          <h1 className="text-center text-base-content mb-5 text-[clamp(1.8em,4vw,2.5em)] font-bold">Battleship Game</h1>
-          
-          <div className="flex flex-wrap gap-2 justify-center mb-4">
-            <button
-              onClick={() => navigate("/")}
-              className="px-6 py-3 border-none rounded-lg text-lg cursor-pointer transition-all font-bold bg-secondary text-secondary-content hover:bg-secondary/90 hover:-translate-y-0.5 hover:shadow-[0_5px_15px_hsl(var(--nf)/0.3)]"
-            >
-              Back to Home
-            </button>
-            <button
-              onClick={() => setShowGuide(true)}
-              className="px-6 py-3 border-none rounded-lg text-lg cursor-pointer transition-all font-bold bg-info text-info-content hover:bg-info/90 hover:-translate-y-0.5 hover:shadow-[0_5px_15px_hsl(var(--nf)/0.3)]"
-            >
-              How to Play
-            </button>
-          </div>
+            {/* Top gradient bar */}
+            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary via-secondary to-accent opacity-60"></div>
 
-          <div
-            className={`text-center py-4 px-4 rounded-lg mb-5 text-[clamp(1em,2vw,1.2em)] font-normal ${
-              gameOver
-                ? "bg-error/20 text-error-content"
+            <h1 className="text-center text-base-content mb-5 text-[clamp(1.8em,4vw,2.5em)] font-bold">
+              Battleship Game
+            </h1>
+
+            <div className="flex flex-wrap gap-2 justify-center mb-4">
+              <button
+                onClick={() => navigate("/")}
+                className="px-6 py-3 border-none rounded-lg text-lg cursor-pointer transition-all font-bold bg-secondary text-secondary-content hover:bg-secondary/90 hover:-translate-y-0.5 hover:shadow-[0_5px_15px_hsl(var(--nf)/0.3)]"
+              >
+                Back to Home
+              </button>
+              <button
+                onClick={() => setShowGuide(true)}
+                className="px-6 py-3 border-none rounded-lg text-lg cursor-pointer transition-all font-bold bg-info text-info-content hover:bg-info/90 hover:-translate-y-0.5 hover:shadow-[0_5px_15px_hsl(var(--nf)/0.3)]"
+              >
+                How to Play
+              </button>
+            </div>
+
+            <div
+              className={`text-center py-4 px-4 rounded-lg mb-5 text-[clamp(1em,2vw,1.2em)] font-normal ${
+                gameOver
+                  ? "bg-error/20 text-error-content"
+                  : isPlayerTurn
+                    ? "bg-success/20 text-success-content"
+                    : "bg-warning/20 text-warning-content"
+              }`}
+            >
+              {gameOver
+                ? winner === "player"
+                  ? "🎉 You Won! Congratulations!"
+                  : "😔 Bot Won! Better luck next time!"
                 : isPlayerTurn
-                ? "bg-success/20 text-success-content"
-                : "bg-warning/20 text-warning-content"
-            }`}
-          >
-            {gameOver
-              ? winner === "player"
-                ? "🎉 You Won! Congratulations!"
-                : "😔 Bot Won! Better luck next time!"
-              : isPlayerTurn
-              ? "Your turn! Click on the bot's grid to attack."
-              : "🤖 Bot's Turn - Please wait..."}
-          </div>
-
-          <div className="flex gap-6 md:gap-8 justify-center items-start flex-wrap mb-5">
-            <div className="flex-1 min-w-[300px] max-w-[500px] p-5 bg-base-200/30 rounded-xl border-l-2 border-error/50 shadow-md transition-all relative overflow-hidden hover:border-error/70 hover:shadow-lg">
-              {/* Grid pattern background */}
-              <div className="absolute top-0 left-0 right-0 bottom-0 opacity-30 pointer-events-none z-0" style={{
-                backgroundImage: `linear-gradient(hsl(var(--bc)/0.1) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--bc)/0.1) 1px, transparent 1px)`,
-                backgroundSize: '20px 20px'
-              }}></div>
-              
-              <div className="relative z-10">
-                <div className="mb-4 text-[clamp(1em,2vw,1.1em)] text-base-content text-center">
-                  <strong>Your Ships {playerShips.filter((s) => !s.sunk).length}</strong>
-                </div>
-                <h2 className="text-center mb-4 text-base-content text-[clamp(1.2em,2.5vw,1.5em)] py-2 px-4 rounded-lg bg-error/10 inline-block w-full">Enemy Fleet</h2>
-                <Grid
-                  grid={botGrid}
-                  attacks={playerAttacks}
-                  ships={botShips}
-                  type="bot"
-                  onCellClick={handlePlayerAttack}
-                  disabled={!isPlayerTurn || gameOver}
-                />
-              </div>
+                  ? "Your turn! Click on the bot's grid to attack."
+                  : "🤖 Bot's Turn - Please wait..."}
             </div>
 
-            <div className="flex-1 min-w-[300px] max-w-[500px] p-5 bg-base-200/30 rounded-xl border-l-2 border-success/50 shadow-md transition-all relative overflow-hidden hover:border-success/70 hover:shadow-lg">
-              {/* Grid pattern background */}
-              <div className="absolute top-0 left-0 right-0 bottom-0 opacity-30 pointer-events-none z-0" style={{
-                backgroundImage: `linear-gradient(hsl(var(--bc)/0.1) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--bc)/0.1) 1px, transparent 1px)`,
-                backgroundSize: '20px 20px'
-              }}></div>
-              
-              <div className="relative z-10">
-                <div className="mb-4 text-[clamp(1em,2vw,1.1em)] text-base-content text-center">
-                  <strong>Bot Ships {botShips.filter((s) => !s.sunk).length}</strong>
+            <div className="flex gap-6 md:gap-8 justify-center items-start flex-wrap mb-5">
+              <div className="flex-1 min-w-[300px] max-w-[500px] p-5 bg-base-200/30 rounded-xl border-l-2 border-error/50 shadow-md transition-all relative overflow-hidden hover:border-error/70 hover:shadow-lg">
+                {/* Grid pattern background */}
+                <div
+                  className="absolute top-0 left-0 right-0 bottom-0 opacity-30 pointer-events-none z-0"
+                  style={{
+                    backgroundImage: `linear-gradient(hsl(var(--bc)/0.1) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--bc)/0.1) 1px, transparent 1px)`,
+                    backgroundSize: "20px 20px",
+                  }}
+                ></div>
+
+                <div className="relative z-10">
+                  <div className="mb-4 text-[clamp(1em,2vw,1.1em)] text-base-content text-center">
+                    <strong>
+                      Your Ships {playerShips.filter((s) => !s.sunk).length}
+                    </strong>
+                  </div>
+                  <h2 className="text-center mb-4 text-base-content text-[clamp(1.2em,2.5vw,1.5em)] py-2 px-4 rounded-lg bg-error/10 inline-block w-full">
+                    Enemy Fleet
+                  </h2>
+                  <Grid
+                    grid={botGrid}
+                    attacks={playerAttacks}
+                    ships={botShips}
+                    type="bot"
+                    onCellClick={handlePlayerAttack}
+                    disabled={!isPlayerTurn || gameOver}
+                  />
                 </div>
-                <h2 className="text-center mb-4 text-base-content text-[clamp(1.2em,2.5vw,1.5em)] py-2 px-4 rounded-lg bg-success/10 inline-block w-full">Your Fleet</h2>
-                <Grid
-                  grid={playerGrid}
-                  attacks={botAttacks}
-                  ships={playerShips}
-                  type="player"
-                  disabled={true}
-                />
+              </div>
+
+              <div className="flex-1 min-w-[300px] max-w-[500px] p-5 bg-base-200/30 rounded-xl border-l-2 border-success/50 shadow-md transition-all relative overflow-hidden hover:border-success/70 hover:shadow-lg">
+                {/* Grid pattern background */}
+                <div
+                  className="absolute top-0 left-0 right-0 bottom-0 opacity-30 pointer-events-none z-0"
+                  style={{
+                    backgroundImage: `linear-gradient(hsl(var(--bc)/0.1) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--bc)/0.1) 1px, transparent 1px)`,
+                    backgroundSize: "20px 20px",
+                  }}
+                ></div>
+
+                <div className="relative z-10">
+                  <div className="mb-4 text-[clamp(1em,2vw,1.1em)] text-base-content text-center">
+                    <strong>
+                      Bot Ships {botShips.filter((s) => !s.sunk).length}
+                    </strong>
+                  </div>
+                  <h2 className="text-center mb-4 text-base-content text-[clamp(1.2em,2.5vw,1.5em)] py-2 px-4 rounded-lg bg-success/10 inline-block w-full">
+                    Your Fleet
+                  </h2>
+                  <Grid
+                    grid={playerGrid}
+                    attacks={botAttacks}
+                    ships={playerShips}
+                    type="player"
+                    disabled={true}
+                  />
+                </div>
               </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
@@ -329,4 +360,3 @@ function ShipGame() {
 }
 
 export default ShipGame;
-

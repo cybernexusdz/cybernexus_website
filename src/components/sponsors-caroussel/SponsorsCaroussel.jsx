@@ -1,6 +1,7 @@
 import { useMemo, useState, useCallback, useRef, useEffect } from "react";
 import { Handshake, Zap, Terminal, Code2 } from "lucide-react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useGlitchAnimation from "../../hooks/useGlitchAnimation";
 import { useScrollReveal } from "../../hooks/useGsapAnimation";
 import {
@@ -9,6 +10,8 @@ import {
   DataLine,
   StatusIndicator,
 } from "../ui/CyberBackground";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const defaultSponsors = [
   {
@@ -28,7 +31,8 @@ export default function SponsorsSection({
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
 
-  const titleAnimRef = useRef(null);
+  // Single ref for animations
+  const hasAnimatedRef = useRef(false);
 
   // Apply glitch effect to "Nexian" text
   const { ref: glitchRef } = useGlitchAnimation({ repeatDelay: 3 });
@@ -37,24 +41,26 @@ export default function SponsorsSection({
   const headerRef = useScrollReveal({ y: 40, duration: 0.8 });
   const cardsRef = useScrollReveal({ y: 60, duration: 1, start: "top 75%" });
 
-  // Apply fade animation to title separately
+  // Simplified GSAP animation - single setup
   useEffect(() => {
-    if (!titleAnimRef.current) return;
+    if (hasAnimatedRef.current || !headerRef.current) return;
+    hasAnimatedRef.current = true;
 
     const ctx = gsap.context(() => {
-      gsap.set(titleAnimRef.current, { opacity: 0, y: 40 });
+      gsap.set(headerRef.current, { opacity: 0, y: 40 });
 
-      gsap.to(titleAnimRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        delay: 0.3,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: titleAnimRef.current,
-          start: "top 80%",
-          toggleActions: "play none none none",
+      ScrollTrigger.create({
+        trigger: headerRef.current,
+        start: "top 80%",
+        onEnter: () => {
+          gsap.to(headerRef.current, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+          });
         },
+        once: true,
       });
     });
 
@@ -93,14 +99,11 @@ export default function SponsorsSection({
             </TerminalBadge>
           </div>
 
-          <h2
-            ref={titleAnimRef}
-            className="text-5xl sm:text-6xl font-black text-base-content tracking-tight font-mono"
-          >
+          <h2 className="text-5xl sm:text-6xl font-black text-base-content tracking-tight font-mono">
             <span className="text-primary/60">&gt;</span> Supporting The{" "}
             <span
               ref={glitchRef}
-              className="relative inline-block bg-gradient-to-r from-primary via-secondary to-info bg-clip-text text-transparent animate-gradient"
+              className="relative inline-block bg-gradient-to-r from-primary via-secondary to-info bg-clip-text text-transparent"
             >
               Nexian
             </span>{" "}
@@ -138,28 +141,23 @@ export default function SponsorsSection({
                 {list.map((s, idx) => (
                   <div
                     key={s.id}
-                    className="sponsor-card cyber-card relative group perspective-1000"
+                    className="sponsor-card relative group"
                     onMouseEnter={() => setHoveredCard(idx)}
                     onMouseLeave={() => setHoveredCard(null)}
                   >
                     {/* Corner brackets */}
                     <CornerBrackets size="md" />
 
-                    {/* Pulsing outer glow */}
-                    <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 blur-xl opacity-60 group-hover:opacity-100 transition-all duration-500 animate-pulse-slow" />
+                    {/* Simplified glow - removed blur-xl and animate-pulse-slow */}
+                    <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 opacity-40 group-hover:opacity-70 transition-opacity duration-500" />
 
-                    {/* Main border */}
-                    <div className="absolute inset-0 rounded-2xl border-2 border-primary/40 group-hover:border-primary/80 transition-all duration-300 neon-border-subtle" />
+                    {/* Main border - removed neon-border-subtle class */}
+                    <div className="absolute inset-0 rounded-2xl border-2 border-primary/40 group-hover:border-primary/70 transition-all duration-300" />
 
-                    {/* Hover scanning effect */}
-                    {hoveredCard === idx && (
-                      <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/20 to-transparent animate-scan" />
-                      </div>
-                    )}
+                    {/* Removed scanning effect for performance */}
 
-                    {/* Card Content */}
-                    <div className="relative flex flex-col lg:flex-row items-center gap-8 p-8 lg:p-10 rounded-2xl bg-gradient-to-br from-base-200/80 via-base-200/60 to-base-200/80 backdrop-blur-md border-2 border-base-content/10 transition-all duration-500 group-hover:bg-base-200/90 group-hover:scale-[1.01]">
+                    {/* Card Content - Removed backdrop-blur and perspective */}
+                    <div className="relative flex flex-col lg:flex-row items-center gap-8 p-8 lg:p-10 rounded-2xl bg-base-200/95 border-2 border-base-content/10 shadow-2xl transition-all duration-300 group-hover:scale-[1.01]">
                       {/* Logo Section */}
                       <div
                         role="button"
@@ -170,18 +168,18 @@ export default function SponsorsSection({
                         className="flex-shrink-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 rounded-xl"
                       >
                         <div className="w-72 h-48 lg:w-80 lg:h-56 flex items-center justify-center bg-base-100/60 rounded-xl border-2 border-primary/30 p-6 group-hover:border-primary/60 transition-all duration-500 relative overflow-hidden shadow-2xl">
-                          {/* Scanline effect */}
-                          <div className="absolute inset-0 scanline-slow opacity-40" />
+                          {/* Removed scanline-slow for performance */}
 
                           {/* Data lines */}
                           <DataLine position="top" intensity="medium" />
                           <DataLine position="bottom" intensity="medium" />
 
+                          {/* Removed drop-shadow filter for performance */}
                           <img
                             src={s.logo}
                             alt={s.name}
                             loading="lazy"
-                            className="max-h-full max-w-full object-contain relative z-10 group-hover:scale-105 transition-all duration-500 filter group-hover:drop-shadow-[0_0_20px_rgba(var(--p),0.6)]"
+                            className="max-h-full max-w-full object-contain relative z-10 group-hover:scale-105 transition-all duration-500"
                           />
 
                           {/* Tier badge */}
