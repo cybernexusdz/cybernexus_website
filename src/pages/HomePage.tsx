@@ -8,24 +8,8 @@ import WhatWeDoSection from "@/components/what-we-do-section/WhatWeDoSection";
 import { useState, useEffect } from "react";
 
 const HomePage: React.FC = () => {
-  const [theme, setTheme] = useState<string>(
-    localStorage.getItem("theme") || "boyDark",
-  );
-
-  const handleScrollComponent = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navbar
-        theme={theme}
-        setTheme={setTheme}
-        handleScrollComponent={handleScrollComponent}
-      />
       <div id="Hero">
         <HeroSection />
       </div>
@@ -42,7 +26,6 @@ const HomePage: React.FC = () => {
       <div id="Contact">
         <ContactSection />
       </div>
-      <Footer />
     </div>
   );
 };

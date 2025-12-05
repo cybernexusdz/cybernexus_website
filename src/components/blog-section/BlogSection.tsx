@@ -8,10 +8,6 @@ import { useScrollReveal } from "../../hooks/useGsapAnimation";
 import ClubNewsCard from "./ClubNewsCard";
 import ArticleCard from "./ArticleCard";
 import { Article, Images, HoveredCard } from "../../types/blog";
-import image1 from "./images/cc62374db4003c3af0243e519cfa96f159ecb65a (1).jpg";
-import image2 from "./images/6354f8b78b2e2e6e1d0f1d3fa5b5074050fb3647.png";
-import openDayImage from "./images/photo_5791963918254148386_y (1).jpg";
-import shipbotImage from "./images/shipbot.png";
 
 gsap.registerPlugin(ScrollTrigger);
 

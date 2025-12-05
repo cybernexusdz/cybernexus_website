@@ -2,6 +2,7 @@ import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Code, Lightbulb, Rocket, Users, Terminal, Code2 } from "lucide-react";
 import CyberCard from "../ui/CyberCard";
+import { useCyberScrollAnimation } from "@/hooks/useCyberScrollAnimation";
 
 const activities = [
   {
@@ -47,6 +48,32 @@ const activities = [
 ];
 
 const WhatWeDoSection: React.FC = () => {
+  // Animation refs with RGB CHROMATIC ABERRATION glitch effects
+  const headerBadgeRef = useCyberScrollAnimation({
+    animation: "cyberGlitchCenter",
+    duration: 0.8,
+    delay: 0.1,
+  });
+
+  const headerTitleRef = useCyberScrollAnimation({
+    animation: "cyberGlitchCenter",
+    duration: 1.2,
+    delay: 0.3,
+  });
+
+  const headerDescRef = useCyberScrollAnimation({
+    animation: "cyberGlitchCenter",
+    duration: 0.8,
+    delay: 0.5,
+  });
+
+  const cardsRef = useCyberScrollAnimation({
+    animation: "cyberGlitchCenter",
+    duration: 1.4,
+    delay: 0.2,
+    stagger: 0.15,
+  });
+
   return (
     <section className="relative min-h-screen py-20 px-4 sm:px-6 lg:px-10 bg-background overflow-hidden flex items-center">
       {/* Animated Background Grid */}
@@ -77,7 +104,8 @@ const WhatWeDoSection: React.FC = () => {
       <div className="max-w-6xl mx-auto space-y-16 w-full relative z-10">
         {/* Header */}
         <div className="text-center space-y-6">
-          <div className="flex justify-center">
+          {/* Badge - CENTER GLITCH with RGB */}
+          <div ref={headerBadgeRef} className="flex justify-center">
             <Badge
               variant="outline"
               className="border-primary/50 bg-background/80 backdrop-blur-sm px-4 py-2 font-mono neon-border-subtle"
@@ -87,29 +115,35 @@ const WhatWeDoSection: React.FC = () => {
             </Badge>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-foreground font-mono">
-            What We{" "}
-            <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient">
-              Actually Do
-            </span>
-          </h2>
+          {/* Title - CENTER GLITCH with RGB */}
+          <div ref={headerTitleRef}>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-foreground font-mono">
+              What We{" "}
+              <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient">
+                Actually Do
+              </span>
+            </h2>
+          </div>
 
-          <p className="text-lg text-foreground/80 max-w-2xl mx-auto font-mono">
-            <span className="text-primary animate-pulse-slow">&gt;_</span> No
-            boring lectures. Just practical skills, real projects, and good
-            vibes.
-          </p>
+          {/* Description - CENTER GLITCH with RGB */}
+          <div ref={headerDescRef}>
+            <p className="text-lg text-foreground/80 max-w-2xl mx-auto font-mono">
+              <span className="text-primary animate-pulse-slow">&gt;_</span> No
+              boring lectures. Just practical skills, real projects, and good
+              vibes.
+            </p>
 
-          {/* Decorative divider */}
-          <div className="flex items-center justify-center gap-2 pt-4">
-            <Code2 className="w-4 h-4 text-primary/40 animate-pulse-fast" />
-            <div className="h-px w-64 bg-gradient-to-r from-transparent via-primary/50 to-transparent data-line" />
-            <Code2 className="w-4 h-4 text-primary/40 animate-pulse-fast" />
+            {/* Decorative divider */}
+            <div className="flex items-center justify-center gap-2 pt-4">
+              <Code2 className="w-4 h-4 text-primary/40 animate-pulse-fast" />
+              <div className="h-px w-64 bg-gradient-to-r from-transparent via-primary/50 to-transparent data-line" />
+              <Code2 className="w-4 h-4 text-primary/40 animate-pulse-fast" />
+            </div>
           </div>
         </div>
 
-        {/* Activity Cards Grid */}
-        <div className="grid md:grid-cols-2 gap-6">
+        {/* Activity Cards Grid - CENTER GLITCH with RGB + STAGGER */}
+        <div ref={cardsRef} className="grid md:grid-cols-2 gap-6">
           {activities.map((activity, index) => (
             <CyberCard
               key={index}

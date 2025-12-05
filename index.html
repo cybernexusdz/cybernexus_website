@@ -8,6 +8,29 @@
       rel="stylesheet"
     />
     <title>CyberNexus</title>
+    <script>
+      (function () {
+        // Get theme from localStorage or default
+        const theme = localStorage.getItem("theme") || "boyDark";
+        // Apply immediately to prevent FOUC
+        document.documentElement.setAttribute("data-theme", theme);
+
+        // Hide body until React is ready
+        document.documentElement.style.visibility = "hidden";
+      })();
+    </script>
+
+    <style>
+      /* Prevent flash during initial load */
+      #root {
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      #root.loaded {
+        opacity: 1;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

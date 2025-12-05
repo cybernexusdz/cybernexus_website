@@ -6,36 +6,40 @@ import GridBackground from "@/components/ui/GridBackground";
 import { useCyberScrollAnimation } from "@/hooks/useCyberScrollAnimation";
 
 const HeroSection: React.FC = () => {
-  // Animation refs for different elements
+  // Animation refs for different elements with RGB CHROMATIC ABERRATION
   const badgeRef = useCyberScrollAnimation({
-    animation: "glitchFadeIn",
+    animation: "cyberGlitchCenter",
     duration: 0.8,
     delay: 0.2,
+    start: "top 90%",
   });
 
   const titleRef = useCyberScrollAnimation({
-    animation: "matrixReveal",
+    animation: "cyberGlitchCenter",
     duration: 1.2,
     delay: 0.4,
+    start: "top 90%",
   });
 
   const subtitleRef = useCyberScrollAnimation({
-    animation: "dataStream",
+    animation: "cyberGlitchLeft",
     duration: 0.8,
     delay: 0.6,
+    start: "top 90%",
   });
 
   const descriptionRef = useCyberScrollAnimation({
-    animation: "scanlineReveal",
+    animation: "cyberGlitchRight",
     duration: 1,
     delay: 0.8,
-    stagger: 0.1,
+    start: "top 90%",
   });
 
   const ctaRef = useCyberScrollAnimation({
-    animation: "glitchFadeIn",
+    animation: "cyberGlitchCenter",
     duration: 0.8,
     delay: 1,
+    start: "top 90%",
   });
 
   return (
@@ -43,41 +47,6 @@ const HeroSection: React.FC = () => {
       {/* Circuit Board Grid */}
       <div className="absolute inset-0">
         <GridBackground />
-
-        {/* Animated circuit lines */}
-        <div className="absolute inset-0 opacity-30">
-          <svg
-            className="absolute w-full h-full"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <linearGradient
-                id="circuitGradient"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%"
-              >
-                <stop
-                  offset="0%"
-                  style={{ stopColor: "hsl(var(--primary))", stopOpacity: 0.5 }}
-                />
-                <stop
-                  offset="100%"
-                  style={{ stopColor: "hsl(var(--primary))", stopOpacity: 0 }}
-                />
-              </linearGradient>
-            </defs>
-            <path
-              d="M 0 50 L 200 50 L 200 150 L 400 150"
-              stroke="url(#circuitGradient)"
-              strokeWidth="2"
-              fill="none"
-              className="cyber-circuit-line"
-              style={{ strokeDasharray: "10 5" }}
-            />
-          </svg>
-        </div>
       </div>
 
       {/* Status Badge */}
@@ -142,7 +111,8 @@ const HeroSection: React.FC = () => {
             className="group bg-primary text-primary-foreground hover:bg-primary/90 font-mono text-lg px-8 py-6 transition-all duration-200 hover:scale-105"
           >
             <Zap className="w-5 h-5 mr-2 group-hover:animate-spin" />
-            JOIN THE NEXIANS
+            JOIN_THE_NEXIANS
+            <span className="text-xs opacity-70 ml-1">.exe</span>
           </Button>
         </a>
       </div>

@@ -161,3 +161,57 @@
     opacity: 0;
   }
 }
+
+/* Profile Card Animations */
+@keyframes profile-card-scan {
+  0% {
+    top: -128px;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.profile-card-scan {
+  animation: profile-card-scan 2s linear infinite;
+}
+
+@keyframes profile-card-glitch1 {
+  0%,
+  100% {
+    transform: translate(-2px, -1px);
+  }
+  25% {
+    transform: translate(-3px, -2px);
+  }
+  50% {
+    transform: translate(-1px, -1px);
+  }
+  75% {
+    transform: translate(-2px, 0px);
+  }
+}
+
+@keyframes profile-card-glitch2 {
+  0%,
+  100% {
+    transform: translate(2px, 1px);
+  }
+  25% {
+    transform: translate(1px, 1px);
+  }
+  50% {
+    transform: translate(3px, 2px);
+  }
+  75% {
+    transform: translate(2px, 0px);
+  }
+}
+
+.profile-card-glitch1 {
+  animation: profile-card-glitch1 0.3s infinite;
+}
+
+.profile-card-glitch2 {
+  animation: profile-card-glitch2 0.3s infinite;
+}

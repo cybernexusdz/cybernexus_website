@@ -1,21 +1,13 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "../ui/Logo";
 import ThemeToggle from "../ui/ThemeToggle";
-import {
-  Menu,
-  X,
-  Home,
-  BookOpen,
-  FolderGit2,
-  Heart,
-  Mail,
-  Users,
-  LucideIcon,
-} from "lucide-react";
+import { Menu, X, Home, BookOpen, Heart, Mail, Users } from "lucide-react";
 
 interface NavItem {
   name: string;
-  icon: LucideIcon;
+  icon: any;
+  section: string; // Section ID for scrolling
 }
 
 interface Section {
@@ -30,25 +22,26 @@ interface NavbarProps {
 }
 
 // Component
-const Navbar = ({
-  theme,
-  setTheme,
-  handleScrollComponent = (item: string) => console.log(item),
-}: NavbarProps) => {
+const Navbar = ({ theme, setTheme, handleScrollComponent }: NavbarProps) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [lastScrollY, setLastScrollY] = useState<number>(0);
   const [activeSection, setActiveSection] = useState<string>("Hero");
 
   const navItems: NavItem[] = [
-    { name: "Hero", icon: Home },
-    { name: "The Team", icon: Users },
-    { name: "What We Do", icon: BookOpen },
-    { name: "Sponsors", icon: Heart },
-    { name: "Contact", icon: Mail },
+    { name: "Hero", icon: Home, section: "Hero" },
+    { name: "The Team", icon: Users, section: "The Team" },
+    { name: "What We Do", icon: BookOpen, section: "What We Do" },
+    { name: "Sponsors", icon: Heart, section: "Sponsors" },
+    { name: "Contact", icon: Mail, section: "Contact" },
   ];
 
-  // Improved spy scrolling
+  const isHomePage = location.pathname === "/";
+  const isTeamPage = location.pathname.startsWith("/meet-the-team");
+
+  // Improved spy scrolling - only on home page
   useEffect(() => {
     const handleScroll = (): void => {
       const currentScrollY = window.scrollY;
@@ -71,8 +64,8 @@ const Navbar = ({
 
       // Better spy scrolling logic
       const sections: Section[] = navItems.map((item) => ({
-        id: item.name,
-        element: document.getElementById(item.name),
+        id: item.section,
+        element: document.getElementById(item.section),
       }));
 
       let current = "Hero";
@@ -95,13 +88,47 @@ const Navbar = ({
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+    handleScroll(); // Call immediately to set initial state
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY, navItems]);
+  }, [lastScrollY, isHomePage]);
 
-  const handleNavClick = (itemName: string): void => {
-    handleScrollComponent(itemName);
+  // Set active section based on current route
+  useEffect(() => {
+    if (isTeamPage) {
+      setActiveSection("The Team");
+    } else if (isHomePage && window.scrollY < 10) {
+      setActiveSection("Hero");
+    }
+  }, [location.pathname, isHomePage, isTeamPage]);
+
+  // Reset scroll position when navigating to home page
+  useEffect(() => {
+    if (isHomePage) {
+      // Small delay to ensure page is rendered
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
+    }
+  }, [isHomePage]);
+
+  const handleNavClick = (item: NavItem): void => {
     setMenuOpen(false);
+
+    if (isHomePage) {
+      // Already on home page, just scroll to section
+      if (handleScrollComponent) {
+        handleScrollComponent(item.section);
+      }
+    } else {
+      // Navigate to home page first, then scroll
+      navigate("/");
+      // Wait for navigation and page render, then scroll
+      setTimeout(() => {
+        if (handleScrollComponent) {
+          handleScrollComponent(item.section);
+        }
+      }, 100);
+    }
   };
 
   // Prevent body scroll when menu is open
@@ -127,6 +154,11 @@ const Navbar = ({
     return () => window.removeEventListener("keydown", handleEscape);
   }, [menuOpen]);
 
+  // Determine if a nav item is active
+  const isItemActive = (item: NavItem): boolean => {
+    return activeSection === item.section;
+  };
+
   return (
     <>
       <header
@@ -142,7 +174,12 @@ const Navbar = ({
             {/* Logo */}
             <div
               className="w-auto h-12 cursor-pointer transition-transform hover:scale-110 duration-300"
-              onClick={() => handleNavClick("Hero")}
+              onClick={() => {
+                navigate("/");
+                setTimeout(() => {
+                  window.scrollTo(0, 0);
+                }, 0);
+              }}
             >
               <Logo className="w-full h-full fill-current text-primary drop-shadow-[0_0_8px_rgba(var(--p),0.3)]" />
             </div>
@@ -151,11 +188,11 @@ const Navbar = ({
             <div className="hidden md:flex items-center gap-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
-                const isActive = activeSection === item.name;
+                const isActive = isItemActive(item);
 
                 return (
                   <button
-                    onClick={() => handleNavClick(item.name)}
+                    onClick={() => handleNavClick(item)}
                     key={item.name}
                     className={`
                       relative px-4 py-2 rounded-lg font-medium font-mono transition-all duration-300
@@ -232,12 +269,12 @@ const Navbar = ({
             <div className="flex-1 space-y-2 overflow-y-auto">
               {navItems.map((item, index) => {
                 const Icon = item.icon;
-                const isActive = activeSection === item.name;
+                const isActive = isItemActive(item);
 
                 return (
                   <button
                     key={item.name}
-                    onClick={() => handleNavClick(item.name)}
+                    onClick={() => handleNavClick(item)}
                     className={`
                       w-full text-left px-5 py-4 rounded-xl font-semibold text-base font-mono
                       transition-all duration-300 flex items-center gap-4
