@@ -75,7 +75,7 @@ src/
 1. **Fork the repository** on GitHub
 2. **Clone your fork** to your local machine:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/cybernexus_website.git
+   git clone https://github.com/cybernexusdz/cybernexus_website.git
    cd cybernexus-website
    ```
 3. **Install dependencies:**
@@ -183,7 +183,7 @@ Sync your fork with the main repository regularly:
 
 ```bash
 # Add the original repo as upstream (do this once)
-git remote add upstream https://github.com/ORIGINAL_OWNER/cybernexus-website.git
+git remote add upstream https://github.com/cybernexusdz/cybernexus-website.git
 
 # Fetch latest changes
 git fetch upstream
