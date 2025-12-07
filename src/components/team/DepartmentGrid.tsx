@@ -129,7 +129,8 @@ const DepartmentGrid: React.FC<DepartmentGridProps> = ({
 
   return (
     <section className="relative min-h-screen py-12 px-4 sm:px-6 lg:px-10 bg-background overflow-hidden">
-      <GridBackground />
+      {/* <GridBackground /> */}
+      
       <div className="max-w-6xl mx-auto space-y-8 relative z-10">
         {/* Header Section - More compact */}
         <div className="text-center space-y-4">
