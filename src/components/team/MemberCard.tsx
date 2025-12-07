@@ -1,10 +1,7 @@
-// src/components/team/MemberCard.tsx
 import React from "react";
 import { TeamMember, Department } from "@/types/team.types";
 import { X, User } from "lucide-react";
 import * as LucideIcons from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 
 interface MemberCardProps {
   member: TeamMember;

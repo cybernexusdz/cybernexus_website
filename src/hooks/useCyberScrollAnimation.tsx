@@ -14,18 +14,17 @@ export interface CyberScrollOptions {
   scrub?: boolean | number;
   markers?: boolean;
   stagger?: number;
-  // NEW: Option to apply lighter effects for cards/images
   lightMode?: boolean;
+  once?: boolean;
 }
 
 // Reusable hook for cyberpunk scroll animations with RGB chromatic aberration
 export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
   const elementRef = useRef<HTMLDivElement>(null);
-  const hasAnimated = useRef(false);
 
   useEffect(() => {
     const element = elementRef.current;
-    if (!element || hasAnimated.current) return;
+    if (!element) return;
 
     const {
       animation = "cyberGlitchCenter",
@@ -36,7 +35,8 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
       scrub = false,
       markers = false,
       stagger = 0,
-      lightMode = false, // Use lighter effects for cards/images
+      lightMode = false,
+      once = true,
     } = options;
 
     const ctx = gsap.context(() => {
@@ -71,24 +71,20 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
               toggleActions: "play none none none",
               once: true,
               markers,
-              onEnter: () => {
-                hasAnimated.current = true;
-              },
             },
           });
 
           gsap.set(targets, {
-            opacity: lightMode ? 0.3 : 0, // Start with some visibility for cards
+            opacity: lightMode ? 0.3 : 0,
             x: lightMode ? -80 : -150,
             filter: lightMode ? "blur(5px)" : "blur(20px)",
           });
 
           tlLeft
-            // Initial slide in with RGB split (lighter for cards)
             .to(targets, {
-              opacity: lightMode ? 0.9 : 0.7, // Higher opacity for cards
+              opacity: lightMode ? 0.9 : 0.7,
               x: lightMode ? -15 : -30,
-              filter: lightMode ? "blur(2px)" : "blur(10px)", // Less blur for cards
+              filter: lightMode ? "blur(2px)" : "blur(10px)",
               duration: duration * 0.3,
               delay,
               ease: "power2.out",
@@ -104,7 +100,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
                 }
               },
             })
-            // RGB glitch shake (lighter for cards)
             .to(targets, {
               x: () =>
                 gsap.utils.random(lightMode ? -10 : -30, lightMode ? 10 : 30),
@@ -174,7 +169,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
                 }
               },
             })
-            // Settle to final position
             .to(targets, {
               opacity: 1,
               x: 0,
@@ -191,7 +185,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
                 }
               },
             })
-            // Remove text shadow
             .to(targets, {
               duration: duration * 0.2,
               ease: "power2.out",
@@ -213,9 +206,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
               toggleActions: "play none none none",
               once: true,
               markers,
-              onEnter: () => {
-                hasAnimated.current = true;
-              },
             },
           });
 
@@ -226,7 +216,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
           });
 
           tlRight
-            // Initial slide in with RGB split
             .to(targets, {
               opacity: lightMode ? 0.9 : 0.7,
               x: lightMode ? 15 : 30,
@@ -246,7 +235,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
                 }
               },
             })
-            // RGB glitch shake
             .to(targets, {
               x: () =>
                 gsap.utils.random(lightMode ? -10 : -30, lightMode ? 10 : 30),
@@ -316,7 +304,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
                 }
               },
             })
-            // Settle to final position
             .to(targets, {
               opacity: 1,
               x: 0,
@@ -333,7 +320,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
                 }
               },
             })
-            // Remove text shadow
             .to(targets, {
               duration: duration * 0.2,
               ease: "power2.out",
@@ -355,9 +341,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
               toggleActions: "play none none none",
               once: true,
               markers,
-              onEnter: () => {
-                hasAnimated.current = true;
-              },
             },
           });
 
@@ -368,7 +351,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
           });
 
           tlCenter
-            // Initial fade in with RGB split
             .to(targets, {
               opacity: lightMode ? 0.9 : 0.7,
               scale: 1,
@@ -388,7 +370,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
                 }
               },
             })
-            // RGB glitch shake
             .to(targets, {
               x: () =>
                 gsap.utils.random(lightMode ? -10 : -30, lightMode ? 10 : 30),
@@ -464,7 +445,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
                 }
               },
             })
-            // Settle to final position
             .to(targets, {
               opacity: 1,
               x: 0,
@@ -482,7 +462,6 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
                 }
               },
             })
-            // Remove text shadow
             .to(targets, {
               duration: duration * 0.2,
               ease: "power2.out",
@@ -501,7 +480,14 @@ export const useCyberScrollAnimation = (options: CyberScrollOptions = {}) => {
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [
+    options.animation,
+    options.duration,
+    options.delay,
+    options.start,
+    options.lightMode,
+    options.once,
+  ]);
 
   return elementRef;
 };

@@ -215,10 +215,9 @@ const DepartmentExpanded: React.FC<DepartmentExpandedProps> = ({
 
   return (
     <section className="relative min-h-screen py-20 px-4 sm:px-6 lg:px-10 bg-background overflow-hidden">
-      <GridBackground />
       <div className="max-w-7xl mx-auto space-y-12 relative z-10">
         {/* Back button - LEFT GLITCH with RGB */}
-        {/* <div ref={backButtonRef}>
+        <div ref={backButtonRef}>
           <Button
             variant="outline"
             onClick={onBack}
@@ -227,7 +226,7 @@ const DepartmentExpanded: React.FC<DepartmentExpandedProps> = ({
             <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
             BACK
           </Button>
-        </div> */}
+        </div>
 
         {/* Header Section */}
         <div className="text-center space-y-6">

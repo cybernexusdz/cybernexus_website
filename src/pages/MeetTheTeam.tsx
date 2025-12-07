@@ -1,6 +1,4 @@
-// src/pages/MeetTheTeam.tsx
-import React, { useEffect } from "react";
-import { useTeamNavigation } from "@/hooks/useTeamNavigation";
+import React, { useState } from "react";
 import {
   departments,
   teamMembers,
@@ -10,16 +8,14 @@ import DepartmentGrid from "@/components/team/DepartmentGrid";
 import DepartmentExpanded from "@/components/team/DepartmentExpanded";
 import MemberCard from "@/components/team/MemberCard";
 
-const MeetTheTeam: React.FC = () => {
-  const {
-    currentView,
-    selectedDepartment,
-    selectedMember,
-    selectDepartment,
-    selectMember,
-    closeMember,
-    backToGrid,
-  } = useTeamNavigation();
+type ViewType = "grid" | "expanded";
+
+const MeetTheTeamSection: React.FC = () => {
+  const [currentView, setCurrentView] = useState<ViewType>("grid");
+  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(
+    null,
+  );
+  const [selectedMember, setSelectedMember] = useState<number | null>(null);
 
   // Get current department data
   const currentDepartment = selectedDepartment
@@ -36,8 +32,28 @@ const MeetTheTeam: React.FC = () => {
     ? teamMembers.find((m) => m.id === selectedMember)
     : null;
 
+  // Navigation handlers
+  const selectDepartment = (departmentId: string) => {
+    setSelectedDepartment(departmentId);
+    setCurrentView("expanded");
+  };
+
+  const selectMember = (memberId: number) => {
+    setSelectedMember(memberId);
+  };
+
+  const closeMember = () => {
+    setSelectedMember(null);
+  };
+
+  const backToGrid = () => {
+    setCurrentView("grid");
+    setSelectedDepartment(null);
+    setSelectedMember(null);
+  };
+
   return (
-    <div className="relative w-full min-h-screen bg-background">
+    <section className="relative w-full bg-background">
       {/* Grid view */}
       {currentView === "grid" && (
         <div className="animate-in fade-in duration-500">
@@ -70,8 +86,8 @@ const MeetTheTeam: React.FC = () => {
           onClose={closeMember}
         />
       )}
-    </div>
+    </section>
   );
 };
 
-export default MeetTheTeam;
+export default MeetTheTeamSection;
