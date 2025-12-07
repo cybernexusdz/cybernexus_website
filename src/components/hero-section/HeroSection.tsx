@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Terminal, Zap } from "lucide-react";
 import GridBackground from "@/components/ui/GridBackground";
 import { useCyberScrollAnimation } from "@/hooks/useCyberScrollAnimation";
+import { Title } from "@/components/ui/title";
 
 const HeroSection: React.FC = () => {
   // Animation refs for different elements with RGB CHROMATIC ABERRATION
@@ -62,11 +63,7 @@ const HeroSection: React.FC = () => {
 
       {/* Title */}
       <div ref={titleRef} className="mb-8 relative z-10 cyber-perspective">
-        <h1 className="text-6xl sm:text-7xl md:text-8xl font-black mb-4 tracking-tight font-mono">
-          <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-            CyberNexus
-          </span>
-        </h1>
+        <Title text="CyberNexus" className="text-6xl sm:text-7xl md:text-8xl mb-4 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent uppercase" />
       </div>
 
       {/* Subtitle */}
