@@ -1,9 +1,217 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer base {
-  html {
-    font-family: theme("fontFamily.sans");
+  /* Girl Light Theme (Default) */
+  :root {
+    --background: 253 242 255; /* #FDF2FF */
+    --foreground: 0 0 0; /* #000000 */
+    --card: 253 242 255;
+    --card-foreground: 0 0 0;
+    --popover: 253 242 255;
+    --popover-foreground: 0 0 0;
+    --primary: 231 118 247; /* #E776F7 */
+    --primary-foreground: 255 255 255;
+    --secondary: 157 91 181; /* #9D5BB5 - Updated */
+    --secondary-foreground: 255 255 255;
+    --muted: 243 232 245;
+    --muted-foreground: 157 91 181; /* Updated */
+    --accent: 253 242 255;
+    --accent-foreground: 0 0 0;
+    --destructive: 0 214 153;
+    --destructive-foreground: 250 250 250;
+    --border: 231 118 247;
+    --input: 231 118 247;
+    --ring: 231 118 247;
+    --radius: 0.5rem;
   }
+  /* Girl Dark Theme */
+  [data-theme="girlDark"] {
+    --background: 26 3 30; /* #1A031E */
+    --foreground: 255 255 255;
+    --card: 26 3 30;
+    --card-foreground: 255 255 255;
+    --popover: 26 3 30;
+    --popover-foreground: 255 255 255;
+    --primary: 231 118 247;
+    --primary-foreground: 26 3 30;
+    --secondary: 184 135 209; /* #B887D1 - Updated */
+    --secondary-foreground: 26 3 30; /* Updated to use dark background */
+    --muted: 184 135 209; /* Updated */
+    --muted-foreground: 231 118 247;
+    --accent: 184 135 209; /* Updated */
+    --accent-foreground: 26 3 30; /* Updated */
+    --destructive: 0 160 78;
+    --destructive-foreground: 250 250 250;
+    --border: 184 135 209; /* Updated */
+    --input: 184 135 209; /* Updated */
+    --ring: 231 118 247;
+  }
+  /* Boy Light Theme */
+  [data-theme="boyLight"] {
+    --background: 235 252 255; /* #EBFCFF */
+    --foreground: 4 35 64; /* #042340 */
+    --card: 235 252 255;
+    --card-foreground: 4 35 64;
+    --popover: 235 252 255;
+    --popover-foreground: 4 35 64;
+    --primary: 59 224 254; /* #3BE0FE */
+    --primary-foreground: 4 35 64;
+    --secondary: 74 144 226; /* #4A90E2 - Updated */
+    --secondary-foreground: 255 255 255;
+    --muted: 215 246 253;
+    --muted-foreground: 74 144 226; /* Updated */
+    --accent: 235 252 255;
+    --accent-foreground: 4 35 64;
+    --destructive: 0 214 153;
+    --destructive-foreground: 250 250 250;
+    --border: 59 224 254;
+    --input: 59 224 254;
+    --ring: 59 224 254;
+  }
+  /* Boy Dark Theme */
+  [data-theme="boyDark"] {
+    --background: 5 27 46; /* #051B2E */
+    --foreground: 255 255 255;
+    --card: 5 27 46;
+    --card-foreground: 255 255 255;
+    --popover: 5 27 46;
+    --popover-foreground: 255 255 255;
+    --primary: 59 224 254;
+    --primary-foreground: 5 27 46;
+    --secondary: 91 163 245; /* #5BA3F5 - Updated */
+    --secondary-foreground: 5 27 46; /* Updated to use dark background */
+    --muted: 91 163 245; /* Updated */
+    --muted-foreground: 59 224 254;
+    --accent: 91 163 245; /* Updated */
+    --accent-foreground: 5 27 46; /* Updated */
+    --destructive: 0 160 78;
+    --destructive-foreground: 250 250 250;
+    --border: 91 163 245; /* Updated */
+    --input: 91 163 245; /* Updated */
+    --ring: 59 224 254;
+  }
+  .theme {
+    --animate-grid: grid 15s linear infinite;
+  }
+}
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+@keyframes grid {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.animate-grid {
+  animation: grid 15s linear infinite;
+}
+@keyframes glitchSeparator1 {
+  0%,
+  100% {
+    transform: translateX(0) scaleX(1);
+    opacity: 0.4;
+  }
+  33% {
+    transform: translateX(-2px) scaleX(0.98);
+    opacity: 0.6;
+  }
+  66% {
+    transform: translateX(2px) scaleX(1.02);
+    opacity: 0.3;
+  }
+}
+@keyframes glitchSeparator2 {
+  0%,
+  100% {
+    transform: translateX(0) scaleX(1);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateX(3px) scaleX(1.03);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateX(-3px) scaleX(0.97);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translateX(2px) scaleX(1.01);
+    opacity: 0.4;
+  }
+}
+@keyframes glitchSeparatorScan {
+  0% {
+    left: -25%;
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+/* Profile Card Animations */
+@keyframes profile-card-scan {
+  0% {
+    top: -128px;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.profile-card-scan {
+  animation: profile-card-scan 2s linear infinite;
+}
+
+@keyframes profile-card-glitch1 {
+  0%,
+  100% {
+    transform: translate(-2px, -1px);
+  }
+  25% {
+    transform: translate(-3px, -2px);
+  }
+  50% {
+    transform: translate(-1px, -1px);
+  }
+  75% {
+    transform: translate(-2px, 0px);
+  }
+}
+
+@keyframes profile-card-glitch2 {
+  0%,
+  100% {
+    transform: translate(2px, 1px);
+  }
+  25% {
+    transform: translate(1px, 1px);
+  }
+  50% {
+    transform: translate(3px, 2px);
+  }
+  75% {
+    transform: translate(2px, 0px);
+  }
+}
+
+.profile-card-glitch1 {
+  animation: profile-card-glitch1 0.3s infinite;
+}
+
+.profile-card-glitch2 {
+  animation: profile-card-glitch2 0.3s infinite;
 }
