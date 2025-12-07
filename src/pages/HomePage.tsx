@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
       <div id="The Team">
         <TeamSection />
       </div>
-      <div id="Meet The Team"> 
+      <div id="Meet The Team">
         <MeetTheTeam />
       </div>
       <div id="What We Do">

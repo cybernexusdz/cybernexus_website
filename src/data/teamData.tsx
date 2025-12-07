@@ -106,7 +106,11 @@ export const teamMembers: TeamMember[] = [
     name: "Tounsi Abd Essamed",
     image: "/images/team/tounssi-image-front.jpg",
     socialLinks: [
-      { icon: "Globe", href: "https://port-folio-hvbi.vercel.app/", label: "Portfolio" },
+      {
+        icon: "Globe",
+        href: "https://port-folio-hvbi.vercel.app/",
+        label: "Portfolio",
+      },
       { icon: "Mail", href: "mailto:mcboosabdo@gmail.com", label: "Email" },
     ],
     departmentRoles: [
@@ -138,7 +142,11 @@ export const teamMembers: TeamMember[] = [
     image: "/images/team/riad-image-front.png",
     bio: "Just chill 🦦",
     socialLinks: [
-      { icon: "Mail", href: "mailto:achrafriadh123456@gmail.com", label: "Email" },
+      {
+        icon: "Mail",
+        href: "mailto:achrafriadh123456@gmail.com",
+        label: "Email",
+      },
     ],
     departmentRoles: [{ departmentId: "hr", role: "HR Lead", isLead: true }],
   },
@@ -169,8 +177,16 @@ export const teamMembers: TeamMember[] = [
     bio: "Layers in the gaps.",
     socialLinks: [
       { icon: "Github", href: "https://github.com/wssmei", label: "GitHub" },
-      { icon: "Linkedin", href: "https://www.linkedin.com/in/deniabedoui/", label: "LinkedIn" },
-      { icon: "Globe", href: "https://www.behance.net/deniabd", label: "Behance" },
+      {
+        icon: "Linkedin",
+        href: "https://www.linkedin.com/in/deniabedoui/",
+        label: "LinkedIn",
+      },
+      {
+        icon: "Globe",
+        href: "https://www.behance.net/deniabd",
+        label: "Behance",
+      },
     ],
     departmentRoles: [
       { departmentId: "hr", role: "HR Team Member" },
@@ -200,7 +216,11 @@ export const teamMembers: TeamMember[] = [
     image: "/images/team/rafika-image-front.png",
     bio: "Embodiment of ideas into an unforgettable reality.",
     socialLinks: [
-      { icon: "Github", href: "https://github.com/rafikarohdea", label: "Github" },
+      {
+        icon: "Github",
+        href: "https://github.com/rafikarohdea",
+        label: "Github",
+      },
     ],
     departmentRoles: [{ departmentId: "hr", role: "HR Team Member" }],
   },
@@ -217,7 +237,11 @@ export const teamMembers: TeamMember[] = [
     name: "Mendjour Lounis",
     image: "/images/team/lounis-image-front.png",
     socialLinks: [
-      { icon: "Globe", href: "https://www.instagram.com/mendjour.lounis", label: "Instagram" },
+      {
+        icon: "Globe",
+        href: "https://www.instagram.com/mendjour.lounis",
+        label: "Instagram",
+      },
     ],
     departmentRoles: [
       {
@@ -254,7 +278,7 @@ export const teamMembers: TeamMember[] = [
     ],
     departmentRoles: [
       { departmentId: "media", role: "Photographer" },
-      { departmentId: "design", role: "Designer" , isLead: true },
+      { departmentId: "design", role: "Designer", isLead: true },
       { departmentId: "development", role: "Developer" },
     ],
   },
@@ -331,7 +355,11 @@ export const teamMembers: TeamMember[] = [
     bio: "Coding my way to better solution",
     socialLinks: [
       { icon: "Github", href: "https://github.com/Yahia47", label: "GitHub" },
-      { icon: "Linkedin", href: "https://www.linkedin.com/in/merdjet-yahia-noureddine-510a94255 /", label: "LinkedIn" },
+      {
+        icon: "Linkedin",
+        href: "https://www.linkedin.com/in/merdjet-yahia-noureddine-510a94255 /",
+        label: "LinkedIn",
+      },
     ],
     departmentRoles: [{ departmentId: "development", role: "Developer" }],
   },

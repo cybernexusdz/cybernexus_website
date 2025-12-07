@@ -73,9 +73,12 @@ const Footer = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-12 mb-20">
             {/* Brand Section */}
             <div className="lg:col-span-1 space-y-8 relative">
-              <div className="space-y-5"> 
-                <Title text="CyberNexus" className="text-5xl bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent uppercase" />
-                
+              <div className="space-y-5">
+                <Title
+                  text="CyberNexus"
+                  className="text-5xl bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent uppercase"
+                />
+
                 <p className="text-base-content/70 leading-relaxed text-base font-mono">
                   <span className="text-secondary font-bold">&gt;</span>{" "}
                   Empowering creativity and innovation through technology. Join

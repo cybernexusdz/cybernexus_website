@@ -63,7 +63,10 @@ const HeroSection: React.FC = () => {
 
       {/* Title */}
       <div ref={titleRef} className="mb-8 relative z-10 cyber-perspective">
-        <Title text="CyberNexus" className="text-6xl sm:text-7xl md:text-8xl mb-4 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent uppercase" />
+        <Title
+          text="CyberNexus"
+          className="text-6xl sm:text-7xl md:text-8xl mb-4 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent uppercase"
+        />
       </div>
 
       {/* Subtitle */}
