@@ -315,10 +315,10 @@ export const teamMembers: TeamMember[] = [
     image: "/images/team/mlsvmdl-image-front.jpg",
     bio: "☀️ Chich Loves Poppo ☀️",
     socialLinks: [
-      { icon: "Github", href: "https://github.com/mlsvmdl", label: "GitHub", isLead: true },
+      { icon: "Github", href: "https://github.com/mlsvmdl", label: "GitHub"},
     ],
 
-    departmentRoles: [{ departmentId: "development", role: "Developer" }],
+    departmentRoles: [{ departmentId: "development", role: "Developer", isLead: true  }],
   },
   {
     id: 21,
