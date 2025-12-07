@@ -306,7 +306,7 @@ export const teamMembers: TeamMember[] = [
     image: "/images/team/hakim-image-front.jpg",
     socialLinks: [],
     departmentRoles: [
-      { departmentId: "development", role: "Lead Developer", isLead: true },
+      { departmentId: "development", role: "Lead Developer", isLead: false },
     ],
   },
   {
@@ -315,7 +315,7 @@ export const teamMembers: TeamMember[] = [
     image: "/images/team/mlsvmdl-image-front.jpg",
     bio: "☀️ Chich Loves Poppo ☀️",
     socialLinks: [
-      { icon: "Github", href: "https://github.com/mlsvmdl", label: "GitHub" },
+      { icon: "Github", href: "https://github.com/mlsvmdl", label: "GitHub", isLead: true },
     ],
 
     departmentRoles: [{ departmentId: "development", role: "Developer" }],
