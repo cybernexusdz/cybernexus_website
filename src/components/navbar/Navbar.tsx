@@ -181,7 +181,7 @@ const Navbar = ({ theme, setTheme, handleScrollComponent }: NavbarProps) => {
           <div className="container mx-auto flex items-center justify-between px-4 py-3">
             {/* Logo - Responsive: Icon only on small screens, full logo on larger screens */}
             <div
-              className="cursor-pointer transition-transform hover:scale-110 duration-300"
+              className="cursor-pointer transition-transform hover:scale-[1.02] duration-300"
               onClick={handleLogoClick}
             >
               {/* Show icon only on small screens */}
