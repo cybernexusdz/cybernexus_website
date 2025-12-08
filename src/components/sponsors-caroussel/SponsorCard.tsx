@@ -113,7 +113,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({
             className="flex-shrink-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/50 rounded-xl"
           >
             <div
-              className={`w-72 h-48 lg:w-80 lg:h-56 flex items-center justify-center bg-background/60 rounded-xl border-2 ${config.borderColor} p-6 hover:border-opacity-100 transition-all duration-500 relative overflow-hidden shadow-2xl`}
+              className={`w-64 h-48 lg:w-80 lg:h-56 flex items-center justify-center bg-background/60 rounded-xl border-2 ${config.borderColor} p-6 hover:border-opacity-100 transition-all duration-500 relative overflow-hidden shadow-2xl`}
             >
               {/* Scanline effect on hover */}
               {isHovered && (
@@ -124,7 +124,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({
                 src={sponsor.logo}
                 alt={sponsor.name}
                 loading="lazy"
-                className="max-h-full max-w-full object-contain relative z-10 hover:scale-105 transition-all duration-500"
+                className="max-h-full max-w-full object-contain relative z-10 hover:scale-105 transition-all duration-500 rounded-md"
               />
 
               {/* Tier Badge */}

@@ -30,18 +30,20 @@ const NetworkConnections: React.FC<NetworkConnectionsProps> = ({
 
       const dx = toNode.x - fromNode.x;
       const dy = toNode.y - fromNode.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
 
-      // Create smooth bezier curve
-      const controlPointOffset = Math.abs(dx) * 0.5;
-      const cx1 = fromNode.x + controlPointOffset;
-      const cy1 = fromNode.y;
-      const cx2 = toNode.x - controlPointOffset;
-      const cy2 = toNode.y;
+      // Simpler bezier curve - control points offset along the connection line
+      // This works better with non-uniform scaling (preserveAspectRatio="none")
+      const controlOffset = 0.3; // 30% along the line
+
+      const cx1 = fromNode.x + dx * controlOffset;
+      const cy1 = fromNode.y + dy * controlOffset;
+      const cx2 = toNode.x - dx * controlOffset;
+      const cy2 = toNode.y - dy * controlOffset;
 
       const pathD = `M${fromNode.x},${fromNode.y} C${cx1},${cy1} ${cx2},${cy2} ${toNode.x},${toNode.y}`;
 
       // Calculate connection strength based on distance
-      const distance = Math.sqrt(dx * dx + dy * dy);
       const strength = Math.max(0.3, 1 - distance / 100);
 
       pathsArray.push({ d: pathD, strength });

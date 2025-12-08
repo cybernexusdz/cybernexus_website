@@ -67,43 +67,37 @@ const TeamSection: React.FC = () => {
 
   return (
     <section className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-10 bg-background overflow-hidden">
-      <div className="max-w-7xl mx-auto space-y-12 sm:space-y-16 lg:space-y-20 relative z-10">
+      <div className="max-w-7xl mx-auto space-y-10 sm:space-y-12 lg:space-y-16 relative z-10">
         {/* Header Badge */}
         <div ref={headerRef} className="text-center">
           <Badge
             variant="outline"
-            className="border-primary/50 bg-background/80 backdrop-blur-sm px-4 py-2 font-mono"
+            className="border-primary/50 bg-background/80 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 font-mono text-xs sm:text-sm"
           >
-            <Terminal className="w-4 h-4 mr-2 inline" />
+            <Terminal className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 inline" />
             &lt;OUR_TEAM&gt;
           </Badge>
         </div>
 
         {/* Team Introduction */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
           {/* Team Image */}
           <div ref={imageRef}>
             <CyberCard variant="hologram">
-              <div className="relative aspect-[4/3] w-full">
+              <div className="relative aspect-[4/3] w-full overflow-hidden">
                 <img
                   src="/team-main-picture.jpg"
                   alt="CyberNexus Team"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-4 left-4 pointer-events-none">
-                  <Badge className="bg-primary text-primary-foreground font-mono">
-                    <Users className="w-4 h-4 mr-2" />
-                    CyberNexus Team
-                  </Badge>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent pointer-events-none" />
               </div>
             </CyberCard>
           </div>
 
           {/* Description */}
-          <div ref={contentRef} className="space-y-6">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-foreground font-mono leading-tight">
+          <div ref={contentRef} className="space-y-4 sm:space-y-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground font-mono leading-tight">
               <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
                 We Are
               </span>
@@ -111,7 +105,7 @@ const TeamSection: React.FC = () => {
               CyberNexus
             </h2>
 
-            <div className="space-y-4 text-foreground/80 text-base sm:text-lg">
+            <div className="space-y-3 sm:space-y-4 text-foreground/80 text-sm sm:text-base lg:text-lg">
               <p className="leading-relaxed">
                 A passionate community of{" "}
                 <span className="text-primary font-semibold">students</span>,{" "}
@@ -121,7 +115,7 @@ const TeamSection: React.FC = () => {
                 at Ibn Khaldoun University.
               </p>
 
-              <p className="leading-relaxed font-mono text-sm sm:text-base border-l-2 border-primary pl-4">
+              <p className="leading-relaxed font-mono text-xs sm:text-sm lg:text-base border-l-2 border-primary pl-3 sm:pl-4 py-1">
                 <span className="text-primary">&gt;_</span> We build, we learn,
                 we grow together. From beginner coders to tech veterans,
                 everyone has a place in our nexus.
@@ -139,19 +133,18 @@ const TeamSection: React.FC = () => {
         </div>
 
         {/* Photo Carousel */}
-        <div className="space-y-6 sm:space-y-8">
+        <div className="space-y-4 sm:space-y-6 lg:space-y-8">
           <div
             ref={carouselHeaderRef}
-            className="flex items-center justify-center gap-2 flex-wrap"
+            className="flex items-center justify-center gap-2 flex-wrap px-2"
           >
-            <Terminal className="w-4 h-4 text-primary flex-shrink-0" />
-            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-center text-foreground font-mono">
+            <Terminal className="w-3 h-3 sm:w-4 sm:h-4 text-primary flex-shrink-0" />
+            <h3 className="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-center text-foreground font-mono">
               <span className="text-primary">//</span> Moments From Our{" "}
               <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
                 Journey
               </span>
-            </h3>
-            <Terminal className="w-4 h-4 text-primary flex-shrink-0" />
+            </h3> 
           </div>
 
           <div ref={carouselRef}>

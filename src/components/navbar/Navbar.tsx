@@ -1,6 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "../ui/Logo";
+import LogoIcon from "../ui/LogoIcon";
 import ThemeToggle from "../ui/ThemeToggle";
 import { Menu, X, Home, BookOpen, Heart, Mail, Users } from "lucide-react";
 
@@ -131,6 +132,13 @@ const Navbar = ({ theme, setTheme, handleScrollComponent }: NavbarProps) => {
     }
   };
 
+  const handleLogoClick = () => {
+    navigate("/");
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
+  };
+
   // Prevent body scroll when menu is open
   useEffect(() => {
     if (menuOpen) {
@@ -171,17 +179,20 @@ const Navbar = ({ theme, setTheme, handleScrollComponent }: NavbarProps) => {
           <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
           <div className="container mx-auto flex items-center justify-between px-4 py-3">
-            {/* Logo */}
+            {/* Logo - Responsive: Icon only on small screens, full logo on larger screens */}
             <div
-              className="w-auto h-12 cursor-pointer transition-transform hover:scale-110 duration-300"
-              onClick={() => {
-                navigate("/");
-                setTimeout(() => {
-                  window.scrollTo(0, 0);
-                }, 0);
-              }}
+              className="cursor-pointer transition-transform hover:scale-[1.02] duration-300"
+              onClick={handleLogoClick}
             >
-              <Logo className="w-full h-full fill-current text-primary drop-shadow-[0_0_8px_rgba(var(--p),0.3)]" />
+              {/* Show icon only on small screens */}
+              <div className="sm:hidden w-10 h-10">
+                <LogoIcon className="w-full h-full fill-current text-primary drop-shadow-[0_0_8px_rgba(var(--p),0.3)]" />
+              </div>
+
+              {/* Show full logo on medium+ screens */}
+              <div className="hidden sm:block w-auto h-12">
+                <Logo className="w-full h-full fill-current text-primary drop-shadow-[0_0_8px_rgba(var(--p),0.3)]" />
+              </div>
             </div>
 
             {/* Desktop Navigation */}

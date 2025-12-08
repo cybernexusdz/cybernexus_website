@@ -76,7 +76,7 @@ const Footer = () => {
               <div className="space-y-5">
                 <Title
                   text="CyberNexus"
-                  className="text-5xl bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent uppercase"
+                  className="text-4xl sm:text-5xl bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent uppercase"
                 />
 
                 <p className="text-base-content/70 leading-relaxed text-base font-mono">
@@ -121,26 +121,26 @@ const Footer = () => {
               <div className="space-y-4">
                 <a
                   href="mailto:cyber.nexus.tiaret@gmail.com"
-                  className="group flex items-start gap-4 p-4 rounded-xl bg-base-200/40 border-2 border-primary/20 hover:border-primary/50 transition-all"
+                  className="group flex items-start gap-4 p-4 rounded-xl bg-base-200/40 border-2 border-primary/20 hover:border-primary/50 transition-all overflow-hidden"
                 >
-                  <div className="p-3 rounded-lg bg-primary/20 border border-primary/40">
+                  <div className="p-3 rounded-lg bg-primary/20 border border-primary/40 flex-shrink-0">
                     <Mail className="w-5 h-5 text-primary" />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <div className="text-xs text-primary font-mono font-bold uppercase tracking-wider">
                       EMAIL_ADDRESS
                     </div>
-                    <span className="text-sm text-base-content/80 font-mono">
+                    <span className="text-sm text-base-content/80 font-mono break-all">
                       cyber.nexus.tiaret@gmail.com
                     </span>
                   </div>
                 </a>
 
                 <div className="flex items-start gap-4 p-4 rounded-xl bg-base-200/40 border-2 border-secondary/20">
-                  <div className="p-3 rounded-lg bg-secondary/20 border border-secondary/40">
+                  <div className="p-3 rounded-lg bg-secondary/20 border border-secondary/40 flex-shrink-0">
                     <MapPin className="w-5 h-5 text-secondary" />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <div className="text-xs text-secondary font-mono font-bold uppercase tracking-wider">
                       GPS_COORDINATES
                     </div>

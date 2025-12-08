@@ -22,7 +22,7 @@ const DepartmentNode: React.FC<DepartmentNodeProps> = ({
     <button
       onClick={onClick}
       style={style}
-      className="group relative w-40 h-40 sm:w-48 sm:h-48 transition-all duration-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/50 cyber-animate"
+      className="group relative w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 transition-all duration-500 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary/50 cyber-animate touch-manipulation"
     >
       {/* Animated border frame */}
       <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full">
@@ -123,33 +123,33 @@ const DepartmentNode: React.FC<DepartmentNodeProps> = ({
         <div className="cyber-glitch-container absolute inset-0 group-hover:[--glitch-x:1.5px] group-hover:[--glitch-opacity:0.6] transition-all duration-300" />
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 sm:px-6 py-3 sm:py-4">
+        <div className="relative z-10 flex flex-col items-center justify-center h-full px-3 sm:px-4 md:px-6 py-3 sm:py-4">
           {/* Icon with glow */}
           <div className="relative mb-2 sm:mb-3">
-            <div className="absolute inset-0 -m-3 sm:-m-4 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 -m-2 sm:-m-3 md:-m-4 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="relative text-primary transition-all duration-500 group-hover:scale-110 group-hover:rotate-3">
               <IconComponent
-                className="w-10 h-10 sm:w-12 sm:h-12"
+                className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12"
                 strokeWidth={1.5}
               />
             </div>
           </div>
 
-          {/* Department name */}
-          <h3 className="text-base-content font-mono font-bold text-sm sm:text-base text-center mb-1.5 sm:mb-2 transition-all duration-300 group-hover:text-primary leading-tight">
+          {/* Department name - Better mobile text wrapping */}
+          <h3 className="text-base-content font-mono font-bold text-xs sm:text-sm md:text-base text-center mb-1.5 sm:mb-2 transition-all duration-300 group-hover:text-primary leading-tight max-w-full line-clamp-2 px-1">
             {department.name}
           </h3>
 
           {/* Member count with terminal style */}
-          <div className="font-mono text-[11px] sm:text-xs text-base-content/70 group-hover:text-primary transition-colors duration-300">
+          <div className="font-mono text-[10px] sm:text-[11px] md:text-xs text-base-content/70 group-hover:text-primary transition-colors duration-300">
             <span className="text-primary">&gt;</span> {memberCount}{" "}
             {memberCount === 1 ? "member" : "members"}
           </div>
 
           {/* Status indicator */}
-          <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute bottom-2 sm:bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-primary rounded-full animate-pulse" />
-            <span className="text-[9px] sm:text-[10px] font-mono text-primary uppercase tracking-wider">
+            <span className="text-[8px] sm:text-[9px] md:text-[10px] font-mono text-primary uppercase tracking-wider">
               Active
             </span>
           </div>

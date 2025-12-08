@@ -139,7 +139,7 @@ const ContactSection: React.FC = () => {
 
           {/* Title - CENTER GLITCH with RGB */}
           <div ref={headerTitleRef}>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-foreground tracking-tight font-mono px-2">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-foreground tracking-tight font-mono px-2">
               <span className="text-primary/60">&gt;</span> Get In{" "}
               <span className="relative inline-block bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
                 Touch
