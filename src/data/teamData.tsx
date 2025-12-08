@@ -32,44 +32,58 @@ export const departments: Department[] = [
   {
     id: "leadership",
     name: "Club Leadership",
-    description: "Overall club management and strategic direction",
+    description:
+      "Sets the club's vision, strategy and priorities; coordinates cross-department initiatives and represents the club externally.",
     icon: "Crown",
   },
   {
     id: "hr",
     name: "Human Resources",
-    description: "Member management and HR operations",
+    description:
+      "Recruits and onboards members, manages volunteer engagement, policies, and supports member development and well-being.",
     icon: "Users",
   },
   {
     id: "external",
     name: "External Relations",
-    description: "Managing external partnerships and relationships",
+    description:
+      "Builds and maintains partnerships with organizations, handles outreach, sponsorships, and community relations.",
     icon: "Handshake",
   },
   {
     id: "treasury",
     name: "Treasury",
-    description: "Financial management and budgeting",
+    description:
+      "Oversees budgeting, expense tracking, fundraising, and financial reporting to ensure the club's resources are managed responsibly.",
     icon: "Wallet",
   },
   {
     id: "media",
     name: "Media & Content",
-    description: "Content creation, photography, and media production",
+    description:
+      "Creates and distributes multimedia content — photography, video, copy, and social media — to promote events and projects.",
     icon: "Camera",
   },
   {
     id: "development",
     name: "Development",
-    description: "Technical development and web applications",
+    description:
+      "Designs and builds web and software projects, maintains technical infrastructure, and supports tooling and automation for the club.",
     icon: "Code",
   },
   {
     id: "design",
     name: "Design & Branding",
-    description: "Visual design, UI/UX, and brand identity",
+    description:
+      "Shapes the club's visual identity, UI/UX for products, and produces assets for campaigns, events, and digital presence.",
     icon: "Palette",
+  },
+  {
+    id: "tech",
+    name: "Tech Department",
+    description:
+      "Researches and experiments with emerging technologies, runs workshops and tech-focused initiatives to upskill members.",
+    icon: "Brain",
   },
 ];
 
@@ -82,7 +96,8 @@ export const teamMembers: TeamMember[] = [
     bio: "Leading CyberNexus with vision and design excellence",
     departmentRoles: [
       { departmentId: "leadership", role: "Club Leader", isLead: true },
-      { departmentId: "design", role: "Design Lead", isLead: false },
+      { departmentId: "design", role: "UI/UX Designer", isLead: false },
+      { departmentId: "tech", role: "UI/UX Leader", isLead: false },
       {
         departmentId: "external",
         role: "External Relations",
@@ -116,6 +131,7 @@ export const teamMembers: TeamMember[] = [
     departmentRoles: [
       { departmentId: "leadership", role: "General Secretary" },
       { departmentId: "media", role: "Content Creator" },
+      { departmentId: "tech", role: "AI Leader"},
     ],
   },
   {
@@ -233,6 +249,30 @@ export const teamMembers: TeamMember[] = [
     departmentRoles: [{ departmentId: "hr", role: "HR Team Member" }],
   },
   {
+    id: 28,
+    name: "Abderrhmane Ouahrani",
+    image: "/images/team/abdo-image-front.png",
+    bio: "",
+    socialLinks: [],
+    departmentRoles: [{ departmentId: "media", role: "Photographer" }],
+  },
+  {
+    id: 29,
+    name: "Abdelaziz Benallou",
+    image: "/images/team/aziz-image-front.png",
+    bio: "",
+    socialLinks: [],
+    departmentRoles: [{ departmentId: "tech", role: "Network Leader" }],
+  },
+  {
+    id: 30,
+    name: "Asak Karim",
+    image: "/images/team/karim-image-front.png",
+    bio: "",
+    socialLinks: [],
+    departmentRoles: [{ departmentId: "tech", role: "Network Co-Leader" }],
+  },
+  {
     id: 13,
     name: "Mendjour Lounis",
     image: "/images/team/lounis-image-front.png",
@@ -306,7 +346,8 @@ export const teamMembers: TeamMember[] = [
     image: "/images/team/hakim-image-front.jpg",
     socialLinks: [],
     departmentRoles: [
-      { departmentId: "development", role: "Lead Developer", isLead: false },
+      { departmentId: "development", role: "Lead Developer", isLead: true },
+      { departmentId: "tech", role: "GL Leader" },
     ],
   },
   {
@@ -334,7 +375,10 @@ export const teamMembers: TeamMember[] = [
     name: "Missoum Hadi Adda",
     image: "/images/team/adda-image-front.jpg",
     socialLinks: [],
-    departmentRoles: [{ departmentId: "development", role: "Developer" }],
+    departmentRoles: [
+      { departmentId: "development", role: "Developer" },
+      { departmentId: "tech", role: "Software Development Leader" },
+    ],
   },
   {
     id: 23,
@@ -348,7 +392,10 @@ export const teamMembers: TeamMember[] = [
     name: "Bousbia Mouhhamed Bachir",
     image: "/images/team/bachir-iamge-front.jpg",
     socialLinks: [],
-    departmentRoles: [{ departmentId: "development", role: "Developer" }],
+    departmentRoles: [
+      { departmentId: "development", role: "Developer" },
+      { departmentId: "tech", role: "Blockchain Leader" },
+    ],
   },
   {
     id: 25,
@@ -370,7 +417,10 @@ export const teamMembers: TeamMember[] = [
     name: "Amine",
     image: "/images/team/amine-image-front.jpg",
     socialLinks: [],
-    departmentRoles: [{ departmentId: "development", role: "Developer" }],
+    departmentRoles: [
+      { departmentId: "development", role: "Developer" },
+      { departmentId: "tech", role: "Game dev Leader" },
+    ],
   },
 ];
 
