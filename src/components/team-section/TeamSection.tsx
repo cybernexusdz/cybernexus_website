@@ -144,7 +144,7 @@ const TeamSection: React.FC = () => {
               <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
                 Journey
               </span>
-            </h3> 
+            </h3>
           </div>
 
           <div ref={carouselRef}>
