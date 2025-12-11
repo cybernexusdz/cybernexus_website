@@ -440,6 +440,7 @@ const MemberCard: React.FC<MemberCardProps> = ({
           )}
 
           {/* Terminal-style footer */}
+          {/* Terminal-style footer */}
           <div className="flex flex-col sm:flex-row items-center gap-2 text-primary/40 font-mono text-[10px] sm:text-xs pt-3 sm:pt-4 border-t border-primary/20">
             <div className="flex items-center gap-2">
               <LucideIcons.Terminal className="w-3 h-3" />
@@ -447,6 +448,13 @@ const MemberCard: React.FC<MemberCardProps> = ({
                 &gt; MEMBER_ID: #{member.id.toString().padStart(3, "0")}
               </span>
             </div>
+            {member.grade && (
+              <div className="flex items-center gap-1.5 text-primary/30">
+                <span className="hidden sm:inline">|</span>
+                <LucideIcons.GraduationCap className="w-3 h-3" />
+                <span>{member.grade}</span>
+              </div>
+            )}
             <div className="flex-1 hidden sm:block" />
             <span className="text-green-500 animate-pulse-fast">● ACTIVE</span>
           </div>
