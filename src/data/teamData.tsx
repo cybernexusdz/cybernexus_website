@@ -16,15 +16,10 @@ export const departments: Department[] = [
     icon: "Users",
   },
   {
-<<<<<<< HEAD
-    id: "external", name: "External Relations",
-    description: "Managing external partnerships and relationships",
-=======
     id: "external",
     name: "External Relations",
     description:
       "Builds and maintains partnerships with organizations, handles outreach, sponsorships, and community relations.",
->>>>>>> origin/main
     icon: "Handshake",
   },
   {
@@ -68,6 +63,7 @@ export const teamMembers: TeamMember[] = [
     departmentRoles: [
       { departmentId: "leadership", role: "Club Leader", isLead: true },
       { departmentId: "design", role: "UI/UX Designer", isLead: false },
+      { departmentId: "hr", role: "Training & Culture Supervisor", isLead: false },
       {
         departmentId: "external",
         role: "External Relations",
@@ -114,7 +110,7 @@ export const teamMembers: TeamMember[] = [
     socialLinks: [],
     departmentRoles: [
       { departmentId: "media", role: "Club Writer" },
-      { departmentId: "hr", role: "Member" },
+      { departmentId: "hr", role: "Data & Records Coordinator" },
     ],
   },
   {
@@ -122,7 +118,10 @@ export const teamMembers: TeamMember[] = [
     name: "Soltana",
     image: "/images/team/soltana-iamge-front.png",
     grade: "L1-Droit",
-    socialLinks: [],
+    bio: "اي جملة",
+    socialLinks: [
+      { icon: "Instagram", href: "https://www.instagram.com/mikas_a0301?igsh=MWk3ZmNoYXMxczdwYg==", label: "Instagram" },
+    ],
     departmentRoles: [{ departmentId: "hr", role: "Legal Advisor" }],
   },
   {
@@ -138,7 +137,7 @@ export const teamMembers: TeamMember[] = [
         label: "Email",
       },
     ],
-    departmentRoles: [{ departmentId: "hr", role: "HR Lead", isLead: false }],
+    departmentRoles: [{ departmentId: "hr", role: "Team Building & Engagement Officer", isLead: false }],
   },
   {
     id: 7,
@@ -155,12 +154,12 @@ export const teamMembers: TeamMember[] = [
     id: 8,
     name: "Moussa Ahlem",
     image: "/images/team/ahlem-image-front.png",
-    bio: "Passion for people, dedication to excellence.",
+    bio: "Passion",
     grade: "L3-SI",
     socialLinks: [
       { icon: "Send", href: "https://t.me/+213555865385", label: "Telegram" },
     ],
-    departmentRoles: [{ departmentId: "hr", role: "HR Team Member" }],
+    departmentRoles: [{ departmentId: "hr", role: "Emotional Intelligence Trainer" }],
   },
   {
     id: 9,
@@ -182,7 +181,7 @@ export const teamMembers: TeamMember[] = [
       },
     ],
     departmentRoles: [
-      { departmentId: "hr", role: "HR Team Member" },
+      { departmentId: "hr", role: "Engagement & Wellbeing Officer" },
       { departmentId: "design", role: "Designer" },
     ],
   },
@@ -221,7 +220,7 @@ export const teamMembers: TeamMember[] = [
         label: "Github",
       },
     ],
-    departmentRoles: [{ departmentId: "hr", role: "HR Team Member" }],
+    departmentRoles: [{ departmentId: "hr", role: "Attendance Coordinator" }],
   },
   {
     id: 27,
@@ -230,7 +229,7 @@ export const teamMembers: TeamMember[] = [
     grade: "L3-ISIL",
     bio: "Try to show your best, not what others deem the best",
     socialLinks: [],
-    departmentRoles: [{ departmentId: "hr", role: "HR Team Member" }],
+    departmentRoles: [{ departmentId: "hr", role: "Data & Records Coordinator" }],
   },
   {
     id: 28,
@@ -255,6 +254,21 @@ export const teamMembers: TeamMember[] = [
     bio: "",
     socialLinks: [],
     departmentRoles: [],
+  },
+  {
+    id: 31,
+    name: "Selma Sayah",
+    image: "images/team/selma-image-front.jpg",
+    bio: "Observe more.. React less",
+    grade: "L3-SI",
+    departmentRoles: [{ departmentId: "media", role: "Content Creator" },
+    {
+      departmentId: "hr", role: "Workshop Operations Coordinator"
+    }],
+    socialLinks: [
+      { icon: "Instagram", href: "https://www.instagram.com/selmasayahh?igsh=MWIzY2kxbG5lY2JkeA==", label: "instagram" }
+    ],
+
   },
   {
     id: 13,
@@ -284,7 +298,7 @@ export const teamMembers: TeamMember[] = [
     socialLinks: [],
     departmentRoles: [
       { departmentId: "treasury", role: "Treasurer", isLead: true },
-      { departmentId: "hr", role: "Student Performance Coordinator" },
+      { departmentId: "hr", role: "Performance Analyst" },
     ],
   },
   {
@@ -331,7 +345,9 @@ export const teamMembers: TeamMember[] = [
     image: "/images/team/reggad-image-front.png",
     grade: "L1",
     bio: "Here for anything related to spreading benefit",
-    socialLinks: [],
+    socialLinks: [
+      { icon: "Instagram", href: "https://www.instagram.com/mohamed_reggadd?igsh=aGluYnh5d2sycTQ5", label: "instagram" },
+    ],
     departmentRoles: [{ departmentId: "media", role: "Video Editor" }],
   },
   {
@@ -371,15 +387,22 @@ export const teamMembers: TeamMember[] = [
     grade: "L3-SI",
     image: "/images/team/adda-image-front.jpg",
     socialLinks: [],
-    departmentRoles: [{ departmentId: "development", role: "Developer" }],
+    departmentRoles: [{ departmentId: "development", role: "Developer" },
+    { departmentId: "hr", role: "Performance Supervisor", }],
+
   },
   {
     id: 23,
     name: "Adam Rhmni",
     grade: "L1",
     image: "/images/team/adam-image-front.jpg",
-    socialLinks: [],
-    departmentRoles: [{ departmentId: "development", role: "Developer" }],
+    socialLinks: [
+      { icon: "Linkedin", href: "https://www.linkedin.com/in/adam-rhmni/?lipi=urn%3Ali%3Apage%3Ap_mwlite_my_network%3BtrzXFekCQNmri3bas%2BVkxA%3D%3D", label: "LinkedIn" },
+      { icon: "Twitter", href: "https://x.com/AdamRhmni", label: "Twitter" },
+      { icon: "Globe", href: "https://bmw-lyart.vercel.app/", label: "Portfolio:" },
+      { icon: "Instagram", href: "https://www.instagram.com/adam_rhmnii?igsh=MW5mdmtvZWpsdTB2bQ==", label: "Instagram" },
+    ],
+    departmentRoles: [{ departmentId: "development", role: "Web dev and 3D artist" }],
   },
   {
     id: 24,
