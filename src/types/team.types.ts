@@ -15,18 +15,18 @@ export interface DepartmentRole {
 }
 
 export type AcademicGrade =
-  | 'L1'        // 1ère licence
-  | 'L2'        // 2ème licence
-  | 'L3-SI'     // 3ème licence — SI (Systèmes Informatiques)
-  | 'L3-ISIL'   // 3ème licence — ISIL (Information Systems & Software Engineering)
-  | 'M1-SE'     // Master 1 — Software Engineering
-  | 'M1-AID'     // Master 1 — Artificial Intelligence & Digitalization
-  | 'M1-NET'    // Master 1 — Networks
-  | 'M1-GI'     // Master 1 — GI (General Informatics / Génie Informatique)
-  | 'M2-SE'     // Master 2 — Software Engineering
-  | 'M2-AID'     // Master 2 — Artificial Intelligence & Digitalization
-  | 'M2-NET'    // Master 2 — Networks
-  | 'M2-GI';    // Master 2 — GI (General Informatics / Génie Informatique)
+  | "L1" // 1ère licence
+  | "L2" // 2ème licence
+  | "L3-SI" // 3ème licence — SI (Systèmes Informatiques)
+  | "L3-ISIL" // 3ème licence — ISIL (Information Systems & Software Engineering)
+  | "M1-SE" // Master 1 — Software Engineering
+  | "M1-AID" // Master 1 — Artificial Intelligence & Digitalization
+  | "M1-NET" // Master 1 — Networks
+  | "M1-GI" // Master 1 — GI (General Informatics / Génie Informatique)
+  | "M2-SE" // Master 2 — Software Engineering
+  | "M2-AID" // Master 2 — Artificial Intelligence & Digitalization
+  | "M2-NET" // Master 2 — Networks
+  | "M2-GI"; // Master 2 — GI (General Informatics / Génie Informatique)
 
 export interface TeamMember {
   id: number;
