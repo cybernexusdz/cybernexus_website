@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Terminal, Pause, Play, ChevronLeft, ChevronRight } from "lucide-react";
+import CyberImage from "../cyber-image/CyberImage";
 
 interface CyberCarouselProps {
   photos: string[];
@@ -12,7 +13,6 @@ const CyberCarousel: React.FC<CyberCarouselProps> = ({
 }) => {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isGlitching, setIsGlitching] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -22,28 +22,18 @@ const CyberCarousel: React.FC<CyberCarouselProps> = ({
     if (!isPlaying) return;
 
     const interval = setInterval(() => {
-      handleTransition((prev) => (prev + 1) % photos.length);
+      setCurrentPhotoIndex((prev) => (prev + 1) % photos.length);
     }, autoPlayInterval);
 
     return () => clearInterval(interval);
   }, [isPlaying, photos.length, autoPlayInterval]);
 
-  const handleTransition = (
-    nextIndexOrFn: number | ((prev: number) => number),
-  ) => {
-    setIsGlitching(true);
-    setTimeout(() => {
-      setCurrentPhotoIndex(nextIndexOrFn);
-      setTimeout(() => setIsGlitching(false), 400);
-    }, 200);
-  };
-
   const goToPrevious = () => {
-    handleTransition((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
+    setCurrentPhotoIndex((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
   };
 
   const goToNext = () => {
-    handleTransition((prev) => (prev + 1) % photos.length);
+    setCurrentPhotoIndex((prev) => (prev + 1) % photos.length);
   };
 
   // Touch handlers for swipe
@@ -94,6 +84,27 @@ const CyberCarousel: React.FC<CyberCarouselProps> = ({
 
   const { start, end } = getVisibleDots();
 
+  // PERFORMANCE OPTIMIZATION: Only render current + adjacent images
+  const getImagesToRender = () => {
+    const toRender = new Set<number>();
+
+    // Always render current
+    toRender.add(currentPhotoIndex);
+
+    // Render previous
+    const prevIndex =
+      currentPhotoIndex === 0 ? photos.length - 1 : currentPhotoIndex - 1;
+    toRender.add(prevIndex);
+
+    // Render next
+    const nextIndex = (currentPhotoIndex + 1) % photos.length;
+    toRender.add(nextIndex);
+
+    return toRender;
+  };
+
+  const imagesToRender = getImagesToRender();
+
   return (
     <div className="relative max-w-5xl mx-auto">
       {/* Cyber frame decoration */}
@@ -114,42 +125,38 @@ const CyberCarousel: React.FC<CyberCarouselProps> = ({
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          {photos.map((photo, index) => (
-            <div
-              key={index}
-              className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
-                index === currentPhotoIndex ? "opacity-100" : "opacity-0"
-              }`}
-              style={{
-                filter:
-                  isGlitching && index === currentPhotoIndex
-                    ? "blur(3px) saturate(3) hue-rotate(90deg)"
-                    : "none",
-                transform:
-                  isGlitching && index === currentPhotoIndex
-                    ? `translate(${Math.random() * 10 - 5}px, ${Math.random() * 10 - 5}px) skew(${Math.random() * 10 - 5}deg)`
-                    : "none",
-                transition: "filter 0.1s, transform 0.1s",
-              }}
-            >
-              <img
-                src={photo}
-                alt={`Team moment ${index + 1}`}
-                className="w-full h-full object-contain pointer-events-none"
-                loading="lazy"
-                draggable="false"
+          {/* OPTIMIZED: Only render 3 images instead of all 25! */}
+          {photos.map((photo, index) => {
+            // Skip rendering if not in visible window
+            if (!imagesToRender.has(index)) return null;
+
+            const isVisible = index === currentPhotoIndex;
+
+            return (
+              <div
+                key={index}
+                className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
+                  isVisible ? "opacity-100" : "opacity-0"
+                }`}
                 style={{
-                  textShadow:
-                    isGlitching && index === currentPhotoIndex
-                      ? "3px 0 #ff0000, -3px 0 #00ffff, 0 3px #00ff00"
-                      : "none",
+                  pointerEvents: isVisible ? "auto" : "none",
+                  zIndex: isVisible ? 10 : 5,
                 }}
-              />
-            </div>
-          ))}
+              >
+                <div className="w-full h-full flex items-center justify-center">
+                  <CyberImage
+                    src={photo}
+                    alt={`Team moment ${index + 1}`}
+                    className="w-full h-full object-contain"
+                    priority={index === 0}
+                  />
+                </div>
+              </div>
+            );
+          })}
 
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent pointer-events-none z-15" />
         </div>
 
         {/* Navigation Buttons - Hidden on mobile */}
@@ -193,7 +200,7 @@ const CyberCarousel: React.FC<CyberCarouselProps> = ({
                 return (
                   <button
                     key={actualIndex}
-                    onClick={() => handleTransition(actualIndex)}
+                    onClick={() => setCurrentPhotoIndex(actualIndex)}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
                       actualIndex === currentPhotoIndex
                         ? "bg-primary w-10"
@@ -231,7 +238,7 @@ const CyberCarousel: React.FC<CyberCarouselProps> = ({
         </div>
 
         {/* Top bar */}
-        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent z-20" />
       </div>
 
       {/* Loading bar */}
@@ -241,7 +248,7 @@ const CyberCarousel: React.FC<CyberCarouselProps> = ({
             key={currentPhotoIndex}
             className="h-full bg-primary w-full origin-left"
             style={{
-              animation: `loading ${autoPlayInterval}ms linear`,
+              animation: `loadingBar ${autoPlayInterval}ms linear`,
             }}
           />
         </div>

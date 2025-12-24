@@ -1,6 +1,7 @@
 import React from "react";
 import { TeamMember } from "@/types/team.types";
 import { User, Crown } from "lucide-react";
+import CyberImage from "../cyber-image/CyberImage";
 
 interface MemberNodeProps {
   member: TeamMember;
@@ -75,13 +76,13 @@ const MemberNode: React.FC<MemberNodeProps> = ({
         {/* Avatar or placeholder */}
         <div className="relative w-full h-full flex items-center justify-center z-10">
           {member.image ? (
-            <div className="w-full h-full rounded-full overflow-hidden">
-              <img
-                src={member.image}
-                alt={member.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <CyberImage
+              src={member.image}
+              alt={member.name}
+              className="w-full h-full rounded-full"
+              priority={isLead}
+              revealEffect="fade"
+            />
           ) : (
             <div className="flex items-center justify-center">
               <User
@@ -175,7 +176,7 @@ const MemberNode: React.FC<MemberNodeProps> = ({
         <div className="absolute inset-0 pointer-events-none">
           {[0, 90, 180, 270].map((angle, i) => {
             const rad = (angle * Math.PI) / 180;
-            const size = isLead ? 28 : 24; // adjust for mobile
+            const size = isLead ? 28 : 24;
             const radius = size * 0.45;
             const x = 50 + radius * Math.cos(rad);
             const y = 50 + radius * Math.sin(rad);
@@ -184,30 +185,17 @@ const MemberNode: React.FC<MemberNodeProps> = ({
                 key={angle}
                 className="absolute w-1.5 h-1.5 sm:w-2 sm:h-2 md:w-2.5 md:h-2.5 rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-300"
                 style={{
-                  backgroundColor: "rgb(var(--secondary))",
                   left: `${x}%`,
                   top: `${y}%`,
                   transform: "translate(-50%, -50%)",
-                  boxShadow: "0 0 4px rgba(var(--secondary), 0.6)",
-                  animation: `pulse-glow 2s ease-in-out infinite`,
-                  animationDelay: `${i * 0.2}s`,
+                  backgroundColor: "rgb(var(--secondary))",
+                  boxShadow: "0 0 4px rgba(var(--secondary), 0.8)",
                 }}
               />
             );
           })}
         </div>
       )}
-
-      {/* Background glow effect */}
-      <div
-        className="absolute inset-0 -z-10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
-        style={{
-          background: isLead
-            ? "radial-gradient(circle, rgba(var(--secondary), 0.3) 0%, transparent 70%)"
-            : "radial-gradient(circle, rgba(var(--primary), 0.25) 0%, transparent 70%)",
-          transform: "scale(1.5)",
-        }}
-      />
     </button>
   );
 };

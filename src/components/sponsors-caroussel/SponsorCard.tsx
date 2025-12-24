@@ -2,6 +2,7 @@ import React, { KeyboardEvent } from "react";
 import { Handshake, Terminal, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CyberCard from "../ui/CyberCard";
+import CyberImage from "../cyber-image/CyberImage";
 
 export type SponsorTier = "PLATINUM" | "GOLD" | "SILVER" | "BRONZE" | "PARTNER";
 
@@ -120,11 +121,12 @@ const SponsorCard: React.FC<SponsorCardProps> = ({
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/10 to-transparent animate-scan pointer-events-none" />
               )}
 
-              <img
+              <CyberImage
                 src={sponsor.logo}
                 alt={sponsor.name}
-                loading="lazy"
-                className="max-h-full max-w-full object-contain relative z-10 hover:scale-105 transition-all duration-500 rounded-md"
+                className="w-full h-full"
+                revealEffect="scanline"
+                priority={false}
               />
 
               {/* Tier Badge */}
