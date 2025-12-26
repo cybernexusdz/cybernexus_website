@@ -9,6 +9,7 @@ import {
   Terminal,
   ChevronRight,
 } from "lucide-react";
+import CyberImage from "../cyber-image/CyberImage";
 
 interface SocialLink {
   icon: any;
@@ -51,7 +52,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768); // md breakpoint
+      setIsMobile(window.innerWidth < 768);
     };
 
     checkMobile();
@@ -59,7 +60,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Helper to convert string icon names to components
   const getIconComponent = (iconName: string | any): any => {
     if (typeof iconName !== "string") return iconName;
 
@@ -130,13 +130,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           />
         )}
 
-        {/* Image with grayscale effect */}
+        {/* Image with CyberImage and grayscale effect */}
         <div className="relative w-full h-full overflow-hidden">
-          <img
+          <CyberImage
             src={image}
             alt={`${name} profile`}
-            className="w-full h-full object-cover object-bottom transition-all duration-700 group-hover:scale-110 md:grayscale md:group-hover:grayscale-0"
-            loading="lazy"
+            className="w-full h-full transition-all duration-700 group-hover:scale-110 md:grayscale md:group-hover:grayscale-0"
+            priority={false}
+            revealEffect="scanline"
           />
           {/* Cyan/Magenta chromatic aberration overlay on hover */}
           <div

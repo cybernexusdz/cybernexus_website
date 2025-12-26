@@ -4,6 +4,7 @@ import { Terminal, Users } from "lucide-react";
 import CyberCard from "../ui/CyberCard";
 import CyberCarousel from "../ui/CyberCarousel";
 import { useCyberScrollAnimation } from "@/hooks/useCyberScrollAnimation";
+import CyberImage from "../cyber-image/CyberImage";
 
 const teamPhotos = [
   "/images/events/team-photo-1.jpg",
@@ -85,10 +86,11 @@ const TeamSection: React.FC = () => {
           <div ref={imageRef}>
             <CyberCard variant="hologram">
               <div className="relative aspect-[4/3] w-full overflow-hidden">
-                <img
+                <CyberImage
                   src="/team-main-picture.jpg"
                   alt="CyberNexus Team"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  priority={true} // Since it's above the fold
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent pointer-events-none" />
               </div>

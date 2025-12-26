@@ -494,8 +494,16 @@ export const teamMembers: TeamMember[] = [
     grade: "L2",
     bio: "Code is like humor. When you have to explain it, it's bad.",
     socialLinks: [
-      { icon: "Github", href: "https://github.com/joseph-cef", label: "GitHub" },
-      { icon: "Globe",href: "https://my-links-joseph.netlify.app/",label: "Portfolio:",},
+      {
+        icon: "Github",
+        href: "https://github.com/joseph-cef",
+        label: "GitHub",
+      },
+      {
+        icon: "Globe",
+        href: "https://my-links-joseph.netlify.app/",
+        label: "Portfolio:",
+      },
     ],
     departmentRoles: [{ departmentId: "development", role: "Developer" }],
   },
