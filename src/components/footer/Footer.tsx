@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Mail,
   MapPin,
@@ -9,12 +10,32 @@ import {
   Rocket,
   Send,
   Zap,
+  X,
+  Lock
 } from "lucide-react";
 import { RetroGrid } from "@/components/ui/retroGrid";
 import { Title } from "@/components/ui/title";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
+  const [showAdminModal, setShowAdminModal] = useState(false);
+  const [adminEmail, setAdminEmail] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+
+  const handleAdminLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (adminEmail === "admin@cybernexus.dz" && adminPassword === "admin123") {
+      localStorage.setItem("cybernexus_admin", "true");
+      setShowAdminModal(false);
+      navigate("/workshops");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      setLoginError("Invalid credentials");
+    }
+  };
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -203,7 +224,7 @@ const Footer = () => {
               <span className="px-2 py-1 bg-primary/10 rounded border border-primary/30 text-primary font-bold">
                 © {currentYear}
               </span>
-              <span className="hidden sm:inline">CYBER_NEXUS</span>
+              <span onClick={() => setShowAdminModal(true)} className="hidden sm:inline hover:text-primary hover:animate-pulse transition-all cursor-pointer">CYBER_NEXUS</span>
             </div>
 
             <button
@@ -216,6 +237,50 @@ const Footer = () => {
           </div>
         </div>
       </footer>
+
+      {showAdminModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
+          <div className="bg-base-200 shadow-2xl border border-primary/20 p-6 rounded-2xl w-full max-w-sm relative">
+            <button
+              onClick={() => setShowAdminModal(false)}
+              className="absolute top-4 right-4 text-base-content/50 hover:text-primary transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="flex flex-col items-center gap-3 mb-6">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center">
+                <Lock className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold font-mono text-foreground">Admin Access</h3>
+            </div>
+            <form onSubmit={handleAdminLogin} className="space-y-4">
+              <input
+                type="email"
+                placeholder="Admin Email"
+                value={adminEmail}
+                onChange={(e) => setAdminEmail(e.target.value)}
+                className="w-full px-4 py-2 rounded-lg bg-base-100 border border-primary/20 text-foreground font-mono focus:outline-none focus:border-primary transition-colors"
+                required
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={adminPassword}
+                onChange={(e) => setAdminPassword(e.target.value)}
+                className="w-full px-4 py-2 rounded-lg bg-base-100 border border-primary/20 text-foreground font-mono focus:outline-none focus:border-primary transition-colors"
+                required
+              />
+              {loginError && <p className="text-red-500 text-xs font-mono">{loginError}</p>}
+              <button
+                type="submit"
+                className="w-full py-2.5 rounded-lg bg-primary text-primary-foreground font-mono font-bold hover:brightness-110 transition-all cursor-pointer"
+              >
+                LOGIN
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 };
