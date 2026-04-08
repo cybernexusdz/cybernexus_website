@@ -74,7 +74,7 @@ const workshops: Workshop[] = [
     title: "Frontend Workshop",
     description:
       "Master modern frontend development with HTML, CSS, and JavaScript. Build responsive, interactive web pages from scratch using real-world techniques and best practices.",
-    date: "April 8, 2026",
+    date: "April 11, 2026",
     time: "2:00 PM",
     duration: "3 hours",
     location: "Lab 204, Tech Building",
@@ -92,7 +92,7 @@ const workshops: Workshop[] = [
     title: "Backend Workshop",
     description:
       "Dive into server-side development with Node.js and Express. Learn how to build REST APIs, connect to databases, and handle authentication.",
-    date: "April 9, 2026",
+    date: "April 12, 2026",
     time: "2:00 PM",
     duration: "3 hours",
     location: "Lab 204, Tech Building",
@@ -110,7 +110,7 @@ const workshops: Workshop[] = [
     title: "OOP Workshop",
     description:
       "Understand the core principles of Object-Oriented Programming — encapsulation, inheritance, polymorphism, and abstraction. Hands-on exercises in Python and Java.",
-    date: "April 8, 2026",
+    date: "April 7, 2026",
     time: "4:00 PM",
     duration: "2.5 hours",
     location: "Lab 102, CS Building",
@@ -127,7 +127,7 @@ const workshops: Workshop[] = [
     id: 4,
     title: "Algorithmes",
     description: "Deep dive into advanced algorithms, dynamic programming, and complex data structures optimizations.",
-    date: "April 10, 2026",
+    date: "April 11, 2026",
     time: "2:00 PM",
     duration: "3 hours",
     location: "Lab 305, Tech Building",
@@ -199,7 +199,7 @@ const workshopSessionsData: Record<number, WorkshopWithSessions> = {
     instructor: "Adda Hadi Missom", category: "frontend", level: "Beginner", tags: ["HTML", "CSS", "JavaScript"],
     totalSessions: 1, completedSessions: 0,
     sessions: [
-      { id: 101, sessionNumber: 1, title: "HTML Fundamentals & Semantic Markup", description: "Learn HTML5 elements, semantic tags, forms, and accessibility best practices.", date: "April 8, 2026", time: "2:00 PM", duration: "3h", location: "Lab 204", topics: ["HTML5", "Semantic", "Forms"], status: "upcoming", attendees: 0, resources: ["slides.pdf", "starter-code.zip"] },
+      { id: 101, sessionNumber: 1, title: "HTML Fundamentals & Semantic Markup", description: "Learn HTML5 elements, semantic tags, forms, and accessibility best practices.", date: "April 11, 2026", time: "2:00 PM", duration: "3h", location: "Lab 204", topics: ["HTML5", "Semantic", "Forms"], status: "upcoming", attendees: 0, resources: ["slides.pdf", "starter-code.zip"] },
     ],
   },
   2: {
@@ -207,15 +207,15 @@ const workshopSessionsData: Record<number, WorkshopWithSessions> = {
     instructor: "Kamel Abada", category: "backend", level: "Beginner", tags: ["Node.js", "Express", "MongoDB"],
     totalSessions: 1, completedSessions: 0,
     sessions: [
-      { id: 201, sessionNumber: 1, title: "Node.js Fundamentals", description: "Understand the Node.js runtime, modules, npm, and async programming.", date: "April 9, 2026", time: "2:00 PM", duration: "3h", location: "Lab 204", topics: ["Node.js", "npm", "Async"], status: "upcoming", attendees: 0 },
+      { id: 201, sessionNumber: 1, title: "Node.js Fundamentals", description: "Understand the Node.js runtime, modules, npm, and async programming.", date: "April 12, 2026", time: "2:00 PM", duration: "3h", location: "Lab 204", topics: ["Node.js", "npm", "Async"], status: "upcoming", attendees: 0 },
     ],
   },
   3: {
     id: 3, title: "OOP Workshop", description: "Object-Oriented Programming fundamentals",
     instructor: "Ait abderrahim abdelhakim", category: "oop", level: "Beginner", tags: ["OOP", "Python", "Java"],
-    totalSessions: 1, completedSessions: 0,
+    totalSessions: 1, completedSessions: 1,
     sessions: [
-      { id: 301, sessionNumber: 1, title: "Classes, Objects & Encapsulation", description: "Understand classes, objects, attributes, methods, and data encapsulation.", date: "April 8, 2026", time: "4:00 PM", duration: "2.5h", location: "Lab 102", topics: ["Classes", "Objects", "Encapsulation"], status: "upcoming", attendees: 0 },
+      { id: 301, sessionNumber: 1, title: "Classes, Objects & Encapsulation", description: "Understand classes, objects, attributes, methods, and data encapsulation.", date: "April 7, 2026", time: "4:00 PM", duration: "2.5h", location: "Lab 102", topics: ["Classes", "Objects", "Encapsulation"], status: "completed", attendees: 26 },
     ],
   },
   4: {
@@ -225,7 +225,7 @@ const workshopSessionsData: Record<number, WorkshopWithSessions> = {
     sessions: [
       { id: 401, sessionNumber: 1, title: "Introduction to Algorithmes", description: "Fundamentals of sorting, searching, and algorithm complexity.", date: "November 29, 2025", time: "2:00 PM", duration: "3h", location: "Lab 305", topics: ["Sorting", "Complexity"], status: "completed", attendees: 25 },
       { id: 402, sessionNumber: 2, title: "Intermediate Algorithmes", description: "Data structures, hash maps, and recursion.", date: "December 20, 2025", time: "2:00 PM", duration: "3h", location: "Lab 305", topics: ["Data Structures", "Recursion"], status: "completed", attendees: 22 },
-      { id: 403, sessionNumber: 3, title: "Advanced Algorithmes", description: "Learn dynamic programming, breadth-first search, and shortest path algorithms.", date: "April 10, 2026", time: "2:00 PM", duration: "3h", location: "Lab 305", topics: ["Graphs", "DP", "BFS"], status: "upcoming", attendees: 0 },
+      { id: 403, sessionNumber: 3, title: "Advanced Algorithmes", description: "Learn dynamic programming, breadth-first search, and shortest path algorithms.", date: "April 11, 2026", time: "2:00 PM", duration: "3h", location: "Lab 305", topics: ["Graphs", "DP", "BFS"], status: "upcoming", attendees: 0 },
     ],
   },
   5: {
