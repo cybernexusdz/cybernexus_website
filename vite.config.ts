@@ -10,4 +10,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
+  server: {
+    fs: {
+      strict: true,
+    },
+  },
+  preview: {
+    port: 4173,
+  },
 });
