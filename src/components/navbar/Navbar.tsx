@@ -3,12 +3,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "../ui/Logo";
 import LogoIcon from "../ui/LogoIcon";
 import ThemeToggle from "../ui/ThemeToggle";
-import { Menu, X, Home, BookOpen, Heart, Mail, Users } from "lucide-react";
+import { Menu, X, Home, BookOpen, Heart, Mail, Users, Layout, ChevronDown } from "lucide-react";
 
 interface NavItem {
   name: string;
   icon: any;
-  section: string; // Section ID for scrolling
+  section?: string; // Section ID for scrolling
+  path?: string;    // Path for navigation
+  children?: NavItem[]; // Optional Sub-items
 }
 
 interface Section {
@@ -37,6 +39,13 @@ const Navbar = ({ theme, setTheme, handleScrollComponent }: NavbarProps) => {
     { name: "What We Do", icon: BookOpen, section: "What We Do" },
     { name: "Sponsors", icon: Heart, section: "Sponsors" },
     { name: "Contact", icon: Mail, section: "Contact" },
+    { 
+      name: "Pages", 
+      icon: Layout, 
+      children: [
+        { name: "Workshops", icon: Layout, path: "/workshops" },
+      ] 
+    },
   ];
 
   const isHomePage = location.pathname === "/";
@@ -64,10 +73,12 @@ const Navbar = ({ theme, setTheme, handleScrollComponent }: NavbarProps) => {
       setLastScrollY(currentScrollY);
 
       // Better spy scrolling logic
-      const sections: Section[] = navItems.map((item) => ({
-        id: item.section,
-        element: document.getElementById(item.section),
-      }));
+      const sections: Section[] = navItems
+        .filter(item => item.section)
+        .map((item) => ({
+          id: item.section!,
+          element: document.getElementById(item.section!),
+        }));
 
       let current = "Hero";
       const scrollPosition = currentScrollY + windowHeight / 3;
@@ -115,9 +126,14 @@ const Navbar = ({ theme, setTheme, handleScrollComponent }: NavbarProps) => {
   const handleNavClick = (item: NavItem): void => {
     setMenuOpen(false);
 
+    if (item.path) {
+      navigate(item.path);
+      return;
+    }
+
     if (isHomePage) {
       // Already on home page, just scroll to section
-      if (handleScrollComponent) {
+      if (handleScrollComponent && item.section) {
         handleScrollComponent(item.section);
       }
     } else {
@@ -125,7 +141,7 @@ const Navbar = ({ theme, setTheme, handleScrollComponent }: NavbarProps) => {
       navigate("/");
       // Wait for navigation and page render, then scroll
       setTimeout(() => {
-        if (handleScrollComponent) {
+        if (handleScrollComponent && item.section) {
           handleScrollComponent(item.section);
         }
       }, 100);
@@ -164,7 +180,11 @@ const Navbar = ({ theme, setTheme, handleScrollComponent }: NavbarProps) => {
 
   // Determine if a nav item is active
   const isItemActive = (item: NavItem): boolean => {
-    return activeSection === item.section;
+    if (item.path) {
+      return location.pathname === item.path;
+    }
+    // Section-based items only active on home page
+    return isHomePage && activeSection === item.section;
   };
 
   return (
@@ -199,7 +219,54 @@ const Navbar = ({ theme, setTheme, handleScrollComponent }: NavbarProps) => {
             <div className="hidden md:flex items-center gap-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
-                const isActive = isItemActive(item);
+                const isActive = item.children 
+                  ? item.children.some(child => isItemActive(child))
+                  : isItemActive(item);
+
+                if (item.children) {
+                  return (
+                    <div key={item.name} className="relative group">
+                      <button
+                        className={`
+                          relative px-4 py-2 rounded-lg font-medium font-mono transition-all duration-300
+                          flex items-center gap-2 group
+                          ${
+                            isActive
+                              ? "text-primary bg-primary/10"
+                              : "text-base-content/70 hover:text-primary hover:bg-base-200"
+                          }
+                        `}
+                      >
+                        <Icon size={18} />
+                        <span>{item.name}</span>
+                        <ChevronDown size={14} className="transition-transform group-hover:rotate-180 duration-300" />
+                      </button>
+
+                      {/* Dropdown Menu */}
+                      <div className="absolute top-full left-0 mt-1 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
+                        <div className="bg-base-100 border border-primary/20 rounded-xl shadow-xl shadow-primary/10 overflow-hidden backdrop-blur-md">
+                          {item.children.map((child) => {
+                            const ChildIcon = child.icon;
+                            const isChildActive = isItemActive(child);
+                            return (
+                              <button
+                                key={child.name}
+                                onClick={() => handleNavClick(child)}
+                                className={`
+                                  w-full flex items-center gap-3 px-4 py-3 text-sm font-mono transition-all duration-200
+                                  ${isChildActive ? "text-primary bg-primary/5" : "text-base-content/70 hover:text-primary hover:bg-primary/5"}
+                                `}
+                              >
+                                <ChildIcon size={14} />
+                                <span>{child.name}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
 
                 return (
                   <button
@@ -280,7 +347,39 @@ const Navbar = ({ theme, setTheme, handleScrollComponent }: NavbarProps) => {
             <div className="flex-1 space-y-2 overflow-y-auto">
               {navItems.map((item, index) => {
                 const Icon = item.icon;
-                const isActive = isItemActive(item);
+                const isActive = item.children 
+                  ? item.children.some(child => isItemActive(child))
+                  : isItemActive(item);
+
+                if (item.children) {
+                  return (
+                    <div key={item.name} className="space-y-1">
+                      <div className="px-5 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary/50 font-mono">
+                        {item.name}
+                      </div>
+                      <div className="space-y-1">
+                        {item.children.map((child) => (
+                          <button
+                            key={child.name}
+                            onClick={() => handleNavClick(child)}
+                            className={`
+                              w-full text-left px-5 py-4 rounded-xl font-semibold text-base font-mono
+                              transition-all duration-300 flex items-center gap-4
+                              ${
+                                isItemActive(child)
+                                  ? "bg-gradient-to-r from-primary to-secondary text-white shadow-lg"
+                                  : "text-base-content hover:bg-base-200"
+                              }
+                            `}
+                          >
+                            <child.icon size={22} />
+                            <span>{child.name}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
 
                 return (
                   <button
