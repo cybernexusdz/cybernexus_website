@@ -1,6 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
-import { Code, Lightbulb, Rocket, Users, Terminal, Code2 } from "lucide-react";
+import { Code, Lightbulb, Rocket, Users, Terminal, Code2, ArrowRight } from "lucide-react";
 import CyberCard from "../ui/CyberCard";
 import { useCyberScrollAnimation } from "@/hooks/useCyberScrollAnimation";
 
@@ -48,6 +49,8 @@ const activities = [
 ];
 
 const WhatWeDoSection: React.FC = () => {
+  const navigate = useNavigate();
+
   // Animation refs with RGB CHROMATIC ABERRATION glitch effects
   const headerBadgeRef = useCyberScrollAnimation({
     animation: "cyberGlitchCenter",
@@ -145,77 +148,92 @@ const WhatWeDoSection: React.FC = () => {
         {/* Activity Cards Grid - CENTER GLITCH with RGB + STAGGER */}
         <div ref={cardsRef} className="grid md:grid-cols-2 gap-6">
           {activities.map((activity, index) => (
-            <CyberCard
+            <div
               key={index}
-              variant="hologram"
-              className={`group relative p-6 bg-card/50 backdrop-blur-sm border-2 ${activity.borderColor} hover:border-opacity-50 transition-all duration-300 hover:scale-[1.02] cursor-pointer overflow-hidden`}
+              onClick={index === 0 ? () => navigate("/workshops") : undefined}
+              className={index === 0 ? "cursor-pointer" : ""}
             >
-              {/* Hover glow effect */}
-              <div
-                className={`absolute inset-0 ${activity.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
-              />
+              <CyberCard
+                variant="hologram"
+                className={`group relative p-6 bg-card/50 backdrop-blur-sm border-2 ${activity.borderColor} hover:border-opacity-50 transition-all duration-300 hover:scale-[1.02] cursor-pointer overflow-hidden`}
+              >
+                {/* Hover glow effect */}
+                <div
+                  className={`absolute inset-0 ${activity.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                />
 
-              {/* Animated corner accents */}
-              <div className="absolute top-0 left-0 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div
-                  className={`absolute top-0 left-0 w-full h-0.5 ${activity.bgColor.replace("/10", "/50")}`}
-                />
-                <div
-                  className={`absolute top-0 left-0 w-0.5 h-full ${activity.bgColor.replace("/10", "/50")}`}
-                />
-              </div>
-              <div className="absolute bottom-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div
-                  className={`absolute bottom-0 right-0 w-full h-0.5 ${activity.bgColor.replace("/10", "/50")}`}
-                />
-                <div
-                  className={`absolute bottom-0 right-0 w-0.5 h-full ${activity.bgColor.replace("/10", "/50")}`}
-                />
-              </div>
-
-              <div className="relative z-10 space-y-4">
-                {/* Icon with data brackets */}
-                <div className="flex items-center gap-3">
-                  <span
-                    className={`text-xs ${activity.color} opacity-60 font-mono`}
-                  >
-                    [
-                  </span>
+                {/* Animated corner accents */}
+                <div className="absolute top-0 left-0 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div
-                    className={`w-14 h-14 rounded-lg ${activity.bgColor} border ${activity.borderColor} flex items-center justify-center group-hover:scale-110 transition-transform duration-300 neon-border-subtle`}
-                  >
-                    <activity.icon className={`w-7 h-7 ${activity.color}`} />
-                  </div>
-                  <span
-                    className={`text-xs ${activity.color} opacity-60 font-mono`}
-                  >
-                    ]
-                  </span>
-                </div>
-
-                {/* Title with terminal prompt */}
-                <div className="flex items-center gap-2">
-                  <span className={`text-sm ${activity.color} font-mono`}>
-                    &gt;
-                  </span>
-                  <h3 className="text-2xl font-bold text-foreground font-mono">
-                    {activity.title}
-                  </h3>
-                </div>
-
-                {/* Description */}
-                <p className="text-foreground/80 leading-relaxed pl-6">
-                  {activity.description}
-                </p>
-
-                {/* Animated progress bar */}
-                <div className="relative h-1 bg-foreground/10 rounded-full overflow-hidden">
+                    className={`absolute top-0 left-0 w-full h-0.5 ${activity.bgColor.replace("/10", "/50")}`}
+                  />
                   <div
-                    className={`absolute inset-y-0 left-0 w-0 group-hover:w-full ${activity.bgColor.replace("/10", "/50")} transition-all duration-700 ease-out`}
+                    className={`absolute top-0 left-0 w-0.5 h-full ${activity.bgColor.replace("/10", "/50")}`}
                   />
                 </div>
-              </div>
-            </CyberCard>
+                <div className="absolute bottom-0 right-0 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div
+                    className={`absolute bottom-0 right-0 w-full h-0.5 ${activity.bgColor.replace("/10", "/50")}`}
+                  />
+                  <div
+                    className={`absolute bottom-0 right-0 w-0.5 h-full ${activity.bgColor.replace("/10", "/50")}`}
+                  />
+                </div>
+
+                <div className="relative z-10 space-y-4">
+                  {/* Icon with data brackets */}
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`text-xs ${activity.color} opacity-60 font-mono`}
+                    >
+                      [
+                    </span>
+                    <div
+                      className={`w-14 h-14 rounded-lg ${activity.bgColor} border ${activity.borderColor} flex items-center justify-center group-hover:scale-110 transition-transform duration-300 neon-border-subtle`}
+                    >
+                      <activity.icon className={`w-7 h-7 ${activity.color}`} />
+                    </div>
+                    <span
+                      className={`text-xs ${activity.color} opacity-60 font-mono`}
+                    >
+                      ]
+                    </span>
+                  </div>
+
+                  {/* Title with terminal prompt */}
+                  <div className="flex items-center gap-2">
+                    <span className={`text-sm ${activity.color} font-mono`}>
+                      &gt;
+                    </span>
+                    <h3 className="text-2xl font-bold text-foreground font-mono">
+                      {activity.title}
+                    </h3>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-foreground/80 leading-relaxed pl-6">
+                    {activity.description}
+                  </p>
+
+                  {/* Explore link for workshops card */}
+                  {index === 0 && (
+                    <div className="flex items-center gap-2 pl-6 pt-1">
+                      <span className="text-sm font-mono text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300">
+                        Explore Workshops
+                      </span>
+                      <ArrowRight className="w-4 h-4 text-cyan-400 group-hover:translate-x-1 transition-transform duration-300" />
+                    </div>
+                  )}
+
+                  {/* Animated progress bar */}
+                  <div className="relative h-1 bg-foreground/10 rounded-full overflow-hidden">
+                    <div
+                      className={`absolute inset-y-0 left-0 w-0 group-hover:w-full ${activity.bgColor.replace("/10", "/50")} transition-all duration-700 ease-out`}
+                    />
+                  </div>
+                </div>
+              </CyberCard>
+            </div>
           ))}
         </div>
       </div>

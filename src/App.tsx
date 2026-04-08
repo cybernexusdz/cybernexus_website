@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import WorkshopsPage from "./pages/WorkshopsPage";
 import MeetTheTeamPage from "./pages/MeetTheTeam";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
@@ -34,6 +35,7 @@ const App: React.FC = () => {
       <div className="mt-20">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/workshops" element={<WorkshopsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
