@@ -1,7 +1,11 @@
 {
   "rewrites": [
     {
+<<<<<<< HEAD
       "source": "/(.*)",
+=======
+      "source": "/((?!.*\\.).*)",
+>>>>>>> main
       "destination": "/index.html"
     }
   ]
