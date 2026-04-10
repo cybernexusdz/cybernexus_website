@@ -13,6 +13,7 @@ import {
   Loader2,
   Download,
 } from "lucide-react";
+import { sendEnrollmentConfirmation } from "@/lib/emailjs";
 
 interface EnrollModalProps {
   workshopId: number;
@@ -104,6 +105,19 @@ const EnrollModal: React.FC<EnrollModalProps> = ({
 
       if (insertError) {
         throw insertError;
+      }
+
+      // Send confirmation email
+      try {
+        await sendEnrollmentConfirmation(
+          name.trim(),
+          email.trim().toLowerCase(),
+          workshopTitle
+        );
+      } catch (emailErr) {
+        // We don't want to fail the whole enrollment if email fails, 
+        // but we should log it
+        console.error("Email confirmation failed:", emailErr);
       }
 
       setSuccess(true);
