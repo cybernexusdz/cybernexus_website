@@ -74,7 +74,7 @@ const workshops: Workshop[] = [
     title: "Frontend Workshop",
     description:
       "Master modern frontend development with HTML, CSS, and JavaScript. Build responsive, interactive web pages from scratch using real-world techniques and best practices.",
-    date: "April 11, 2026",
+    date: "April 13, 2026",
     time: "2:00 PM",
     duration: "3 hours",
     location: "Lab 204, Tech Building",
@@ -92,7 +92,7 @@ const workshops: Workshop[] = [
     title: "Backend Workshop",
     description:
       "Dive into server-side development with Node.js and Express. Learn how to build REST APIs, connect to databases, and handle authentication.",
-    date: "April 12, 2026",
+    date: "April 14, 2026",
     time: "2:00 PM",
     duration: "3 hours",
     location: "Lab 204, Tech Building",
@@ -199,7 +199,7 @@ const workshopSessionsData: Record<number, WorkshopWithSessions> = {
     instructor: "Adda Hadi Missom", category: "frontend", level: "Beginner", tags: ["HTML", "CSS", "JavaScript"],
     totalSessions: 1, completedSessions: 0,
     sessions: [
-      { id: 101, sessionNumber: 1, title: "HTML Fundamentals & Semantic Markup", description: "Learn HTML5 elements, semantic tags, forms, and accessibility best practices.", date: "April 11, 2026", time: "2:00 PM", duration: "3h", location: "Lab 204", topics: ["HTML5", "Semantic", "Forms"], status: "upcoming", attendees: 0, resources: ["slides.pdf", "starter-code.zip"] },
+      { id: 101, sessionNumber: 1, title: "HTML Fundamentals & Semantic Markup", description: "Learn HTML5 elements, semantic tags, forms, and accessibility best practices.", date: "April 13, 2026", time: "2:00 PM", duration: "3h", location: "Lab 204", topics: ["HTML5", "Semantic", "Forms"], status: "upcoming", attendees: 0, resources: ["slides.pdf", "starter-code.zip"] },
     ],
   },
   2: {
@@ -207,7 +207,7 @@ const workshopSessionsData: Record<number, WorkshopWithSessions> = {
     instructor: "Kamel Abada", category: "backend", level: "Beginner", tags: ["Node.js", "Express", "MongoDB"],
     totalSessions: 1, completedSessions: 0,
     sessions: [
-      { id: 201, sessionNumber: 1, title: "Node.js Fundamentals", description: "Understand the Node.js runtime, modules, npm, and async programming.", date: "April 12, 2026", time: "2:00 PM", duration: "3h", location: "Lab 204", topics: ["Node.js", "npm", "Async"], status: "upcoming", attendees: 0 },
+      { id: 201, sessionNumber: 1, title: "Node.js Fundamentals", description: "Understand the Node.js runtime, modules, npm, and async programming.", date: "April 14, 2026", time: "2:00 PM", duration: "3h", location: "Lab 204", topics: ["Node.js", "npm", "Async"], status: "upcoming", attendees: 0 },
     ],
   },
   3: {
@@ -612,7 +612,7 @@ const WorkshopsPage: React.FC = () => {
 
 
       {/* ==================== CALENDAR SECTION ==================== */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-10 overflow-hidden">
+      <section className="relative py-12 sm:py-20 px-4 sm:px-6 lg:px-10 overflow-hidden">
         <div className="cyber-grid absolute inset-0 opacity-15" />
         <div className="circuit-line circuit-line-2" />
 
@@ -625,17 +625,27 @@ const WorkshopsPage: React.FC = () => {
               </h2>
               <p className="text-foreground/60 font-mono text-sm">Upcoming 14 days schedule</p>
             </div>
-            <div className="flex items-center gap-2">
-              <button onClick={() => setCalendarStart(Math.max(0, calendarStart - 7))} disabled={calendarStart === 0} className="w-8 h-8 rounded-lg bg-foreground/5 border border-foreground/10 flex items-center justify-center text-foreground/40 hover:text-primary hover:border-primary/30 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed">
-                <ChevronLeft className="w-4 h-4" />
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => setCalendarStart(Math.max(0, calendarStart - 7))} 
+                disabled={calendarStart === 0} 
+                className="w-10 h-10 sm:w-8 sm:h-8 rounded-lg bg-foreground/5 border border-foreground/10 flex items-center justify-center text-foreground/40 hover:text-primary hover:border-primary/30 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group"
+                aria-label="Previous Week"
+              >
+                <ChevronLeft className="w-5 h-5 sm:w-4 sm:h-4 group-hover:-translate-x-0.5 transition-transform" />
               </button>
-              <button onClick={() => setCalendarStart(Math.min(7, calendarStart + 7))} disabled={calendarStart >= 7} className="w-8 h-8 rounded-lg bg-foreground/5 border border-foreground/10 flex items-center justify-center text-foreground/40 hover:text-primary hover:border-primary/30 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed">
-                <ChevronRight className="w-4 h-4" />
+              <button 
+                onClick={() => setCalendarStart(Math.min(7, calendarStart + 7))} 
+                disabled={calendarStart >= 7} 
+                className="w-10 h-10 sm:w-8 sm:h-8 rounded-lg bg-foreground/5 border border-foreground/10 flex items-center justify-center text-foreground/40 hover:text-primary hover:border-primary/30 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed group"
+                aria-label="Next Week"
+              >
+                <ChevronRight className="w-5 h-5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
             {calendarDays.slice(calendarStart, calendarStart + 7).map((day, i) => {
               const hasWorkshops = day.workshops.length > 0;
               return (
