@@ -27,14 +27,10 @@ const Footer = () => {
 
   const handleAdminLogin = (e: React.FormEvent) => {
     e.preventDefault();
-<<<<<<< Updated upstream
-    if (adminEmail === process.env.VITE_ADMIN_EMAIL && adminPassword === process.env.VITE_ADMIN_PASSWORD) {
-=======
-    const expectedEmail = import.meta.env.VITE_ADMIN_EMAIL || "admin@cybernexus.dz";
-    const expectedPassword = import.meta.env.VITE_ADMIN_PASSWORD || "admin123";
+    const expectedEmail = import.meta.env.VITE_ADMIN_EMAIL || process.env.VITE_ADMIN_EMAIL;
+    const expectedPassword = import.meta.env.VITE_ADMIN_PASSWORD || process.env.VITE_ADMIN_PASSWORD;
 
     if (adminEmail === expectedEmail && adminPassword === expectedPassword) {
->>>>>>> Stashed changes
       localStorage.setItem("cybernexus_admin", "true");
       setShowAdminModal(false);
       navigate("/workshops");
