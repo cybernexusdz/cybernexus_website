@@ -27,7 +27,7 @@ const Footer = () => {
 
   const handleAdminLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (adminEmail === "admin@cybernexus.dz" && adminPassword === "admin123") {
+    if (adminEmail === process.env.VITE_ADMIN_EMAIL && adminPassword === process.env.VITE_ADMIN_PASSWORD) {
       localStorage.setItem("cybernexus_admin", "true");
       setShowAdminModal(false);
       navigate("/workshops");
