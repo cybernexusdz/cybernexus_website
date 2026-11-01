@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useMemo } from "react";
 import { TeamMember, Department } from "@/types/team.types";
 import { X, User } from "lucide-react";
 import * as LucideIcons from "lucide-react";
@@ -19,6 +19,17 @@ const MemberCard: React.FC<MemberCardProps> = ({
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 8 }, (_, i) => ({
+        id: i,
+        left: `${(i * 12 + 6) % 100}%`,
+        animationDuration: `${20 + (i % 4) * 3}s`,
+        animationDelay: `${(i % 5) * 1}s`,
+      })),
+    [],
+  );
 
   // Get current department role
   const currentRole = member.departmentRoles.find(
@@ -44,6 +55,18 @@ const MemberCard: React.FC<MemberCardProps> = ({
       gsap.set(el, { textShadow: "none" });
     });
   };
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
 
   useEffect(() => {
     const card = cardRef.current;
@@ -235,14 +258,14 @@ const MemberCard: React.FC<MemberCardProps> = ({
       <div className="cyber-grid absolute inset-0 opacity-10" />
 
       {/* Data particles */}
-      {[...Array(8)].map((_, i) => (
+      {particles.map((p) => (
         <div
-          key={i}
+          key={p.id}
           className="data-particle hidden sm:block"
           style={{
-            left: `${Math.random() * 100}%`,
-            animationDuration: `${20 + Math.random() * 10}s`,
-            animationDelay: `${Math.random() * 5}s`,
+            left: p.left,
+            animationDuration: p.animationDuration,
+            animationDelay: p.animationDelay,
           }}
         />
       ))}
@@ -316,10 +339,21 @@ const MemberCard: React.FC<MemberCardProps> = ({
               </div>
 
               <div className="flex flex-col sm:flex-row flex-wrap gap-2 mt-3 justify-center sm:justify-start">
-                <div className="inline-block px-3 py-1.5 bg-primary/10 border border-primary/30 rounded font-mono text-xs sm:text-sm text-primary">
-                  {currentRole?.role || "Team Member"}
-                  {currentRole?.isLead && (
-                    <span className="ml-2 text-secondary">★ LEAD</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/30 rounded font-mono text-xs sm:text-sm text-primary">
+                  <span>{currentRole?.role || "Team Member"}</span>
+                  {(currentDepartment.leaderId === member.id ||
+                    currentRole?.rank === "leader" ||
+                    (currentRole?.isLead &&
+                      !currentDepartment.coLeaderIds?.includes(member.id))) && (
+                    <span className="px-1.5 py-0.5 rounded bg-amber-400/15 border border-amber-400/50 text-amber-300 text-[10px] font-bold">
+                      ★ DEPT LEAD
+                    </span>
+                  )}
+                  {(currentDepartment.coLeaderIds?.includes(member.id) ||
+                    currentRole?.rank === "co-leader") && (
+                    <span className="px-1.5 py-0.5 rounded bg-secondary/20 border border-secondary/50 text-secondary text-[10px] font-bold">
+                      ⚡ CO-LEAD
+                    </span>
                   )}
                 </div>
                 <div className="inline-block px-3 py-1.5 bg-secondary/10 border border-secondary/30 rounded font-mono text-[10px] sm:text-xs text-secondary/80">

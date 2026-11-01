@@ -5,16 +5,18 @@ interface ClubNewsCardProps {
   onHover: (cardId: string | null) => void;
   clubNewsRef: React.RefObject<HTMLDivElement>;
   openDayImage: string;
+  onCtaClick?: () => void;
 }
 
 const ClubNewsCard = memo<ClubNewsCardProps>(
-  ({ onHover, clubNewsRef, openDayImage }) => {
+  ({ onHover, clubNewsRef, openDayImage, onCtaClick }) => {
     return (
       <div ref={clubNewsRef} className="mb-16 lg:mb-20">
         <div
           className="relative group cursor-pointer"
           onMouseEnter={() => onHover("clubNews")}
           onMouseLeave={() => onHover(null)}
+          onClick={onCtaClick}
         >
           {/* Gradient border effect */}
           <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-secondary to-primary rounded-2xl opacity-0 group-hover:opacity-100 blur transition-all duration-500" />
@@ -74,8 +76,12 @@ const ClubNewsCard = memo<ClubNewsCardProps>(
                 </div>
 
                 {/* CTA Button */}
-                <button className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-content rounded-lg font-semibold hover:bg-primary/90 transition-all duration-300 group/btn w-full sm:w-auto">
-                  Learn More
+                <button
+                  type="button"
+                  onClick={onCtaClick}
+                  className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-content rounded-lg font-semibold hover:bg-primary/90 transition-all duration-300 group/btn w-full sm:w-auto"
+                >
+                  Explore Workshops & Events
                   <svg
                     className="w-5 h-5 ml-2 transform group-hover/btn:translate-x-1 transition-transform"
                     fill="none"

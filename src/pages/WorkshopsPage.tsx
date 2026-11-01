@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import CyberCard from "@/components/ui/CyberCard";
 import { useCyberScrollAnimation } from "@/hooks/useCyberScrollAnimation";
@@ -327,7 +327,7 @@ const getStatusConfig = (status: WorkshopStatus) => {
 };
 
 const getCategoryColor = (categoryId: string) => {
-  return categoryColorMap[categoryId] || categoryColorMap["web"];
+  return categoryColorMap[categoryId] || categoryColorMap["frontend"];
 };
 
 const WorkshopsPage: React.FC = () => {
@@ -336,9 +336,19 @@ const WorkshopsPage: React.FC = () => {
   const [enrollingWorkshop, setEnrollingWorkshop] = useState<{ id: number; title: string; category: string } | null>(null);
   const [uploadingWorkshop, setUploadingWorkshop] = useState<{ id: number; title: string } | null>(null);
   const [viewingMaterialsWorkshop, setViewingMaterialsWorkshop] = useState<{ id: number; title: string } | null>(null);
-  const [activeAdminMenu, setActiveAdminMenu] = useState<number | null>(null);
   const [enrollmentCounts, setEnrollmentCounts] = useState<Record<number, number>>({});
   const [isAdmin, setIsAdmin] = useState(false);
+
+  const heroParticles = useMemo(
+    () =>
+      Array.from({ length: 15 }, (_, i) => ({
+        id: i,
+        left: `${(i * 6.7 + 3) % 100}%`,
+        animationDuration: `${15 + (i % 5) * 3}s`,
+        animationDelay: `${(i % 7) * 1.4}s`,
+      })),
+    [],
+  );
 
   const fetchEnrollments = async () => {
     try {
@@ -361,7 +371,24 @@ const WorkshopsPage: React.FC = () => {
 
   useEffect(() => {
     fetchEnrollments();
-    setIsAdmin(localStorage.getItem("cybernexus_admin") === "true");
+
+    const checkAdminStatus = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(localStorage.getItem("cybernexus_admin") === "true");
+      }
+    };
+    checkAdminStatus();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAdmin(Boolean(session) || localStorage.getItem("cybernexus_admin") === "true");
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
   }, []);
 
   // Animations
@@ -393,7 +420,8 @@ const WorkshopsPage: React.FC = () => {
     <div className="min-h-screen bg-background text-foreground">
       {isAdmin && (
         <button 
-          onClick={() => {
+          onClick={async () => {
+            await supabase.auth.signOut();
             localStorage.removeItem("cybernexus_admin");
             setIsAdmin(false);
           }}
@@ -417,14 +445,14 @@ const WorkshopsPage: React.FC = () => {
         <div className="scanlines absolute inset-0 pointer-events-none opacity-20" />
 
         {/* Floating Particles */}
-        {[...Array(15)].map((_, i) => (
+        {heroParticles.map((p) => (
           <div
-            key={i}
+            key={p.id}
             className="data-particle"
             style={{
-              left: `${Math.random() * 100}%`,
-              animationDuration: `${15 + Math.random() * 15}s`,
-              animationDelay: `${Math.random() * 10}s`,
+              left: p.left,
+              animationDuration: p.animationDuration,
+              animationDelay: p.animationDelay,
             }}
           />
         ))}
@@ -573,18 +601,16 @@ const WorkshopsPage: React.FC = () => {
                           <ArrowRight className={`w-3.5 h-3.5 ${catInfo.color} opacity-70`} />
                         </div>
                         <div className="flex flex-wrap items-center justify-end gap-2">
-                          {isAdmin && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setViewingMaterialsWorkshop({ id: workshop.id, title: workshop.title });
-                              }}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-primary/30 text-primary font-mono font-bold text-xs hover:bg-primary/10 transition-all duration-300 backdrop-blur-sm"
-                            >
-                              <Download className="w-3.5 h-3.5" />
-                              Materials
-                            </button>
-                          )}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setViewingMaterialsWorkshop({ id: workshop.id, title: workshop.title });
+                            }}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-primary/30 text-primary font-mono font-bold text-xs hover:bg-primary/10 transition-all duration-300 backdrop-blur-sm"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            Materials
+                          </button>
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
@@ -663,7 +689,11 @@ const WorkshopsPage: React.FC = () => {
                     {day.workshops.length > 0 ? day.workshops.map((w) => {
                       const cat = getCategoryColor(w.category);
                       return (
-                        <div key={w.id} className={`p-2 rounded-lg ${cat.bgColor} border ${cat.borderColor} cursor-pointer hover:scale-[1.02] transition-all duration-200`}>
+                        <div
+                          key={w.id}
+                          onClick={() => setSelectedFeaturedWorkshop(w.id)}
+                          className={`p-2 rounded-lg ${cat.bgColor} border ${cat.borderColor} cursor-pointer hover:scale-[1.02] transition-all duration-200`}
+                        >
                           <div className={`text-[10px] font-bold font-mono ${cat.color} leading-tight line-clamp-2`}>{w.title}</div>
                           <div className="flex items-center gap-1 mt-1 text-[9px] font-mono text-foreground/40">
                             <Clock className="w-2.5 h-2.5" />{w.time}

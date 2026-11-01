@@ -49,3 +49,23 @@ export const sendEnrollmentConfirmation = async (
     throw error;
   }
 };
+
+export const sendContactMessage = async (
+  senderEmail: string,
+  message: string
+) => {
+  if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+    return null;
+  }
+
+  emailjs.init(PUBLIC_KEY);
+
+  const templateParams = {
+    from_email: senderEmail,
+    reply_to: senderEmail,
+    message,
+    to_name: "CyberNexus Team",
+  };
+
+  return emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams);
+};

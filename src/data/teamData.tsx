@@ -1,4 +1,9 @@
-import { Department, DepartmentRole, TeamMember } from "../types/team.types";
+import {
+  Department,
+  DepartmentRole,
+  LeadershipRank,
+  TeamMember,
+} from "../types/team.types";
 
 export const departments: Department[] = [
   {
@@ -7,6 +12,8 @@ export const departments: Department[] = [
     description:
       "Sets the club's vision, strategy and priorities; coordinates cross-department initiatives and represents the club externally.",
     icon: "Crown",
+    leaderId: 1, // Sabrine
+    coLeaderIds: [2], // Sofiane
   },
   {
     id: "hr",
@@ -14,6 +21,8 @@ export const departments: Department[] = [
     description:
       "Recruits and onboards members, manages volunteer engagement, policies, and supports member development and well-being.",
     icon: "Users",
+    leaderId: 7, // MATELA Abdelhafid
+    coLeaderIds: [10], // Benzarfa Rania Manel
   },
   {
     id: "external",
@@ -21,6 +30,7 @@ export const departments: Department[] = [
     description:
       "Builds and maintains partnerships with organizations, handles outreach, sponsorships, and community relations.",
     icon: "Handshake",
+    leaderId: 13, // Mendjour Lounis
   },
   {
     id: "treasury",
@@ -28,6 +38,7 @@ export const departments: Department[] = [
     description:
       "Oversees budgeting, expense tracking, fundraising, and financial reporting to ensure the club's resources are managed responsibly.",
     icon: "Wallet",
+    leaderId: 14, // Hadjadj Kawther
   },
   {
     id: "media",
@@ -35,6 +46,7 @@ export const departments: Department[] = [
     description:
       "Creates and distributes multimedia content — photography, video, copy, and social media — to promote events and projects.",
     icon: "Camera",
+    leaderId: 2, // Sofiane
   },
   {
     id: "development",
@@ -42,6 +54,7 @@ export const departments: Department[] = [
     description:
       "Designs and builds web and software projects, maintains technical infrastructure, and supports tooling and automation for the club.",
     icon: "Code",
+    leaderId: 19, // BRAHIM Youcef
   },
   {
     id: "design",
@@ -49,6 +62,7 @@ export const departments: Department[] = [
     description:
       "Shapes the club's visual identity, UI/UX for products, and produces assets for campaigns, events, and digital presence.",
     icon: "Palette",
+    leaderId: 16, // Chikhaoui Ahmed
   },
 ];
 
@@ -91,7 +105,7 @@ export const teamMembers: TeamMember[] = [
     id: 3,
     name: "Tounsi Abd Essamed",
     image: "/images/team/tounssi-image-front.jpg",
-    bio: "Belive in your self 🫶🏻",
+    bio: "Believe in yourself 🫶🏻",
     grade: "M1-AID",
     socialLinks: [
       {
@@ -122,7 +136,7 @@ export const teamMembers: TeamMember[] = [
     name: "Soltana",
     image: "/images/team/soltana-iamge-front.png",
     grade: "L1-Droit",
-    bio: "اي جملة",
+    bio: "",
     socialLinks: [
       {
         icon: "Instagram",
@@ -137,7 +151,7 @@ export const teamMembers: TeamMember[] = [
     name: "Benghanem Riad",
     image: "/images/team/riad-image-front.png",
     bio: "Just chill 🦦",
-    grade: "M!-GL",
+    grade: "M1-GL",
     socialLinks: [
       {
         icon: "Mail",
@@ -160,7 +174,7 @@ export const teamMembers: TeamMember[] = [
     grade: "L3-SI",
     socialLinks: [],
     departmentRoles: [
-      { departmentId: "hr", role: "leadership", isLead: true },
+      { departmentId: "hr", role: "HR Lead", isLead: true },
       { departmentId: "development", role: "Developer" },
     ],
   },
@@ -245,7 +259,7 @@ export const teamMembers: TeamMember[] = [
     grade: "M1-GL",
     socialLinks: [
       {
-        icon: "Globe",
+        icon: "Instagram",
         href: "https://www.instagram.com/mendjour.lounis",
         label: "Instagram",
       },
@@ -276,7 +290,7 @@ export const teamMembers: TeamMember[] = [
     grade: "L3-SI",
     socialLinks: [
       {
-        icon: "LinkedIn",
+        icon: "Linkedin",
         href: "https://www.linkedin.com/in/mostefaoui-samira-77174b393?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
         label: "LinkedIn",
       },
@@ -293,14 +307,14 @@ export const teamMembers: TeamMember[] = [
     name: "Chikhaoui Ahmed",
     image: "/images/team/chikhaoui-image-front.png",
     grade: "M1-NET",
-    bio: "._.",
+    bio: "",
     socialLinks: [
       { icon: "Github", href: "https://github.com/mrahmed14", label: "GitHub" },
       { icon: "Globe", href: "https://www.mrahmed.org/", label: "Portfolio" },
     ],
     departmentRoles: [
       { departmentId: "media", role: "Photographer" },
-      { departmentId: "design", role: "Designer", isLead: true },
+      { departmentId: "design", role: "Design Lead", isLead: true, rank: "leader" },
       { departmentId: "development", role: "Developer" },
     ],
   },
@@ -325,7 +339,7 @@ export const teamMembers: TeamMember[] = [
       {
         icon: "Instagram",
         href: "https://www.instagram.com/mohamed_reggadd?igsh=aGluYnh5d2sycTQ5",
-        label: "instagram",
+        label: "Instagram",
       },
     ],
     departmentRoles: [{ departmentId: "media", role: "Video Editor" }],
@@ -345,12 +359,19 @@ export const teamMembers: TeamMember[] = [
       {
         icon: "Globe",
         href: "https://my-links-joseph.netlify.app/",
-        label: "Portfolio:",
+        label: "Portfolio",
       },
     ],
-    departmentRoles: [{ departmentId: "development", role: "Developer", isLead: true }],
+    departmentRoles: [
+      {
+        departmentId: "development",
+        role: "Development Lead",
+        isLead: true,
+        rank: "leader",
+      },
+    ],
   },
-  
+
   {
     id: 20,
     name: "Mlsvmdl",
@@ -364,7 +385,7 @@ export const teamMembers: TeamMember[] = [
       { departmentId: "development", role: "Developer", isLead: false },
     ],
   },
- 
+
   {
     id: 22,
     name: "Missoum Hadi Adda",
@@ -373,10 +394,9 @@ export const teamMembers: TeamMember[] = [
     socialLinks: [],
     departmentRoles: [
       { departmentId: "development", role: "Developer" },
-      { departmentId: "hr", role: "Performance Supervisor" },
     ],
   },
-  
+
   {
     id: 24,
     name: "Bousbia Mouhhamed Bachir",
@@ -395,7 +415,7 @@ export const teamMembers: TeamMember[] = [
       { icon: "Github", href: "https://github.com/Yahia47", label: "GitHub" },
       {
         icon: "Linkedin",
-        href: "https://www.linkedin.com/in/merdjet-yahia-noureddine-510a94255 /",
+        href: "https://www.linkedin.com/in/merdjet-yahia-noureddine-510a94255/",
         label: "LinkedIn",
       },
     ],
@@ -428,20 +448,12 @@ export const teamMembers: TeamMember[] = [
     image: "/images/team/aziz-image-front.png",
     bio: "",
     socialLinks: [],
-    departmentRoles: [],
-  },
-  {
-    id: 30,
-    name: "Asak Karim",
-    image: "/images/team/karim-image-front.png",
-    bio: "",
-    socialLinks: [],
-    departmentRoles: [],
+    departmentRoles: [{ departmentId: "development", role: "Networking & Security" }],
   },
   {
     id: 31,
     name: "Selma Sayah",
-    image: "images/team/selma-image-front.jpg",
+    image: "/images/team/selma-image-front.jpg",
     bio: "Observe more.. React less",
     grade: "L3-SI",
     departmentRoles: [
@@ -455,19 +467,46 @@ export const teamMembers: TeamMember[] = [
       {
         icon: "Instagram",
         href: "https://www.instagram.com/selmasayahh?igsh=MWIzY2kxbG5lY2JkeA==",
-        label: "instagram",
+        label: "Instagram",
       },
     ],
   },
-  
+  {
+    id: 32,
+    name: " Ridha Aissani",
+    image: "/images/team/ridha-image-front.jpg",
+    bio: "",
+    socialLinks: [],
+    departmentRoles: [{ departmentId: "development", role: "Developer" }],
+  },
+  {
+    id: 33,
+    name: " Dibouche Asma",
+    image: "/images/team/asma-image-front.jpg",
+    bio: "",
+    socialLinks: [],
+    departmentRoles: [{ departmentId: "development", role: "Developer" }],
+  },
 ];
 
-// Helper function to get members by department with their specific role
+// Helper function to get members by department with their specific role and leadership hierarchy
 export const getMembersByDepartment = (
   departmentId: string,
 ): Array<
-  TeamMember & { roleInDepartment: string; isLeadInDepartment: boolean }
+  TeamMember & {
+    roleInDepartment: string;
+    isLeadInDepartment: boolean;
+    leadershipRank: LeadershipRank;
+  }
 > => {
+  const dept = departments.find((d) => d.id === departmentId);
+
+  const rankWeight: Record<LeadershipRank, number> = {
+    leader: 0,
+    "co-leader": 1,
+    member: 2,
+  };
+
   return teamMembers
     .filter((member: TeamMember): boolean =>
       member.departmentRoles.some(
@@ -478,31 +517,53 @@ export const getMembersByDepartment = (
       const deptRole = member.departmentRoles.find(
         (dr: DepartmentRole): boolean => dr.departmentId === departmentId,
       )!;
+
+      let leadershipRank: LeadershipRank = "member";
+      if (dept?.leaderId === member.id || deptRole.rank === "leader") {
+        leadershipRank = "leader";
+      } else if (
+        dept?.coLeaderIds?.includes(member.id) ||
+        deptRole.rank === "co-leader" ||
+        (deptRole.isLead && deptRole.role.toLowerCase().includes("co-lead"))
+      ) {
+        leadershipRank = "co-leader";
+      } else if (deptRole.isLead) {
+        leadershipRank = "leader";
+      }
+
       return {
         ...member,
         roleInDepartment: deptRole.role,
-        isLeadInDepartment: deptRole.isLead || false,
+        isLeadInDepartment: leadershipRank !== "member",
+        leadershipRank,
       };
-    });
+    })
+    .sort((a, b) => rankWeight[a.leadershipRank] - rankWeight[b.leadershipRank]);
 };
 
 export const getDepartmentLead = (
   departmentId: string,
 ): (TeamMember & { roleInDepartment: string }) | undefined => {
-  const member = teamMembers.find((m: TeamMember): boolean =>
-    m.departmentRoles.some(
-      (dr: DepartmentRole) => dr.departmentId === departmentId && dr.isLead,
-    ),
-  );
+  const dept = departments.find((d) => d.id === departmentId);
+
+  const member =
+    (dept?.leaderId
+      ? teamMembers.find((m) => m.id === dept.leaderId)
+      : undefined) ||
+    teamMembers.find((m: TeamMember): boolean =>
+      m.departmentRoles.some(
+        (dr: DepartmentRole) => dr.departmentId === departmentId && dr.isLead,
+      ),
+    );
 
   if (!member) return undefined;
 
   const deptRole = member.departmentRoles.find(
     (dr: DepartmentRole) => dr.departmentId === departmentId,
-  )!;
+  );
 
   return {
     ...member,
-    roleInDepartment: deptRole.role,
+    roleInDepartment: deptRole?.role || "Department Lead",
   };
 };

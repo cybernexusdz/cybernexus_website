@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import useGlitchAnimation from "../../hooks/useGlitchAnimation";
-import { useScrollReveal } from "../../hooks/useGsapAnimation";
+import { useCyberScrollAnimation } from "../../hooks/useCyberScrollAnimation";
 import ClubNewsCard from "./ClubNewsCard";
 import ArticleCard from "./ArticleCard";
 import { Article, Images, HoveredCard } from "../../types/blog";
+import image1 from "./images/cc62374db4003c3af0243e519cfa96f159ecb65a (1).jpg";
+import image2 from "./images/6354f8b78b2e2e6e1d0f1d3fa5b5074050fb3647.png";
+import openDayImage from "./images/photo_5791963918254148386_y (1).jpg";
+import shipbotImage from "./images/shipbot.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,16 +26,24 @@ const BlogSection: React.FC = () => {
 
   const navigate = useNavigate();
   const sectionRef = useRef<HTMLElement>(null);
-  const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
+  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const hasAnimatedRef = useRef<boolean>(false);
 
-  const { ref: glitchRef } = useGlitchAnimation({ repeatDelay: 5 });
-  const clubNewsRef = useScrollReveal({ y: 60, duration: 1 });
-  const headerRef = useScrollReveal({ y: 40, duration: 0.8 });
-  const carouselRef = useScrollReveal({
-    y: 50,
+  const glitchRef = useCyberScrollAnimation({
+    animation: "cyberGlitchCenter",
+    duration: 1.2,
+    delay: 0.2,
+  });
+  const clubNewsRef = useCyberScrollAnimation({
+    animation: "cyberGlitchCenter",
+    duration: 1,
+    delay: 0.2,
+  });
+  const headerRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useCyberScrollAnimation({
+    animation: "cyberGlitchRight",
     duration: 0.9,
-    start: "top 85%",
+    delay: 0.3,
   });
 
   useEffect(() => {
@@ -73,7 +84,7 @@ const BlogSection: React.FC = () => {
         excerpt:
           "Learn how to get started with our community and make the most of your membership. Discover resources, events, and networking opportunities.",
         imageKey: "image1",
-        link: "/join",
+        link: "/workshops",
       },
       {
         id: 2,
@@ -86,6 +97,7 @@ const BlogSection: React.FC = () => {
         excerpt:
           "Discover advanced techniques to improve your web development skills, from performance optimization to cutting-edge frameworks.",
         imageKey: "image2",
+        link: "/workshops",
       },
       {
         id: 3,
@@ -98,6 +110,7 @@ const BlogSection: React.FC = () => {
         excerpt:
           "Exploring how artificial intelligence is shaping the future of technology and what developments we can anticipate this year.",
         imageKey: "image1",
+        link: "/workshops",
       },
       {
         id: 4,
@@ -123,6 +136,7 @@ const BlogSection: React.FC = () => {
         excerpt:
           "Essential security practices every developer should implement to protect applications and user data in 2025.",
         imageKey: "image1",
+        link: "/workshops",
       },
     ],
     [],
@@ -281,6 +295,7 @@ const BlogSection: React.FC = () => {
           onHover={handleHover}
           clubNewsRef={clubNewsRef}
           openDayImage={openDayImage}
+          onCtaClick={() => navigate("/workshops")}
         />
 
         {/* Articles Grid/Carousel */}

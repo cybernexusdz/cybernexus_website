@@ -8,21 +8,27 @@ export interface SocialLink {
   href: string;
 }
 
+export type LeadershipRank = "leader" | "co-leader" | "member";
+
 export interface DepartmentRole {
   departmentId: string;
   role: string;
   isLead?: boolean;
+  rank?: LeadershipRank;
 }
 
 export type AcademicGrade =
   | "L1" // 1ère licence
+  | "L1-Droit" // 1ère licence — Droit
   | "L2" // 2ème licence
   | "L3-SI" // 3ème licence — SI (Systèmes Informatiques)
   | "L3-ISIL" // 3ème licence — ISIL (Information Systems & Software Engineering)
+  | "M1-GL" // Master 1 — Génie Logiciel
   | "M1-SE" // Master 1 — Software Engineering
   | "M1-AID" // Master 1 — Artificial Intelligence & Digitalization
   | "M1-NET" // Master 1 — Networks
   | "M1-GI" // Master 1 — GI (General Informatics / Génie Informatique)
+  | "M2-GL" // Master 2 — Génie Logiciel
   | "M2-SE" // Master 2 — Software Engineering
   | "M2-AID" // Master 2 — Artificial Intelligence & Digitalization
   | "M2-NET" // Master 2 — Networks
@@ -43,6 +49,8 @@ export interface Department {
   name: string;
   description: string;
   icon: string; // lucide-react icon name
+  leaderId?: number; // Primary leader member ID
+  coLeaderIds?: number[]; // Co-leader member IDs
 }
 
 export interface Position {
