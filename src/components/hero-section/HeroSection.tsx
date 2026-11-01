@@ -113,7 +113,7 @@ const HeroSection: React.FC = () => {
         className="flex flex-col sm:flex-row gap-4 mb-12 relative z-10 px-2"
       >
         <a
-          href="https://docs.google.com/forms/d/e/1FAIpQLSfTswK69iamz_XcmYAz8jTTm8ZAZSMS4RL9-WMBiZaXh9UR-w/viewform?usp=sharing"
+          href="https://cybernexusdzform.vercel.app/"
           target="_blank"
           rel="noopener noreferrer"
         >
