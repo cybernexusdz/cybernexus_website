@@ -332,14 +332,25 @@ export const teamMembers: TeamMember[] = [
   },
   {
     id: 19,
-    name: "Hakim Ait Abderrahim",
-    grade: "M2-GL",
-    image: "/images/team/hakim-image-front.jpg",
-    socialLinks: [],
-    departmentRoles: [
-      { departmentId: "development", role: "Lead Developer", isLead: true },
+    name: "BRAHIM Youcef",
+    image: "/images/team/joseph-image-front.jpg",
+    grade: "L2",
+    bio: "Code is like humor. When you have to explain it, it's bad.",
+    socialLinks: [
+      {
+        icon: "Github",
+        href: "https://github.com/joseph-cef",
+        label: "GitHub",
+      },
+      {
+        icon: "Globe",
+        href: "https://my-links-joseph.netlify.app/",
+        label: "Portfolio:",
+      },
     ],
+    departmentRoles: [{ departmentId: "development", role: "Developer", isLead: true }],
   },
+  
   {
     id: 20,
     name: "Mlsvmdl",
@@ -353,14 +364,7 @@ export const teamMembers: TeamMember[] = [
       { departmentId: "development", role: "Developer", isLead: false },
     ],
   },
-  {
-    id: 21,
-    name: "Nadji",
-    grade: "L3-SI",
-    image: "/images/team/nadji-image-front.png",
-    socialLinks: [],
-    departmentRoles: [{ departmentId: "development", role: "Developer" }],
-  },
+ 
   {
     id: 22,
     name: "Missoum Hadi Adda",
@@ -372,33 +376,7 @@ export const teamMembers: TeamMember[] = [
       { departmentId: "hr", role: "Performance Supervisor" },
     ],
   },
-  {
-    id: 23,
-    name: "Adam Rhmni",
-    grade: "L1",
-    image: "/images/team/adam-image-front.jpg",
-    socialLinks: [
-      {
-        icon: "Linkedin",
-        href: "https://www.linkedin.com/in/adam-rhmni/?lipi=urn%3Ali%3Apage%3Ap_mwlite_my_network%3BtrzXFekCQNmri3bas%2BVkxA%3D%3D",
-        label: "LinkedIn",
-      },
-      { icon: "Twitter", href: "https://x.com/AdamRhmni", label: "Twitter" },
-      {
-        icon: "Globe",
-        href: "https://bmw-lyart.vercel.app/",
-        label: "Portfolio:",
-      },
-      {
-        icon: "Instagram",
-        href: "https://www.instagram.com/adam_rhmnii?igsh=MW5mdmtvZWpsdTB2bQ==",
-        label: "Instagram",
-      },
-    ],
-    departmentRoles: [
-      { departmentId: "development", role: "Web dev and 3D artist" },
-    ],
-  },
+  
   {
     id: 24,
     name: "Bousbia Mouhhamed Bachir",
@@ -423,14 +401,7 @@ export const teamMembers: TeamMember[] = [
     ],
     departmentRoles: [{ departmentId: "development", role: "Developer" }],
   },
-  {
-    id: 26,
-    name: "Amine",
-    image: "/images/team/amine-image-front.jpg",
-    grade: "M1-GL",
-    socialLinks: [],
-    departmentRoles: [{ departmentId: "development", role: "Developer" }],
-  },
+
   {
     id: 27,
     name: "Fatah",
@@ -440,6 +411,7 @@ export const teamMembers: TeamMember[] = [
     socialLinks: [],
     departmentRoles: [
       { departmentId: "hr", role: "Data & Records Coordinator" },
+      { departmentId: "development", role: "Developer" },
     ],
   },
   {
@@ -487,26 +459,7 @@ export const teamMembers: TeamMember[] = [
       },
     ],
   },
-  {
-    id: 32,
-    name: "BRAHIM Youcef",
-    image: "/images/team/joseph-image-front.jpg",
-    grade: "L2",
-    bio: "Code is like humor. When you have to explain it, it's bad.",
-    socialLinks: [
-      {
-        icon: "Github",
-        href: "https://github.com/joseph-cef",
-        label: "GitHub",
-      },
-      {
-        icon: "Globe",
-        href: "https://my-links-joseph.netlify.app/",
-        label: "Portfolio:",
-      },
-    ],
-    departmentRoles: [{ departmentId: "development", role: "Developer" }],
-  },
+  
 ];
 
 // Helper function to get members by department with their specific role
