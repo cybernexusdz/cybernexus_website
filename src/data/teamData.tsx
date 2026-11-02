@@ -348,7 +348,7 @@ export const teamMembers: TeamMember[] = [
     id: 19,
     name: "BRAHIM Youcef",
     image: "/images/team/joseph-image-front.jpg",
-    grade: "L2",
+    grade: "L3-SI",
     bio: "Code is like humor. When you have to explain it, it's bad.",
     socialLinks: [
       {
