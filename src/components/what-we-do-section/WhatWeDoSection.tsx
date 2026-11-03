@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Code, Lightbulb, Rocket, Users, Terminal, Code2, ArrowRight } from "lucide-react";
@@ -15,6 +15,9 @@ const activities = [
     bgColor: "bg-cyan-500/10",
     borderColor: "border-cyan-500/20",
     glowColor: "cyan" as const,
+    ctaText: "Explore Workshops",
+    actionType: "route" as const,
+    target: "/workshops",
   },
   {
     icon: Rocket,
@@ -25,6 +28,9 @@ const activities = [
     bgColor: "bg-purple-500/10",
     borderColor: "border-purple-500/20",
     glowColor: "purple" as const,
+    ctaText: "View Projects",
+    actionType: "scroll" as const,
+    target: "Projects",
   },
   {
     icon: Lightbulb,
@@ -35,6 +41,9 @@ const activities = [
     bgColor: "bg-yellow-500/10",
     borderColor: "border-yellow-500/20",
     glowColor: "primary" as const,
+    ctaText: "View Schedule",
+    actionType: "route" as const,
+    target: "/workshops",
   },
   {
     icon: Users,
@@ -45,11 +54,37 @@ const activities = [
     bgColor: "bg-pink-500/10",
     borderColor: "border-pink-500/20",
     glowColor: "pink" as const,
+    ctaText: "Play Cyber Arcade",
+    actionType: "route" as const,
+    target: "/shipgame",
   },
 ];
 
 const WhatWeDoSection: React.FC = () => {
   const navigate = useNavigate();
+
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, i) => ({
+        id: i,
+        left: `${(i * 8.3 + 5) % 100}%`,
+        animationDuration: `${15 + (i % 5) * 3}s`,
+        animationDelay: `${(i % 6) * 1.5}s`,
+      })),
+    [],
+  );
+
+  const handleActivityClick = (activity: (typeof activities)[number]) => {
+    if (activity.actionType === "route") {
+      navigate(activity.target);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      const el = document.getElementById(activity.target);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
 
   // Animation refs with RGB CHROMATIC ABERRATION glitch effects
   const headerBadgeRef = useCyberScrollAnimation({
@@ -89,14 +124,14 @@ const WhatWeDoSection: React.FC = () => {
       <div className="circuit-line circuit-line-3" />
 
       {/* Data Particles */}
-      {[...Array(12)].map((_, i) => (
+      {particles.map((p) => (
         <div
-          key={i}
+          key={p.id}
           className="data-particle"
           style={{
-            left: `${Math.random() * 100}%`,
-            animationDuration: `${15 + Math.random() * 15}s`,
-            animationDelay: `${Math.random() * 10}s`,
+            left: p.left,
+            animationDuration: p.animationDuration,
+            animationDelay: p.animationDelay,
           }}
         />
       ))}
@@ -150,8 +185,8 @@ const WhatWeDoSection: React.FC = () => {
           {activities.map((activity, index) => (
             <div
               key={index}
-              onClick={index === 0 ? () => navigate("/workshops") : undefined}
-              className={index === 0 ? "cursor-pointer" : ""}
+              onClick={() => handleActivityClick(activity)}
+              className="cursor-pointer"
             >
               <CyberCard
                 variant="hologram"
@@ -215,15 +250,13 @@ const WhatWeDoSection: React.FC = () => {
                     {activity.description}
                   </p>
 
-                  {/* Explore link for workshops card */}
-                  {index === 0 && (
-                    <div className="flex items-center gap-2 pl-6 pt-1">
-                      <span className="text-sm font-mono text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300">
-                        Explore Workshops
-                      </span>
-                      <ArrowRight className="w-4 h-4 text-cyan-400 group-hover:translate-x-1 transition-transform duration-300" />
-                    </div>
-                  )}
+                  {/* Explore link for activity card */}
+                  <div className="flex items-center gap-2 pl-6 pt-1">
+                    <span className={`text-sm font-mono ${activity.color} opacity-80 group-hover:opacity-100 transition-opacity duration-300`}>
+                      {activity.ctaText}
+                    </span>
+                    <ArrowRight className={`w-4 h-4 ${activity.color} group-hover:translate-x-1 transition-transform duration-300`} />
+                  </div>
 
                   {/* Animated progress bar */}
                   <div className="relative h-1 bg-foreground/10 rounded-full overflow-hidden">

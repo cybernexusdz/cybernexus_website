@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { RetroGrid } from "@/components/ui/retroGrid";
 import { Title } from "@/components/ui/title";
+import { supabase } from "@/lib/supabase";
 import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
@@ -24,19 +25,53 @@ const Footer = () => {
   const [adminEmail, setAdminEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  const handleAdminLogin = (e: React.FormEvent) => {
+  const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const expectedEmail = import.meta.env.VITE_ADMIN_EMAIL || process.env.VITE_ADMIN_EMAIL;
-    const expectedPassword = import.meta.env.VITE_ADMIN_PASSWORD || process.env.VITE_ADMIN_PASSWORD;
+    setLoginError("");
+    setIsLoggingIn(true);
 
-    if (adminEmail === expectedEmail && adminPassword === expectedPassword) {
-      localStorage.setItem("cybernexus_admin", "true");
-      setShowAdminModal(false);
-      navigate("/workshops");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      setLoginError("Invalid credentials");
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: adminEmail.trim(),
+        password: adminPassword,
+      });
+
+      if (!error && data.session) {
+        localStorage.setItem("cybernexus_admin", "true");
+        setShowAdminModal(false);
+        setAdminEmail("");
+        setAdminPassword("");
+        navigate("/workshops");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+
+      // Local development fallback if Supabase Auth user is not created yet
+      const devEmail = import.meta.env.VITE_ADMIN_EMAIL;
+      const devPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+      if (
+        import.meta.env.DEV &&
+        devEmail &&
+        devPassword &&
+        adminEmail.trim() === devEmail &&
+        adminPassword === devPassword
+      ) {
+        localStorage.setItem("cybernexus_admin", "true");
+        setShowAdminModal(false);
+        setAdminEmail("");
+        setAdminPassword("");
+        navigate("/workshops");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+
+      setLoginError(error?.message || "Invalid admin credentials");
+    } catch {
+      setLoginError("Authentication failed. Please try again.");
+    } finally {
+      setIsLoggingIn(false);
     }
   };
 
@@ -76,9 +111,24 @@ const Footer = () => {
   ];
 
   const featureTags = [
-    { icon: Code, label: "Innovation", color: "primary" },
-    { icon: Users, label: "Community", color: "secondary" },
-    { icon: Rocket, label: "Learning", color: "accent" },
+    {
+      icon: Code,
+      label: "Innovation",
+      className:
+        "bg-primary/10 text-primary border-primary/30 hover:bg-primary/20",
+    },
+    {
+      icon: Users,
+      label: "Community",
+      className:
+        "bg-secondary/10 text-secondary border-secondary/30 hover:bg-secondary/20",
+    },
+    {
+      icon: Rocket,
+      label: "Learning",
+      className:
+        "bg-info/10 text-info border-info/30 hover:bg-info/20",
+    },
   ];
 
   return (
@@ -115,7 +165,7 @@ const Footer = () => {
                 {featureTags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-${tag.color}/10 text-${tag.color} text-xs font-bold border border-${tag.color}/30 hover:bg-${tag.color}/20 transition-all cursor-default font-mono uppercase tracking-wider`}
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold border transition-all cursor-default font-mono uppercase tracking-wider ${tag.className}`}
                   >
                     <tag.icon className="w-4 h-4" />
                     {tag.label}
@@ -276,9 +326,10 @@ const Footer = () => {
               {loginError && <p className="text-red-500 text-xs font-mono">{loginError}</p>}
               <button
                 type="submit"
-                className="w-full py-2.5 rounded-lg bg-primary text-primary-foreground font-mono font-bold hover:brightness-110 transition-all cursor-pointer"
+                disabled={isLoggingIn}
+                className="w-full py-2.5 rounded-lg bg-primary text-primary-foreground font-mono font-bold hover:brightness-110 transition-all cursor-pointer disabled:opacity-50"
               >
-                LOGIN
+                {isLoggingIn ? "AUTHENTICATING..." : "LOGIN"}
               </button>
             </form>
           </div>

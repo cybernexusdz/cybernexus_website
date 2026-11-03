@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Trophy } from "lucide-react";
 import ProfileCard from "../team-section/ProfileCard";
-import { teamMembers, type TeamMember } from "@/data/teamData";
+import MemberCard from "../team/MemberCard";
+import { departments, teamMembers } from "@/data/teamData";
+import { type TeamMember } from "@/types/team.types";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -16,6 +17,7 @@ interface MembersOfTheMonthProps {
 const MembersOfTheMonth: React.FC<MembersOfTheMonthProps> = ({ memberIds }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isCarouselMode, setIsCarouselMode] = useState(false);
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -208,6 +210,7 @@ const MembersOfTheMonth: React.FC<MembersOfTheMonthProps> = ({ memberIds }) => {
                     socialLinks={member.socialLinks}
                     memberId={member.id}
                     departmentId={getMemberDepartmentId(member)}
+                    onClick={() => setSelectedMember(member)}
                   />
                 </div>
               );
@@ -246,6 +249,7 @@ const MembersOfTheMonth: React.FC<MembersOfTheMonthProps> = ({ memberIds }) => {
                       socialLinks={member.socialLinks}
                       memberId={member.id}
                       departmentId={getMemberDepartmentId(member)}
+                      onClick={() => setSelectedMember(member)}
                     />
                   </div>
                 </div>
@@ -277,6 +281,19 @@ const MembersOfTheMonth: React.FC<MembersOfTheMonthProps> = ({ memberIds }) => {
         <span className="text-[10px] md:text-xs">EXCELLENCE_RECOGNIZED</span>
         <div className="h-px w-6 md:w-8 bg-primary/50" />
       </div>
+
+      {selectedMember && (
+        <MemberCard
+          member={selectedMember}
+          currentDepartment={
+            departments.find(
+              (d) => d.id === getMemberDepartmentId(selectedMember),
+            ) || departments[0]
+          }
+          allDepartments={departments}
+          onClose={() => setSelectedMember(null)}
+        />
+      )}
 
       <style>{`
         .scrollbar-hide::-webkit-scrollbar {

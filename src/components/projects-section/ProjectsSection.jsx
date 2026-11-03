@@ -7,48 +7,49 @@ import {
   GitBranch,
   Terminal,
 } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ProjectCard from "../project-card/ProjectCard.jsx";
-import useGlitchAnimation from "../../hooks/useGlitchAnimation";
-import { useScrollReveal, useStaggerFade } from "../../hooks/useGsapAnimation";
-import {
-  CornerBrackets,
-  DataLine,
-  TerminalBadge,
-  StatusIndicator,
-} from "../ui/CyberBackground";
-
-gsap.registerPlugin(ScrollTrigger);
+import { Badge } from "@/components/ui/badge";
+import { useCyberScrollAnimation } from "@/hooks/useCyberScrollAnimation";
 
 const sampleProjects = [
   {
     id: 1,
-    name: "CYBERNEXUS Website",
+    name: "CYBERNEXUS Official Platform",
     description:
-      "Official web presence for the CYBERNEXUS club, showcasing projects, events, and community. Built with modern web technologies and collaborative development.",
+      "Official web presence for the CYBERNEXUS club, showcasing neural team networks, interactive workshop enrollments, and community projects.",
     imageURL: "/website-project.png",
-    technologies: ["React", "Vite", "TailwindCSS", "JavaScript", "GSAP"],
+    technologies: ["React", "TypeScript", "TailwindCSS", "Supabase", "GSAP"],
     githubURL: "https://github.com/cybernexusdz/cybernexus_website",
     liveURL: "https://cybernexusdz.vercel.app",
-    contributors: 6,
+    contributors: 8,
+    createdAt: "2025–2026",
+  },
+  {
+    id: 2,
+    name: "ShipBot Tactical Arcade",
+    description:
+      "Interactive Battleship strategy game featuring a custom hunt-and-target AI bot built by CyberNexus developers.",
+    imageURL: "/Futuro.jpg",
+    technologies: ["React", "JavaScript", "Algorithms", "TailwindCSS"],
+    githubURL: "https://github.com/cybernexusdz/cybernexus_website",
+    liveURL: "/shipgame",
+    contributors: 4,
     createdAt: "2025",
   },
 ];
 
 const ALL_TAG = "all";
 
-// Memoized Stats Card - Removed heavy effects
+// Memoized Stats Card
 const StatCard = memo(({ icon: Icon, value, label }) => (
   <div className="relative group">
-    <CornerBrackets size="sm" />
-    {/* Simplified glow - only on hover */}
+    <div className="absolute -top-1.5 -left-1.5 w-4 h-4 border-l-2 border-t-2 border-primary/50 pointer-events-none z-10" />
+    <div className="absolute -top-1.5 -right-1.5 w-4 h-4 border-r-2 border-t-2 border-primary/50 pointer-events-none z-10" />
+    <div className="absolute -bottom-1.5 -left-1.5 w-4 h-4 border-l-2 border-b-2 border-primary/50 pointer-events-none z-10" />
+    <div className="absolute -bottom-1.5 -right-1.5 w-4 h-4 border-r-2 border-b-2 border-primary/50 pointer-events-none z-10" />
     <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-primary/20 via-secondary/20 to-primary/20 opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
-    {/* Single border */}
     <div className="absolute inset-0 rounded-xl border-2 border-primary/30 group-hover:border-primary/50 transition-all duration-300" />
-    {/* Removed backdrop-blur */}
     <div className="relative bg-base-200/95 rounded-xl p-4 sm:p-6 border-2 border-base-content/10 shadow-lg">
-      <DataLine position="top" intensity="low" />
       <div className="flex items-center justify-center gap-2 mb-2">
         <Icon className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
         <div className="text-3xl font-black bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent font-mono">
@@ -58,7 +59,6 @@ const StatCard = memo(({ icon: Icon, value, label }) => (
       <div className="text-sm font-bold text-base-content/60 font-mono uppercase tracking-wider text-center">
         {label}
       </div>
-      <DataLine position="bottom" intensity="low" />
     </div>
   </div>
 ));
@@ -131,49 +131,22 @@ export default function ProjectsSection({
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  // Single ref for animations
-  const hasAnimatedRef = useRef(false);
-
-  // Apply glitch effect to "Building" text
-  const { ref: glitchRef } = useGlitchAnimation({ repeatDelay: 3 });
-
-  // Scroll-triggered animations using reusable hooks
-  const headerRef = useScrollReveal({ y: 40, duration: 0.8 });
-  const statsRef = useStaggerFade({ delay: 0.2, stagger: 0.15, y: 30 });
-  const dotsRef = useScrollReveal({ y: 20, duration: 0.6, start: "top 85%" });
-  const carouselWrapperRef = useScrollReveal({
-    y: 50,
-    duration: 0.9,
-    start: "top 75%",
+  const headerRef = useCyberScrollAnimation({
+    animation: "cyberGlitchCenter",
+    duration: 1.0,
+    delay: 0.1,
   });
-  const searchFilterRef = useStaggerFade({ delay: 0.3, stagger: 0.1, y: 20 });
-  const statusRef = useScrollReveal({ y: 15, duration: 0.5, start: "top 90%" });
-
-  // Simplified GSAP animation - single setup
-  useEffect(() => {
-    if (hasAnimatedRef.current || !headerRef.current) return;
-    hasAnimatedRef.current = true;
-
-    const ctx = gsap.context(() => {
-      gsap.set(headerRef.current, { opacity: 0, y: 40 });
-
-      ScrollTrigger.create({
-        trigger: headerRef.current,
-        start: "top 80%",
-        onEnter: () => {
-          gsap.to(headerRef.current, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power3.out",
-          });
-        },
-        once: true,
-      });
-    });
-
-    return () => ctx.revert();
-  }, []);
+  const statsRef = useCyberScrollAnimation({
+    animation: "cyberGlitchCenter",
+    duration: 0.8,
+    delay: 0.2,
+  });
+  const carouselWrapperRef = useCyberScrollAnimation({
+    animation: "cyberGlitchCenter",
+    duration: 1.1,
+    delay: 0.3,
+    lightMode: true,
+  });
 
   const tags = useMemo(() => {
     const set = new Set();
@@ -296,17 +269,18 @@ export default function ProjectsSection({
       <div className="max-w-7xl mx-auto w-full space-y-8 relative z-10">
         {/* Header */}
         <div ref={headerRef} className="text-center space-y-4">
-          <div className="mb-4">
-            <TerminalBadge icon={Terminal}>
+          <div className="mb-4 flex justify-center">
+            <Badge
+              variant="outline"
+              className="border-primary/50 bg-background/80 backdrop-blur-sm px-4 py-2 font-mono"
+            >
+              <Terminal className="w-4 h-4 mr-2 inline" />
               &lt;PROJECT_ARCHIVE&gt;
-            </TerminalBadge>
+            </Badge>
           </div>
           <h2 className="text-4xl sm:text-5xl font-black text-base-content font-mono">
             <span className="text-primary/60">&gt;</span> What We're{" "}
-            <span
-              ref={glitchRef}
-              className="bg-gradient-to-r from-primary via-secondary to-info bg-clip-text text-transparent"
-            >
+            <span className="bg-gradient-to-r from-primary via-secondary to-info bg-clip-text text-transparent">
               Building
             </span>
           </h2>
@@ -339,9 +313,28 @@ export default function ProjectsSection({
           />
         </div>
 
+        {/* Technology Filter Pills */}
+        {tags.length > 1 && (
+          <div className="flex flex-wrap justify-center gap-2">
+            {tags.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => setActiveTag(tag)}
+                className={`px-3 py-1 rounded-full font-mono text-xs uppercase transition-all border ${
+                  activeTag === tag
+                    ? "bg-primary text-primary-foreground border-primary shadow-md"
+                    : "bg-base-200/50 text-base-content/70 border-primary/20 hover:border-primary/50"
+                }`}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+        )}
+
         {/* Dot Indicators */}
         {!loading && filteredProjects.length > 0 && (
-          <div ref={dotsRef} className="flex justify-center gap-2">
+          <div className="flex justify-center gap-2">
             {filteredProjects.map((_, idx) => (
               <DotIndicator
                 key={idx}
@@ -418,12 +411,13 @@ export default function ProjectsSection({
         </div>
 
         {/* Status Indicators */}
-        <div ref={statusRef} className="flex flex-wrap justify-center gap-2">
-          <StatusIndicator
-            label="ACTIVE"
-            value={filteredProjects.length}
-            type="success"
-          />
+        <div className="flex flex-wrap justify-center gap-2">
+          <Badge
+            variant="outline"
+            className="bg-green-500/10 border-green-500/30 text-green-400 font-mono uppercase tracking-wide"
+          >
+            ACTIVE: {filteredProjects.length}
+          </Badge>
         </div>
       </div>
     </section>

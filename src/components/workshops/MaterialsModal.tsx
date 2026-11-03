@@ -21,16 +21,27 @@ const MaterialsModal: React.FC<MaterialsModalProps> = ({ workshopTitle, onClose,
   const [files, setFiles] = useState<SupabaseFile[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const isAdmin = localStorage.getItem("cybernexus_admin") === "true";
+  const [isAdmin, setIsAdmin] = useState(localStorage.getItem("cybernexus_admin") === "true");
 
   useEffect(() => {
     // Prevent body scroll
     document.body.style.overflow = "hidden";
     fetchFiles();
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) setIsAdmin(true);
+    });
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleEscape);
+
     return () => {
       document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleEscape);
     };
-  }, []);
+  }, [onClose]);
 
   const fetchFiles = async () => {
     try {

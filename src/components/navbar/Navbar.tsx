@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "../ui/Logo";
 import LogoIcon from "../ui/LogoIcon";
 import ThemeToggle from "../ui/ThemeToggle";
-import { Menu, X, Home, BookOpen, Mail, Users, Layout, ChevronDown } from "lucide-react";
+import { Menu, X, Home, BookOpen, Mail, Users, Layout, ChevronDown, Code2, Gamepad2, Newspaper } from "lucide-react";
 
 interface NavItem {
   name: string;
@@ -37,12 +37,15 @@ const Navbar = ({ theme, setTheme, handleScrollComponent }: NavbarProps) => {
     { name: "Hero", icon: Home, section: "Hero" },
     { name: "The Team", icon: Users, section: "The Team" },
     { name: "What We Do", icon: BookOpen, section: "What We Do" },
+    { name: "Projects", icon: Code2, section: "Projects" },
+    { name: "Blog", icon: Newspaper, section: "Blog" },
     { name: "Contact", icon: Mail, section: "Contact" },
     { 
       name: "Pages", 
       icon: Layout, 
       children: [
         { name: "Workshops", icon: Layout, path: "/workshops" },
+        { name: "Cyber Arcade", icon: Gamepad2, path: "/shipgame" },
       ] 
     },
   ];

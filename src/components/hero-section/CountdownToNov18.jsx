@@ -1,10 +1,5 @@
 import { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
-import {
-  CornerBrackets,
-  DataLine,
-  StatusIndicator,
-} from "../ui/CyberBackground";
 
 export default function CountdownToNov18() {
   const [daysLeft, setDaysLeft] = useState(0);
@@ -154,17 +149,10 @@ export default function CountdownToNov18() {
           ref={cardRef}
           className="relative bg-base-200/40 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-primary/20 transition-all duration-300 hover:border-primary/40 hover:bg-base-200/60"
         >
-          {/* Corner brackets */}
-          <CornerBrackets size="sm" />
-
           {/* Subtle scanline */}
           <div className="absolute inset-0 opacity-20 rounded-xl pointer-events-none overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent animate-pulse" />
           </div>
-
-          {/* Data lines */}
-          <DataLine position="top" intensity="low" />
-          <DataLine position="bottom" intensity="low" />
 
           {/* Content */}
           <div className="relative z-10">
@@ -201,10 +189,16 @@ export default function CountdownToNov18() {
   return (
     <div className="flex flex-col items-center justify-center w-full space-y-4">
       {/* System Status */}
-      <div className="flex flex-wrap justify-center gap-2 mb-2">
-        <StatusIndicator label="STATUS" value="TRACKING" type="success" />
-        <StatusIndicator label="TARGET" value="NOV_18" type="primary" />
-        <StatusIndicator label="MODE" value="COUNTDOWN" type="info" />
+      <div className="flex flex-wrap justify-center gap-2 mb-2 font-mono text-xs">
+        <span className="px-2.5 py-1 rounded bg-success/10 border border-success/30 text-success">
+          STATUS: TRACKING
+        </span>
+        <span className="px-2.5 py-1 rounded bg-primary/10 border border-primary/30 text-primary">
+          TARGET: NOV_18
+        </span>
+        <span className="px-2.5 py-1 rounded bg-info/10 border border-info/30 text-info">
+          MODE: COUNTDOWN
+        </span>
       </div>
 
       {/* Countdown Grid */}

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Grid from "./Grid";
 import GuideModal from "./GuideModal";
-import Navbar from "../navbar/Navbar";
 import {
   createEmptyGrid,
   placeShips,
@@ -11,40 +10,14 @@ import {
   calculateBotAttack,
   allShipsSunk,
 } from "./utils/gameLogic";
-import { Home, BookOpen, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 
 function ShipGame() {
   const navigate = useNavigate();
-  const [theme, setTheme] = useState(
-    localStorage.getItem("theme") || "boyLight",
-  );
   const botAttackingRef = useRef(false);
   const botTargetingRef = useRef({ huntMode: false, lastHit: null });
   const botAttacksRef = useRef({});
   const botAttackTimeoutRef = useRef(null);
-
-  const handleScrollComponent = (id) => {
-    if (
-      id === "Hero" ||
-      id === "Blog" ||
-      id === "Projects" ||
-      id === "Contact"
-    ) {
-      navigate("/");
-      // Small delay to ensure navigation completes before scrolling
-      setTimeout(() => {
-        const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 100);
-    } else {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  };
   const [playerGrid, setPlayerGrid] = useState(createEmptyGrid());
   const [botGrid, setBotGrid] = useState(createEmptyGrid());
   const [playerShips, setPlayerShips] = useState([]);
@@ -242,31 +215,33 @@ function ShipGame() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-base-100 via-base-200/30 to-base-100">
-      <Navbar
-        theme={theme}
-        setTheme={setTheme}
-        handleScrollComponent={handleScrollComponent}
-      />
       <div className="py-8 px-4">
         <div className="max-w-[1400px] mx-auto">
           <div className="bg-base-100 rounded-[15px] p-6 md:p-8 shadow-lg relative overflow-hidden">
             {/* Top gradient bar */}
             <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary via-secondary to-accent opacity-60"></div>
 
-            <h1 className="text-center text-base-content mb-5 text-[clamp(1.8em,4vw,2.5em)] font-bold">
-              Battleship Game
+            <h1 className="text-center text-base-content mb-5 text-[clamp(1.8em,4vw,2.5em)] font-bold font-mono">
+              &gt;_ CyberNexus Battleship Arcade
             </h1>
 
             <div className="flex flex-wrap gap-2 justify-center mb-4">
               <button
                 onClick={() => navigate("/")}
-                className="px-6 py-3 border-none rounded-lg text-lg cursor-pointer transition-all font-bold bg-secondary text-secondary-content hover:bg-secondary/90 hover:-translate-y-0.5 hover:shadow-[0_5px_15px_hsl(var(--nf)/0.3)]"
+                className="px-6 py-3 border-none rounded-lg text-sm font-mono cursor-pointer transition-all font-bold bg-secondary text-secondary-content hover:bg-secondary/90 hover:-translate-y-0.5"
               >
                 Back to Home
               </button>
               <button
+                onClick={resetGame}
+                className="px-6 py-3 border-none rounded-lg text-sm font-mono cursor-pointer transition-all font-bold bg-primary text-primary-foreground hover:bg-primary/90 hover:-translate-y-0.5 inline-flex items-center gap-2"
+              >
+                <RotateCcw className="w-4 h-4" />
+                Reset Game
+              </button>
+              <button
                 onClick={() => setShowGuide(true)}
-                className="px-6 py-3 border-none rounded-lg text-lg cursor-pointer transition-all font-bold bg-info text-info-content hover:bg-info/90 hover:-translate-y-0.5 hover:shadow-[0_5px_15px_hsl(var(--nf)/0.3)]"
+                className="px-6 py-3 border-none rounded-lg text-sm font-mono cursor-pointer transition-all font-bold bg-info text-info-content hover:bg-info/90 hover:-translate-y-0.5"
               >
                 How to Play
               </button>

@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, ChangeEvent } from "react";
+import { useState, useCallback, useMemo, ChangeEvent, FormEvent } from "react";
 import { Mail, MapPin, Send, Terminal, Code2, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import CyberCard from "../ui/CyberCard";
 import { useCyberScrollAnimation } from "@/hooks/useCyberScrollAnimation";
+import { supabase } from "@/lib/supabase";
+import { sendContactMessage } from "@/lib/emailjs";
 
 interface FormData {
   email: string;
@@ -57,26 +59,57 @@ const ContactSection: React.FC = () => {
     [],
   );
 
-  const handleSubmit = useCallback(async () => {
-    setIsSubmitting(true);
-    setSubmitStatus(null);
+  const handleSubmit = useCallback(
+    async (e?: FormEvent) => {
+      if (e) e.preventDefault();
+      const trimmedEmail = formData.email.trim().toLowerCase();
+      const trimmedMessage = formData.message.trim();
 
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(trimmedEmail) || !trimmedMessage) {
+        setSubmitStatus("error");
+        setTimeout(() => setSubmitStatus(null), 5000);
+        return;
+      }
 
-      setSubmitStatus("success");
-      setFormData({ email: "", message: "" });
+      setIsSubmitting(true);
+      setSubmitStatus(null);
 
-      setTimeout(() => setSubmitStatus(null), 5000);
-    } catch (error) {
-      console.error("Error:", error);
-      setSubmitStatus("error");
-      setTimeout(() => setSubmitStatus(null), 5000);
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, [formData.email, formData.message]);
+      try {
+        // 1. Attempt to store in Supabase contact_messages table
+        const { error: dbError } = await supabase
+          .from("contact_messages")
+          .insert({
+            email: trimmedEmail,
+            message: trimmedMessage,
+            created_at: new Date().toISOString(),
+          });
+
+        if (dbError) {
+          console.warn("Supabase contact_messages insert warning:", dbError.message);
+        }
+
+        // 2. Attempt EmailJS notification if configured
+        try {
+          await sendContactMessage(trimmedEmail, trimmedMessage);
+        } catch (emailErr) {
+          console.warn("EmailJS contact notification warning:", emailErr);
+        }
+
+        setSubmitStatus("success");
+        setFormData({ email: "", message: "" });
+
+        setTimeout(() => setSubmitStatus(null), 5000);
+      } catch (error) {
+        console.error("Error submitting contact message:", error);
+        setSubmitStatus("error");
+        setTimeout(() => setSubmitStatus(null), 5000);
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [formData.email, formData.message],
+  );
 
   const systemStatus = useMemo(
     () => (isSubmitting ? "BUSY" : "READY"),
@@ -190,7 +223,7 @@ const ContactSection: React.FC = () => {
                 </h3>
               </div>
 
-              <div className="space-y-4 sm:space-y-6 flex-grow flex flex-col">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 flex-grow flex flex-col">
                 <div className="space-y-2">
                   <Label
                     htmlFor="email"
@@ -204,6 +237,7 @@ const ContactSection: React.FC = () => {
                       type="email"
                       id="email"
                       name="email"
+                      required
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="you@example.com"
@@ -222,6 +256,7 @@ const ContactSection: React.FC = () => {
                   <Textarea
                     id="message"
                     name="message"
+                    required
                     value={formData.message}
                     onChange={handleChange}
                     rows={6}
@@ -232,8 +267,8 @@ const ContactSection: React.FC = () => {
 
                 <div className="mt-auto space-y-4">
                   <Button
+                    type="submit"
                     size="lg"
-                    onClick={handleSubmit}
                     disabled={isSubmitting || !isFormValid}
                     className="w-full group bg-primary text-primary-foreground hover:bg-primary/90 font-mono text-lg px-8 py-6"
                   >
@@ -285,7 +320,7 @@ const ContactSection: React.FC = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </form>
             </CyberCard>
           </div>
 

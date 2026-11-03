@@ -19,7 +19,7 @@ const themes: Theme[] = [
   {
     name: "boyDark",
     robot: "boy",
-    label: "Boy Mode",
+    label: "Cyber Cyan",
     icon: Cpu,
     color: "text-cyan-400",
     glowColor: "from-cyan-400/50 to-blue-500/50",
@@ -27,7 +27,7 @@ const themes: Theme[] = [
   {
     name: "girlDark",
     robot: "girl",
-    label: "Girl Mode",
+    label: "Neon Synth",
     icon: Binary,
     color: "text-fuchsia-400",
     glowColor: "from-fuchsia-400/50 to-pink-500/50",
